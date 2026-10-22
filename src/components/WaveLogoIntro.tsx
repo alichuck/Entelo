@@ -485,16 +485,56 @@ export const HeroSeaWaveLogo: React.FC<HeroSeaWaveLogoProps> = ({
 
 /**
  * Upper-left Navbar Logo:
- * Crisp, stable, borderless Water Cycle logo with clean contrast glow.
+ * Uses the exact transparent Water Cycle logo with NO background/border behind it,
+ * sized larger and animated with a subtle continuous liquid wave ripple.
  */
 export const NavbarWavyLogo: React.FC = () => {
   return (
     <div className="relative inline-flex items-center select-none">
-      <img
+      {/* Subtle Continuous Liquid Wave Filter for Upper-Left Logo */}
+      <svg className="sr-only" aria-hidden="true">
+        <defs>
+          <filter id="navbar-wavy-logo-filter" x="-15%" y="-20%" width="130%" height="140%">
+            <feTurbulence
+              type="turbulence"
+              baseFrequency="0.015 0.042"
+              numOctaves="2"
+              seed="4"
+              result="navWaveNoise"
+            >
+              <animate
+                attributeName="baseFrequency"
+                values="0.014 0.038;0.020 0.052;0.014 0.038"
+                dur="3.4s"
+                repeatCount="indefinite"
+              />
+            </feTurbulence>
+            <feDisplacementMap
+              in="SourceGraphic"
+              in2="navWaveNoise"
+              scale="3.6"
+              xChannelSelector="R"
+              yChannelSelector="G"
+            />
+          </filter>
+        </defs>
+      </svg>
+
+      <motion.img
         src="/water-cycle-logo.png"
         alt="Water Cycle"
+        animate={{
+          y: [0, -1.5, 0, 1.5, 0],
+          rotate: [0, -0.4, 0, 0.4, 0],
+        }}
+        transition={{
+          duration: 3.4,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }}
         style={{
-          filter: 'drop-shadow(0 0 8px rgba(220, 235, 250, 0.8))',
+          filter:
+            'url(#navbar-wavy-logo-filter) drop-shadow(0 0 8px rgba(220, 235, 250, 0.75))',
         }}
         className="h-12 sm:h-14 md:h-16 w-auto object-contain block"
       />
