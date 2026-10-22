@@ -29,6 +29,7 @@ export default function App() {
   const [currentRoute, setCurrentRoute] = useState<PageRoute>(getInitialRoute);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeProblemId, setActiveProblemId] = useState<string | null>(null);
+  const [servicesResetTrigger, setServicesResetTrigger] = useState(0);
 
   const scrollToFooterContact = useCallback(() => {
     setMobileMenuOpen(false);
@@ -46,6 +47,9 @@ export default function App() {
       if (route === '/contact') {
         scrollToFooterContact();
         return;
+      }
+      if (route === '/services') {
+        setServicesResetTrigger((prev) => prev + 1);
       }
       setCurrentRoute(route);
       if (typeof window !== 'undefined') {
@@ -106,6 +110,7 @@ export default function App() {
             activeProblemId={activeProblemId}
             onServiceInquire={handleServiceInquire}
             onProblemClick={handleProblemClick}
+            resetTrigger={servicesResetTrigger}
           />
         );
       case '/our-work':
