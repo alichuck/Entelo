@@ -43,9 +43,8 @@ const liquidWaveNoise = (theta: number, t: number, seed: number) =>
  *   glossy circular water ring.
  * - Stage 2 (0.9s – 2.1s): The water ring erupts into a churning 3D liquid splash sphere
  *   with bright specular caustic ribbons and fine water droplets.
- * - Stage 3 (1.6s – 3.1s): The churning liquid water condenses and solidifies into the
- *   "WATER CYCLE" word and 3D water ring via liquid-glass SVG displacement, then settles
- *   with a gentle ongoing wave ripple as the Home page descriptions appear.
+ * - Stage 3 (1.6s – 2.85s): The churning liquid water condenses and solidifies into the
+ *   crisp, completely stable, non-blurry "WATER CYCLE" word and 3D water ring.
  */
 export const HeroSeaWaveLogo: React.FC<HeroSeaWaveLogoProps> = ({
   phase,
@@ -57,29 +56,25 @@ export const HeroSeaWaveLogo: React.FC<HeroSeaWaveLogoProps> = ({
   const textTurbRef = useRef<SVGFETurbulenceElement | null>(null);
   const ringTurbRef = useRef<SVGFETurbulenceElement | null>(null);
   const [runId, setRunId] = useState(0);
+  const [isSettled, setIsSettled] = useState(false);
 
   // Real-time 60fps SVG liquid-glass refraction driving the solidification of the logo
-  // from the churning water splash into the final wavy "WATER CYCLE" logo
+  // from the churning water splash into the final crisp, stable "WATER CYCLE" logo
   useEffect(() => {
+    setIsSettled(false);
     let rafId: number;
     const startTime = performance.now();
 
     const animateLiquidRefraction = (now: number) => {
       const elapsedSec = (now - startTime) / 1000;
 
-      // Solidification window: 1.45s -> 2.95s (matches Stage 3 of the After Effects video)
-      const solidifyProgress = clamp01((elapsedSec - 1.45) / 1.5);
+      // Solidification window: 1.45s -> 2.80s (matches Stage 3 of the After Effects video)
+      const solidifyProgress = clamp01((elapsedSec - 1.45) / 1.35);
       const easeSolid = easeOutCubic(solidifyProgress);
 
-      // Gentle living water undulation after the logo has solidified
-      const ongoingTextWave = 5.2 + Math.sin(elapsedSec * 2.4) * 1.8;
-      const ongoingRingWave = 7.0 + Math.cos(elapsedSec * 2.1) * 2.4;
-
-      // Starts at high liquid splash distortion (68) and condenses into the crisp logo
-      const currentTextScale =
-        68 * (1 - easeSolid) + ongoingTextWave * easeSolid;
-      const currentRingScale =
-        62 * (1 - easeSolid) + ongoingRingWave * easeSolid;
+      // Starts at high liquid splash distortion (68) and decays all the way to 0 (completely crisp & stable)
+      const currentTextScale = 68 * (1 - easeSolid);
+      const currentRingScale = 62 * (1 - easeSolid);
 
       if (textDispRef.current) {
         textDispRef.current.setAttribute('scale', currentTextScale.toFixed(2));
@@ -88,8 +83,8 @@ export const HeroSeaWaveLogo: React.FC<HeroSeaWaveLogoProps> = ({
         ringDispRef.current.setAttribute('scale', currentRingScale.toFixed(2));
       }
 
-      const freqX = 0.013 + Math.sin(elapsedSec * 1.8) * 0.003;
-      const freqY = 0.034 + Math.cos(elapsedSec * 1.5) * 0.006;
+      const freqX = 0.013 + Math.sin(elapsedSec * 1.8) * 0.003 * (1 - easeSolid);
+      const freqY = 0.034 + Math.cos(elapsedSec * 1.5) * 0.006 * (1 - easeSolid);
       if (textTurbRef.current) {
         textTurbRef.current.setAttribute(
           'baseFrequency',
@@ -97,15 +92,20 @@ export const HeroSeaWaveLogo: React.FC<HeroSeaWaveLogoProps> = ({
         );
       }
       if (ringTurbRef.current) {
-        const rFreqX = 0.016 + Math.cos(elapsedSec * 1.6) * 0.0035;
-        const rFreqY = 0.029 + Math.sin(elapsedSec * 1.9) * 0.005;
+        const rFreqX = 0.016 + Math.cos(elapsedSec * 1.6) * 0.0035 * (1 - easeSolid);
+        const rFreqY = 0.029 + Math.sin(elapsedSec * 1.9) * 0.005 * (1 - easeSolid);
         ringTurbRef.current.setAttribute(
           'baseFrequency',
           `${rFreqX.toFixed(4)} ${rFreqY.toFixed(4)}`
         );
       }
 
-      rafId = requestAnimationFrame(animateLiquidRefraction);
+      if (solidifyProgress < 1) {
+        rafId = requestAnimationFrame(animateLiquidRefraction);
+      } else {
+        // Detach SVG displacement filters completely once settled so browser renders native crisp PNGs
+        setIsSettled(true);
+      }
     };
 
     rafId = requestAnimationFrame(animateLiquidRefraction);
@@ -115,7 +115,7 @@ export const HeroSeaWaveLogo: React.FC<HeroSeaWaveLogoProps> = ({
   // HTML5 Canvas 3-Stage After Effects Water Splash Simulation:
   // 1) Top light rays + dual downward water arcs forming the ring
   // 2) Churning 3D turbulent water splash sphere with bright caustic highlights
-  // 3) Streams converging into the "WATER CYCLE" word & water ring
+  // 3) Streams converging into the "WATER CYCLE" word & water ring and fading out cleanly
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -178,20 +178,19 @@ export const HeroSeaWaveLogo: React.FC<HeroSeaWaveLogoProps> = ({
     const renderAfterEffectsWater = (now: number) => {
       const t = (now - start) / 1000;
 
-      // Clear with slight motion-trail persistence during the turbulent splash phase
       ctx.clearRect(0, 0, width, height);
 
       // Phase progress values matching `Water logo animation - After effects.mp4`
       const raysIn = easeOutCubic(clamp01(t / 0.7));
-      const raysFade = 1 - 0.65 * clamp01((t - 2.3) / 0.9);
+      const raysFade = 1 - easeInOutCubic(clamp01((t - 2.1) / 0.75));
       const arcSpawn = easeOutCubic(clamp01((t - 0.1) / 1.05));
       const turbulence = easeInOutCubic(clamp01((t - 0.85) / 1.15));
       const morphToLogo = easeInOutCubic(clamp01((t - 1.65) / 1.05));
-      const splashFadeOut = 1 - easeInOutCubic(clamp01((t - 2.25) / 0.85));
+      const splashFadeOut = 1 - easeInOutCubic(clamp01((t - 2.15) / 0.7));
 
-      // 1. Draw volumetric top light rays shining down onto the water splash (frames 3–12 of sheet_01)
+      // 1. Draw volumetric top light rays shining down onto the water splash
       const rayAlpha = raysIn * raysFade;
-      if (rayAlpha > 0.02) {
+      if (rayAlpha > 0.01) {
         ctx.save();
         const rayAngles = [-0.34, -0.16, 0, 0.17, 0.35];
         for (let r = 0; r < rayAngles.length; r++) {
@@ -261,8 +260,8 @@ export const HeroSeaWaveLogo: React.FC<HeroSeaWaveLogoProps> = ({
 
       // 3. Draw the 3D liquid water strands:
       //    - Starts at 12 o'clock (-PI/2) and arcs down left & right to form the ring
-      //    - Churns inward into a 3D turbulent water sphere (frames 9–16 of sheet_01)
-      //    - Morphs into the "WATER CYCLE" word & circular splash ring (sheet_02)
+      //    - Churns inward into a 3D turbulent water sphere
+      //    - Morphs into the "WATER CYCLE" word & circular splash ring
       if (splashFadeOut > 0.01) {
         ctx.save();
         ctx.lineCap = 'round';
@@ -332,30 +331,11 @@ export const HeroSeaWaveLogo: React.FC<HeroSeaWaveLogoProps> = ({
         ctx.restore();
       }
 
-      // 4. Ongoing gentle water droplets orbiting the settled ring after solidify
-      if (t > 2.2) {
-        const settledAlpha = clamp01((t - 2.2) / 0.8) * 0.38;
-        ctx.save();
-        for (let i = 0; i < 65; i++) {
-          const a = (i / 65) * Math.PI * 2 + t * 0.22;
-          const r =
-            ringRadius +
-            Math.sin(t * 2.1 + i * 0.7) * 9 +
-            ((i % 7) - 3) * 4.5;
-          const px = cx + Math.cos(a) * r;
-          const py = cy + Math.sin(a) * r;
-          ctx.beginPath();
-          ctx.arc(px, py, 1.2 + (i % 3) * 0.6, 0, Math.PI * 2);
-          ctx.fillStyle =
-            i % 2 === 0
-              ? `rgba(255, 255, 255, ${settledAlpha.toFixed(3)})`
-              : `rgba(171, 205, 233, ${(settledAlpha * 0.8).toFixed(3)})`;
-          ctx.fill();
-        }
-        ctx.restore();
+      if (t < 2.95) {
+        animId = requestAnimationFrame(renderAfterEffectsWater);
+      } else {
+        ctx.clearRect(0, 0, width, height);
       }
-
-      animId = requestAnimationFrame(renderAfterEffectsWater);
     };
 
     animId = requestAnimationFrame(renderAfterEffectsWater);
@@ -389,9 +369,7 @@ export const HeroSeaWaveLogo: React.FC<HeroSeaWaveLogoProps> = ({
       }}
       className="relative w-full max-w-3xl mx-auto flex items-center justify-center select-none overflow-visible cursor-pointer"
     >
-      {/* Dual Real-Time SVG Liquid Filters:
-          1) #wavy-water-word-filter solidifies "WATER CYCLE" from the churning water splash
-          2) #wavy-water-ring-filter solidifies and ripples the 3D water splash ring */}
+      {/* Dual Real-Time SVG Liquid Filters active ONLY during the splash solidification phase */}
       <svg className="sr-only" aria-hidden="true">
         <defs>
           <filter id="wavy-water-word-filter" x="-25%" y="-35%" width="150%" height="170%">
@@ -436,52 +414,36 @@ export const HeroSeaWaveLogo: React.FC<HeroSeaWaveLogoProps> = ({
 
       {/* Borderless Aspect-Locked 831x476 Stage Matching the Exact Logo Proportions */}
       <div className="relative w-full max-w-[340px] sm:max-w-[480px] md:max-w-[580px] lg:max-w-[650px] aspect-[831/476]">
-        {/* LAYER 1: "WATER CYCLE" WORD EMERGING & SOLIDIFYING OUT OF THE CHURNING WATER SPLASH */}
+        {/* LAYER 1: "WATER CYCLE" WORD EMERGING & SOLIDIFYING INTO A CRISP, STABLE LOGO */}
         <motion.div
           initial={{
             opacity: 0,
             scale: 0.94,
-            filter: 'blur(8px) brightness(1.8)',
           }}
           animate={{
-            opacity: [0, 0, 0.78, 1],
-            scale: [0.94, 0.96, 1.02, 1],
-            filter: [
-              'blur(8px) brightness(1.8)',
-              'blur(6px) brightness(1.6)',
-              'blur(1.5px) brightness(1.15)',
-              'blur(0px) brightness(1)',
-            ],
+            opacity: [0, 0, 0.85, 1],
+            scale: [0.94, 0.96, 1.01, 1],
           }}
           transition={{
-            duration: 2.85,
-            times: [0, 0.52, 0.78, 1],
+            duration: 2.75,
+            times: [0, 0.52, 0.8, 1],
             ease: [0.22, 1, 0.36, 1],
           }}
           className="absolute inset-0 w-full h-full z-10 pointer-events-none"
         >
-          {/* Continuous buoyant wave motion on the WATER CYCLE word */}
-          <motion.img
+          <img
             src="/water-cycle-text.png"
             alt="Water Cycle"
-            animate={{
-              y: [0, -3, 0, 3, 0],
-              rotate: [0, -0.35, 0, 0.35, 0],
-            }}
-            transition={{
-              duration: 3.6,
-              repeat: Infinity,
-              ease: 'easeInOut',
-            }}
             style={{
-              filter:
-                'url(#wavy-water-word-filter) drop-shadow(0 0 16px rgba(255,255,255,0.92)) drop-shadow(0 2px 8px rgba(220,235,250,0.85))',
+              filter: isSettled
+                ? 'drop-shadow(0 0 14px rgba(255,255,255,0.92)) drop-shadow(0 2px 8px rgba(220,235,250,0.85))'
+                : 'url(#wavy-water-word-filter) drop-shadow(0 0 16px rgba(255,255,255,0.92)) drop-shadow(0 2px 8px rgba(220,235,250,0.85))',
             }}
             className="w-full h-full object-contain block"
           />
         </motion.div>
 
-        {/* LAYER 2: 3D WATER SPLASH RING CONDENSING FROM THE CHURNING WATER SPHERE */}
+        {/* LAYER 2: 3D WATER SPLASH RING CONDENSING INTO A CRISP, STABLE RING */}
         <motion.img
           src="/water-cycle-ring.png"
           alt=""
@@ -492,19 +454,20 @@ export const HeroSeaWaveLogo: React.FC<HeroSeaWaveLogoProps> = ({
             opacity: 0,
           }}
           animate={{
-            rotate: [-120, -42, 4, 0],
-            scale: [0.82, 1.05, 0.99, 1],
-            opacity: [0, 0.55, 0.95, 1],
+            rotate: [-120, -42, 3, 0],
+            scale: [0.82, 1.04, 0.995, 1],
+            opacity: [0, 0.55, 0.96, 1],
           }}
           transition={{
             duration: 2.75,
-            times: [0, 0.45, 0.78, 1],
+            times: [0, 0.45, 0.8, 1],
             ease: [0.16, 1, 0.3, 1],
           }}
           style={{
             transformOrigin: '67.6% 50%',
-            filter:
-              'url(#wavy-water-ring-filter) drop-shadow(0 0 14px rgba(220,245,255,0.65))',
+            filter: isSettled
+              ? 'drop-shadow(0 0 12px rgba(220,245,255,0.65))'
+              : 'url(#wavy-water-ring-filter) drop-shadow(0 0 14px rgba(220,245,255,0.65))',
           }}
           className="absolute inset-0 w-full h-full object-contain block pointer-events-none z-20"
         />
@@ -522,56 +485,16 @@ export const HeroSeaWaveLogo: React.FC<HeroSeaWaveLogoProps> = ({
 
 /**
  * Upper-left Navbar Logo:
- * Uses the exact transparent Water Cycle logo with NO background/border behind it,
- * sized larger and animated with a subtle continuous liquid wave ripple.
+ * Crisp, stable, borderless Water Cycle logo with clean contrast glow.
  */
 export const NavbarWavyLogo: React.FC = () => {
   return (
     <div className="relative inline-flex items-center select-none">
-      {/* Subtle Continuous Liquid Wave Filter for Upper-Left Logo */}
-      <svg className="sr-only" aria-hidden="true">
-        <defs>
-          <filter id="navbar-wavy-logo-filter" x="-15%" y="-20%" width="130%" height="140%">
-            <feTurbulence
-              type="turbulence"
-              baseFrequency="0.015 0.042"
-              numOctaves="2"
-              seed="4"
-              result="navWaveNoise"
-            >
-              <animate
-                attributeName="baseFrequency"
-                values="0.014 0.038;0.020 0.052;0.014 0.038"
-                dur="3.4s"
-                repeatCount="indefinite"
-              />
-            </feTurbulence>
-            <feDisplacementMap
-              in="SourceGraphic"
-              in2="navWaveNoise"
-              scale="3.6"
-              xChannelSelector="R"
-              yChannelSelector="G"
-            />
-          </filter>
-        </defs>
-      </svg>
-
-      <motion.img
+      <img
         src="/water-cycle-logo.png"
         alt="Water Cycle"
-        animate={{
-          y: [0, -1.5, 0, 1.5, 0],
-          rotate: [0, -0.4, 0, 0.4, 0],
-        }}
-        transition={{
-          duration: 3.4,
-          repeat: Infinity,
-          ease: 'easeInOut',
-        }}
         style={{
-          filter:
-            'url(#navbar-wavy-logo-filter) drop-shadow(0 0 8px rgba(220, 235, 250, 0.75))',
+          filter: 'drop-shadow(0 0 8px rgba(220, 235, 250, 0.8))',
         }}
         className="h-12 sm:h-14 md:h-16 w-auto object-contain block"
       />

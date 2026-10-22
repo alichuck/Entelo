@@ -13,6 +13,7 @@ import { AboutPage } from './pages/AboutPage';
 import { ServicesPage } from './pages/ServicesPage';
 import { OurWorkPage } from './pages/OurWorkPage';
 import { NavbarWavyLogo } from './components/WaveLogoIntro';
+import { WaterPageTransition } from './components/WaterPageTransition';
 
 function getInitialRoute(): PageRoute {
   if (typeof window === 'undefined') {
@@ -252,8 +253,10 @@ export default function App() {
         )}
       </header>
 
-      <main className="flex-1" data-testid="active-page" data-route={currentRoute}>
-        {renderPage()}
+      <main className="flex-1 flex flex-col" data-testid="active-page" data-route={currentRoute}>
+        <WaterPageTransition routeKey={currentRoute}>
+          {renderPage()}
+        </WaterPageTransition>
       </main>
 
       {/* FOOTER — All Contact Info in Footer (No Navigation Links) */}
