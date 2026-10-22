@@ -6,6 +6,7 @@ import {
   CORE_SERVICES,
   ADDITIONAL_SERVICES,
   PageRoute,
+  getAssetUrl,
 } from '../utils/waterCycleLogic';
 import { ReviewsSection } from '../components/ReviewsSection';
 
@@ -25,7 +26,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
         {/* Background Photo Layer: High-opacity pool, sauna, jacuzzi, solar & filtration scene */}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
           <img
-            src="/about-bg.jpg"
+            src={getAssetUrl('/about-bg.jpg')}
             alt=""
             aria-hidden="true"
             className="w-full h-full object-cover object-center opacity-100 select-none"

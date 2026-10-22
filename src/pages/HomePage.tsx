@@ -15,6 +15,7 @@ import {
   ADDITIONAL_SERVICES,
   PageRoute,
   ServiceInquiryOption,
+  getAssetUrl,
 } from '../utils/waterCycleLogic';
 import { HeroSeaWaveLogo, LogoIntroPhase } from '../components/WaveLogoIntro';
 
@@ -62,23 +63,18 @@ export const HomePage: React.FC<HomePageProps> = ({
         aria-labelledby="hero-heading"
         className="relative min-h-[calc(100vh-5rem)] py-12 sm:py-16 lg:py-20 bg-[#063D5B] border-b-4 border-[#156D95] text-white overflow-hidden flex flex-col justify-center"
       >
-        {/* Background Photo Layer: Aligned to showcase the infinity pool & mountain horizon */}
+        {/* Background Photo Layer: High-opacity infinity pool & mountain horizon */}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
           <img
-            src="/hero-pool-bg.jpg"
+            src={getAssetUrl('/hero-pool-bg.jpg')}
             alt=""
             aria-hidden="true"
-            className="w-full h-full object-cover object-[50%_62%] scale-[1.01] select-none"
+            className="w-full h-full object-cover object-[50%_58%] opacity-100 select-none"
           />
-          {/* Brand-Blue Atmospheric Blending Overlay so the photo harmonizes with the site palette */}
+          {/* Subtle bottom-weighted gradient so the photo remains vivid while keeping lower text readable */}
           <div
             aria-hidden="true"
-            className="absolute inset-0 bg-gradient-to-b from-[#DCEBFA]/72 via-[#62A1C2]/42 to-[#063D5B]/88"
-          />
-          {/* Soft Radial Sky Halo Centered Behind the Logo for Crisp Navy Word Contrast */}
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 bg-[radial-gradient(ellipse_56%_42%_at_50%_36%,rgba(220,235,250,0.82)_0%,rgba(171,205,233,0.48)_55%,transparent_85%)]"
+            className="absolute inset-0 bg-gradient-to-b from-transparent via-[#063D5B]/12 to-[#063D5B]/55"
           />
         </div>
 
@@ -102,14 +98,14 @@ export const HomePage: React.FC<HomePageProps> = ({
           >
             <h1
               id="hero-heading"
-              className="mt-2 text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-[1.12] text-balance drop-shadow-[0_2px_12px_rgba(4,43,65,0.65)]"
+              className="mt-2 text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-[1.12] text-balance drop-shadow-[0_3px_16px_rgba(4,43,65,0.9)]"
             >
               {HERO_CONTENT.headline}
             </h1>
-            <p className="mt-4 text-lg sm:text-xl font-semibold text-[#DCEBFA] leading-snug max-w-2xl drop-shadow-[0_1px_8px_rgba(4,43,65,0.6)]">
+            <p className="mt-4 text-lg sm:text-xl font-semibold text-[#EAF4FC] leading-snug max-w-2xl drop-shadow-[0_2px_12px_rgba(4,43,65,0.9)]">
               {HERO_CONTENT.subtitle}
             </p>
-            <p className="mt-3 text-base text-white/95 leading-relaxed max-w-xl font-medium drop-shadow-[0_1px_6px_rgba(4,43,65,0.55)]">
+            <p className="mt-3 text-base text-white leading-relaxed max-w-xl font-medium drop-shadow-[0_2px_10px_rgba(4,43,65,0.88)]">
               {HERO_CONTENT.supportingLine}
             </p>
 

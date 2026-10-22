@@ -38,8 +38,10 @@ export default function App() {
     setMobileMenuOpen(false);
     setCurrentRoute(route);
     if (typeof window !== 'undefined') {
-      if (window.location.pathname !== route) {
-        window.history.pushState({ route }, '', route);
+      const base = (import.meta.env.BASE_URL || '/').replace(/\/+$/, '');
+      const targetUrl = route === '/' ? `${base}/` : `${base}${route}`;
+      if (window.location.pathname !== targetUrl) {
+        window.history.pushState({ route }, '', targetUrl);
       }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }

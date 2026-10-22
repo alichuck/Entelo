@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'motion/react';
+import { getAssetUrl } from '../utils/waterCycleLogic';
 
 export type LogoIntroPhase = 'fullscreen-wave' | 'settled-with-descriptions';
 
@@ -318,7 +319,7 @@ export const HeroSeaWaveLogo: React.FC<HeroSeaWaveLogoProps> = ({
         >
           {/* Continuous buoyant wave bobbing on the WATER CYCLE word */}
           <motion.img
-            src="/water-cycle-text.png"
+            src={getAssetUrl('/water-cycle-text.png')}
             alt="Water Cycle"
             animate={{
               y: [0, -3.5, 0, 3.5, 0],
@@ -340,7 +341,7 @@ export const HeroSeaWaveLogo: React.FC<HeroSeaWaveLogoProps> = ({
         {/* LAYER 2: REALISTIC 3D WATER WAVE RING ROTATING & SPLASHING AROUND "WATER CYCLE" */}
         {/* Secondary trailing water splash wave for realistic multi-layered fluid depth */}
         <motion.img
-          src="/water-cycle-ring.png"
+          src={getAssetUrl('/water-cycle-ring.png')}
           alt=""
           aria-hidden="true"
           initial={{
@@ -366,7 +367,7 @@ export const HeroSeaWaveLogo: React.FC<HeroSeaWaveLogoProps> = ({
 
         {/* Primary 3D Water Wave Ring rotating from -210deg -> 0deg while creating the word */}
         <motion.img
-          src="/water-cycle-ring.png"
+          src={getAssetUrl('/water-cycle-ring.png')}
           alt=""
           aria-hidden="true"
           initial={{
@@ -440,7 +441,7 @@ export const NavbarWavyLogo: React.FC = () => {
       </svg>
 
       <motion.img
-        src="/water-cycle-logo.png"
+        src={getAssetUrl('/water-cycle-logo.png')}
         alt="Water Cycle"
         animate={{
           y: [0, -1.5, 0, 1.5, 0],
