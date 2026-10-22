@@ -491,28 +491,28 @@ export const HeroSeaWaveLogo: React.FC<HeroSeaWaveLogoProps> = ({
 export const NavbarWavyLogo: React.FC = () => {
   return (
     <div className="relative inline-flex items-center select-none">
-      {/* Subtle Continuous Liquid Wave Filter for Upper-Left Logo */}
+      {/* Crisp, Low-Distortion Continuous Liquid Wave Filter for Upper-Left Logo */}
       <svg className="sr-only" aria-hidden="true">
         <defs>
-          <filter id="navbar-wavy-logo-filter" x="-15%" y="-20%" width="130%" height="140%">
+          <filter id="navbar-wavy-logo-filter" x="-10%" y="-15%" width="120%" height="130%">
             <feTurbulence
               type="turbulence"
-              baseFrequency="0.015 0.042"
-              numOctaves="2"
+              baseFrequency="0.009 0.024"
+              numOctaves="1"
               seed="4"
               result="navWaveNoise"
             >
               <animate
                 attributeName="baseFrequency"
-                values="0.014 0.038;0.020 0.052;0.014 0.038"
-                dur="3.4s"
+                values="0.008 0.022;0.012 0.030;0.008 0.022"
+                dur="3.6s"
                 repeatCount="indefinite"
               />
             </feTurbulence>
             <feDisplacementMap
               in="SourceGraphic"
               in2="navWaveNoise"
-              scale="3.6"
+              scale="1.35"
               xChannelSelector="R"
               yChannelSelector="G"
             />
@@ -534,7 +534,7 @@ export const NavbarWavyLogo: React.FC = () => {
         }}
         style={{
           filter:
-            'url(#navbar-wavy-logo-filter) drop-shadow(0 0 8px rgba(220, 235, 250, 0.75))',
+            'url(#navbar-wavy-logo-filter) drop-shadow(0 1px 2.5px rgba(255, 255, 255, 0.65))',
         }}
         className="h-12 sm:h-14 md:h-16 w-auto object-contain block"
       />
