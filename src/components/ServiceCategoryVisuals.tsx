@@ -305,19 +305,11 @@ export const getServiceSlides = (
           title: 'Regenerative Air Blower & Dosing System',
           caption: 'Water Cycle Dosing Tank, Wall-Mounted Dosing Pump & Side-Channel Blower',
           render: () => (
-            <div className="relative w-full h-full bg-[#042B41] flex items-center justify-center overflow-hidden">
-              <img
-                src="/images/wastewater-3.jpg"
-                alt=""
-                aria-hidden="true"
-                className="absolute inset-0 w-full h-full object-cover blur-md opacity-45 scale-110"
-              />
-              <img
-                src="/images/wastewater-3.jpg"
-                alt="Water Cycle dosing tank, dosing pump, and regenerative air blower"
-                className="relative z-10 w-full h-full object-contain block"
-              />
-            </div>
+            <img
+              src="/images/wastewater-3.jpg"
+              alt="Water Cycle dosing tank, dosing pump, and regenerative air blower"
+              className="w-full h-full object-cover object-[center_58%] block"
+            />
           ),
         },
       ];

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
 import {
   ArrowLeft,
   ArrowRight,
@@ -130,15 +131,18 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
   const [selectedServiceId, setSelectedServiceId] =
     useState<AnyWaterCycleServiceId | null>(null);
   const [slideIndex, setSlideIndex] = useState(0);
+  const [slideDirection, setSlideDirection] = useState<1 | -1>(1);
 
   useEffect(() => {
     setSelectedServiceId(null);
     setSlideIndex(0);
+    setSlideDirection(1);
   }, [resetTrigger]);
 
   const handleSelectService = (id: AnyWaterCycleServiceId) => {
     setSelectedServiceId(id);
     setSlideIndex(0);
+    setSlideDirection(1);
     if (typeof window !== 'undefined') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -156,6 +160,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
 
   const handlePrevSlide = () => {
     if (!activeSlides.length) return;
+    setSlideDirection(-1);
     setSlideIndex(
       (prev) => (prev - 1 + activeSlides.length) % activeSlides.length
     );
@@ -163,7 +168,14 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
 
   const handleNextSlide = () => {
     if (!activeSlides.length) return;
+    setSlideDirection(1);
     setSlideIndex((prev) => (prev + 1) % activeSlides.length);
+  };
+
+  const handleDotSelect = (targetIdx: number) => {
+    if (targetIdx === slideIndex) return;
+    setSlideDirection(targetIdx > slideIndex ? 1 : -1);
+    setSlideIndex(targetIdx);
   };
 
   return (
@@ -228,11 +240,52 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
               {/* RIGHT MAIN COLUMN — Large Framed Work Image Slider + 2-Column Description Below */}
               <div className="lg:col-span-9 space-y-10">
                 {/* Large White-Bordered Image Carousel Frame (Matches Image 2) */}
-                <div className="relative bg-[#063D5B] border-[6px] sm:border-[8px] border-white shadow-2xl overflow-hidden aspect-[16/9]">
-                  <div className="w-full h-full">{currentSlide.render()}</div>
+                <div className="relative bg-[#063D5B] border-[6px] sm:border-[8px] border-white shadow-2xl overflow-hidden aspect-[16/9] select-none">
+                  <AnimatePresence initial={false} custom={slideDirection}>
+                    <motion.div
+                      key={`${activeService.id}-${slideIndex}`}
+                      custom={slideDirection}
+                      variants={{
+                        enter: (dir: number) => ({
+                          x: dir > 0 ? '100%' : '-100%',
+                          opacity: 0.9,
+                        }),
+                        center: {
+                          x: '0%',
+                          opacity: 1,
+                        },
+                        exit: (dir: number) => ({
+                          x: dir > 0 ? '-100%' : '100%',
+                          opacity: 0.9,
+                        }),
+                      }}
+                      initial="enter"
+                      animate="center"
+                      exit="exit"
+                      transition={{
+                        x: { type: 'tween', duration: 0.42, ease: [0.22, 1, 0.36, 1] },
+                        opacity: { duration: 0.25 },
+                      }}
+                      drag="x"
+                      dragConstraints={{ left: 0, right: 0 }}
+                      dragElastic={0.22}
+                      onDragEnd={(_e, info) => {
+                        if (info.offset.x < -45) {
+                          handleNextSlide();
+                        } else if (info.offset.x > 45) {
+                          handlePrevSlide();
+                        }
+                      }}
+                      className="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing"
+                    >
+                      <div className="w-full h-full pointer-events-none select-none">
+                        {currentSlide.render()}
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
 
                   {/* Subtle Bottom Caption Bar inside Frame */}
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#042B41]/90 via-[#042B41]/55 to-transparent px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
+                  <div className="absolute inset-x-0 bottom-0 z-20 bg-gradient-to-t from-[#042B41]/90 via-[#042B41]/55 to-transparent px-4 sm:px-6 py-3 flex items-center justify-between gap-4 pointer-events-none">
                     <div>
                       <p className="text-xs sm:text-sm font-bold text-white tracking-wide">
                         {currentSlide.title}
@@ -243,12 +296,12 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
                     </div>
 
                     {/* Slide Dots */}
-                    <div className="flex items-center gap-1.5 shrink-0">
+                    <div className="flex items-center gap-1.5 shrink-0 pointer-events-auto">
                       {activeSlides.map((slide, idx) => (
                         <button
                           key={slide.title}
                           type="button"
-                          onClick={() => setSlideIndex(idx)}
+                          onClick={() => handleDotSelect(idx)}
                           aria-label={`View slide ${idx + 1}: ${slide.title}`}
                           className={`h-2 rounded-full transition-all cursor-pointer ${
                             idx === slideIndex
@@ -265,7 +318,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
                     type="button"
                     onClick={handlePrevSlide}
                     aria-label="Previous service image"
-                    className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/3 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white text-[#62A1C2] hover:text-[#042B41] shadow-md flex items-center justify-end pr-2.5 transition-colors cursor-pointer"
+                    className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/3 z-30 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white text-[#62A1C2] hover:text-[#042B41] shadow-md flex items-center justify-end pr-2.5 transition-colors cursor-pointer"
                   >
                     <ChevronLeft className="w-5 h-5" aria-hidden="true" />
                   </button>
@@ -275,7 +328,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
                     type="button"
                     onClick={handleNextSlide}
                     aria-label="Next service image"
-                    className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/3 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white text-[#62A1C2] hover:text-[#042B41] shadow-md flex items-center justify-start pl-2.5 transition-colors cursor-pointer"
+                    className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/3 z-30 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white text-[#62A1C2] hover:text-[#042B41] shadow-md flex items-center justify-start pl-2.5 transition-colors cursor-pointer"
                   >
                     <ChevronRight className="w-5 h-5" aria-hidden="true" />
                   </button>
