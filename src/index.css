@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+
+  /* Water Cycle Brand Palette (extracted from brand artwork) */
+  --color-brand-sky: #ABCDE9;
+  --color-brand-sky-light: #C6E0F5;
+  --color-brand-sky-soft: #DCEBFA;
+  --color-brand-blue: #62A1C2;
+  --color-brand-blue-dark: #4B89AA;
+  --color-brand-teal: #156D95;
+  --color-brand-navy: #063D5B;
+  --color-brand-navy-deep: #042B41;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+    background-color: #ABCDE9;
+    color: #063D5B;
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: var(--font-display);
+  }
+}
+
