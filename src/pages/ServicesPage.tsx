@@ -89,10 +89,12 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
                   <button
                     type="button"
                     onClick={() => onServiceInquire(service.inquiryOption)}
-                    className="w-full inline-flex items-center justify-between px-5 py-3 text-xs font-bold text-[#063D5B] bg-[#ABCDE9] hover:bg-[#C6E0F5] rounded-full transition-colors whitespace-nowrap shrink-0 cursor-pointer shadow-xs"
+                    className="w-full inline-flex items-center justify-between gap-2 px-4 py-3 text-[11px] xl:text-xs font-bold text-[#063D5B] bg-[#ABCDE9] hover:bg-[#C6E0F5] rounded-2xl transition-colors cursor-pointer shadow-xs text-left leading-snug min-w-0 overflow-hidden"
                   >
-                    <span>Contact Us About {service.shortCategory}</span>
-                    <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
+                    <span className="min-w-0 flex-1 break-words">
+                      Contact Us About {service.shortCategory}
+                    </span>
+                    <ArrowRight className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
                   </button>
                 </div>
               </article>
@@ -223,10 +225,10 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
                     </p>
                   </div>
 
-                  <div className="mt-6 pt-4 border-t border-[#ABCDE9]/35 flex items-center justify-between gap-2">
-                    <span className="text-xs text-[#ABCDE9] font-medium">Selected Topic</span>
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ABCDE9] text-[#063D5B] text-xs font-bold whitespace-nowrap shrink-0">
-                      <span>→ {item.solutionLabel}</span>
+                  <div className="mt-6 pt-4 border-t border-[#ABCDE9]/35 flex flex-wrap items-center justify-between gap-2 min-w-0">
+                    <span className="text-xs text-[#ABCDE9] font-medium shrink-0">Selected Topic</span>
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ABCDE9] text-[#063D5B] text-[11px] sm:text-xs font-bold max-w-full min-w-0">
+                      <span className="truncate">→ {item.solutionLabel}</span>
                     </span>
                   </div>
                 </button>
