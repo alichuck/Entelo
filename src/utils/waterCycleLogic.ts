@@ -187,22 +187,11 @@ export function validateContactForm(input: ContactFormInput): ContactFormValidat
   };
 }
 
-export function getAssetUrl(assetPath: string): string {
-  const cleanPath = assetPath.replace(/^\/+/, '');
-  const baseUrl =
-    (typeof import.meta !== 'undefined' &&
-      (import.meta as unknown as { env?: { BASE_URL?: string } }).env?.BASE_URL) ||
-    '/';
-  const normalizedBase = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
-  return `${normalizedBase}${cleanPath}`;
-}
-
 export function resolvePageRoute(rawPathOrHash: string): PageRoute {
   const cleaned = rawPathOrHash
     .trim()
     .toLowerCase()
     .replace(/^#/, '/')
-    .replace(/^\/entelo(?=\/|$)/, '')
     .replace(/\/+$/, '');
 
   if (!cleaned || cleaned === '' || cleaned === '/home' || cleaned === '/index.html') {

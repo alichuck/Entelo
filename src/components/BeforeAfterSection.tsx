@@ -3,7 +3,6 @@ import { MoveHorizontal, Info } from 'lucide-react';
 import {
   BEFORE_AFTER_CONFIG,
   computeBeforeAfterState,
-  getAssetUrl,
 } from '../utils/waterCycleLogic';
 import { BeforeDirtyPoolScene, AfterCleanPoolScene } from './PoolVisuals';
 
@@ -146,7 +145,7 @@ export const BeforeAfterSection: React.FC = () => {
           >
             {BEFORE_AFTER_CONFIG.useRealPhotos ? (
               <img
-                src={getAssetUrl(BEFORE_AFTER_CONFIG.afterImagePath)}
+                src={BEFORE_AFTER_CONFIG.afterImagePath}
                 alt="After water treatment: clear blue swimming pool"
                 draggable={false}
                 className="w-full h-full object-contain block select-none pointer-events-none"
@@ -164,7 +163,7 @@ export const BeforeAfterSection: React.FC = () => {
           >
             {BEFORE_AFTER_CONFIG.useRealPhotos ? (
               <img
-                src={getAssetUrl(BEFORE_AFTER_CONFIG.beforeImagePath)}
+                src={BEFORE_AFTER_CONFIG.beforeImagePath}
                 alt="Before water treatment: dirty algae-green swimming pool"
                 draggable={false}
                 className="w-full h-full object-contain block select-none pointer-events-none"

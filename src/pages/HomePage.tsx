@@ -15,7 +15,6 @@ import {
   ADDITIONAL_SERVICES,
   PageRoute,
   ServiceInquiryOption,
-  getAssetUrl,
 } from '../utils/waterCycleLogic';
 import { HeroSeaWaveLogo, LogoIntroPhase } from '../components/WaveLogoIntro';
 
@@ -66,7 +65,7 @@ export const HomePage: React.FC<HomePageProps> = ({
         {/* Background Photo Layer: High-opacity infinity pool & mountain horizon */}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
           <img
-            src={getAssetUrl('/hero-pool-bg.jpg')}
+            src="/hero-pool-bg.jpg"
             alt=""
             aria-hidden="true"
             className="w-full h-full object-cover object-[50%_58%] opacity-100 select-none"

@@ -5,7 +5,6 @@ import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
-    base: process.env.GITHUB_ACTIONS ? '/Entelo/' : '/',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
