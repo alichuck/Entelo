@@ -8,24 +8,44 @@ interface HeroSeaWaveLogoProps {
   onReplay?: () => void;
 }
 
-interface WaterStreamParticle {
-  angle: number;
-  angularVelocity: number;
-  baseRadius: number;
-  radiusOffset: number;
-  size: number;
-  alpha: number;
-  isHighlight: boolean;
-  phaseOffset: number;
+interface LiquidStrandParticle {
+  side: -1 | 1;
+  spread: number;
+  omega: number;
+  sphereFactor: number;
+  seed: number;
+  delay: number;
+  burstAngle: number;
+  isSpecular: boolean;
+  targetX: number;
+  targetY: number;
+  prevX: number;
+  prevY: number;
+  hasPrev: boolean;
 }
 
+const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
+const easeOutCubic = (x: number) => 1 - Math.pow(1 - x, 3);
+const easeInOutCubic = (x: number) =>
+  x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+
+const liquidWaveNoise = (theta: number, t: number, seed: number) =>
+  0.52 * Math.sin(3 * theta + 2.1 * t + seed) +
+  0.31 * Math.sin(5 * theta - 2.7 * t + seed * 1.9) +
+  0.17 * Math.sin(9 * theta + 3.6 * t + seed * 3.3);
+
 /**
- * Realistic full-screen-to-hero Water Cycle logo animation:
- * 1. Starts on the whole screen while the 3D water wave rotates in a fluid vortex.
- * 2. During the rotation of the wave, the "WATER CYCLE" word is progressively created
- *    out of the churning water.
- * 3. Both the word "WATER CYCLE" and the water splash ring around it remain continuously
- *    wavy with real-time liquid water physics after the descriptions appear.
+ * Recreates the exact 3-stage sequence from `Water logo animation - After effects.mp4`
+ * tailored for the borderless Water Cycle logo on the Home page:
+ *
+ * - Stage 1 (0.0s – 1.0s): Volumetric top light rays shine down while a bright water
+ *   splash forms at 12 o'clock and arcs down both sides (-90deg -> +90deg) to close a
+ *   glossy circular water ring.
+ * - Stage 2 (0.9s – 2.1s): The water ring erupts into a churning 3D liquid splash sphere
+ *   with bright specular caustic ribbons and fine water droplets.
+ * - Stage 3 (1.6s – 3.1s): The churning liquid water condenses and solidifies into the
+ *   "WATER CYCLE" word and 3D water ring via liquid-glass SVG displacement, then settles
+ *   with a gentle ongoing wave ripple as the Home page descriptions appear.
  */
 export const HeroSeaWaveLogo: React.FC<HeroSeaWaveLogoProps> = ({
   phase,
@@ -38,27 +58,28 @@ export const HeroSeaWaveLogo: React.FC<HeroSeaWaveLogoProps> = ({
   const ringTurbRef = useRef<SVGFETurbulenceElement | null>(null);
   const [runId, setRunId] = useState(0);
 
-  // Continuous 60fps liquid water physics driving BOTH the creation turbulence
-  // and the ongoing wavy motion of "WATER CYCLE" + the water splash ring around it
+  // Real-time 60fps SVG liquid-glass refraction driving the solidification of the logo
+  // from the churning water splash into the final wavy "WATER CYCLE" logo
   useEffect(() => {
     let rafId: number;
     const startTime = performance.now();
-    const creationDuration = 2200; // ms for the wave rotation to create the logo
 
-    const animateWaterPhysics = (now: number) => {
-      const elapsed = now - startTime;
-      const t = Math.min(1, elapsed / creationDuration);
-      const timeSec = elapsed / 1000;
+    const animateLiquidRefraction = (now: number) => {
+      const elapsedSec = (now - startTime) / 1000;
 
-      // Ease out from high liquid wave distortion (54) down to a continuous living water wave (7.5)
-      const easeOut = 1 - Math.pow(1 - t, 3);
-      const continuousTextWave = 6.5 + Math.sin(timeSec * 2.6) * 2.2;
-      const continuousRingWave = 8.5 + Math.cos(timeSec * 2.2) * 3.0;
+      // Solidification window: 1.45s -> 2.95s (matches Stage 3 of the After Effects video)
+      const solidifyProgress = clamp01((elapsedSec - 1.45) / 1.5);
+      const easeSolid = easeOutCubic(solidifyProgress);
 
+      // Gentle living water undulation after the logo has solidified
+      const ongoingTextWave = 5.2 + Math.sin(elapsedSec * 2.4) * 1.8;
+      const ongoingRingWave = 7.0 + Math.cos(elapsedSec * 2.1) * 2.4;
+
+      // Starts at high liquid splash distortion (68) and condenses into the crisp logo
       const currentTextScale =
-        52 * (1 - easeOut) + continuousTextWave * easeOut;
+        68 * (1 - easeSolid) + ongoingTextWave * easeSolid;
       const currentRingScale =
-        44 * (1 - easeOut) + continuousRingWave * easeOut;
+        62 * (1 - easeSolid) + ongoingRingWave * easeSolid;
 
       if (textDispRef.current) {
         textDispRef.current.setAttribute('scale', currentTextScale.toFixed(2));
@@ -67,9 +88,8 @@ export const HeroSeaWaveLogo: React.FC<HeroSeaWaveLogoProps> = ({
         ringDispRef.current.setAttribute('scale', currentRingScale.toFixed(2));
       }
 
-      // Gently oscillate turbulence frequencies so the water & letters undulate like a real wave
-      const freqX = 0.012 + Math.sin(timeSec * 1.7) * 0.003;
-      const freqY = 0.032 + Math.cos(timeSec * 1.4) * 0.006;
+      const freqX = 0.013 + Math.sin(elapsedSec * 1.8) * 0.003;
+      const freqY = 0.034 + Math.cos(elapsedSec * 1.5) * 0.006;
       if (textTurbRef.current) {
         textTurbRef.current.setAttribute(
           'baseFrequency',
@@ -77,22 +97,25 @@ export const HeroSeaWaveLogo: React.FC<HeroSeaWaveLogoProps> = ({
         );
       }
       if (ringTurbRef.current) {
-        const rFreqX = 0.015 + Math.cos(timeSec * 1.5) * 0.0035;
-        const rFreqY = 0.028 + Math.sin(timeSec * 1.8) * 0.005;
+        const rFreqX = 0.016 + Math.cos(elapsedSec * 1.6) * 0.0035;
+        const rFreqY = 0.029 + Math.sin(elapsedSec * 1.9) * 0.005;
         ringTurbRef.current.setAttribute(
           'baseFrequency',
           `${rFreqX.toFixed(4)} ${rFreqY.toFixed(4)}`
         );
       }
 
-      rafId = requestAnimationFrame(animateWaterPhysics);
+      rafId = requestAnimationFrame(animateLiquidRefraction);
     };
 
-    rafId = requestAnimationFrame(animateWaterPhysics);
+    rafId = requestAnimationFrame(animateLiquidRefraction);
     return () => cancelAnimationFrame(rafId);
   }, [runId]);
 
-  // Realistic HTML5 Canvas water stream ribbons, foam arcs & 320 water droplets
+  // HTML5 Canvas 3-Stage After Effects Water Splash Simulation:
+  // 1) Top light rays + dual downward water arcs forming the ring
+  // 2) Churning 3D turbulent water splash sphere with bright caustic highlights
+  // 3) Streams converging into the "WATER CYCLE" word & water ring
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -104,116 +127,238 @@ export const HeroSeaWaveLogo: React.FC<HeroSeaWaveLogoProps> = ({
     canvas.width = width;
     canvas.height = height;
 
-    // Exact center of the circular water splash ring in the 831x476 logo coordinate space
+    // Center of the circular water ring in the 831x476 logo coordinate space
     const cx = 562;
     const cy = 238;
-    const ringRadius = 192;
+    const ringRadius = 190;
 
-    const particles: WaterStreamParticle[] = Array.from({ length: 300 }, (_, i) => {
-      const angle = (i / 300) * Math.PI * 2;
-      return {
-        angle,
-        angularVelocity: 0.025 + (i % 7) * 0.004,
-        baseRadius: ringRadius + ((i % 11) - 5) * 6.5,
-        radiusOffset: (Math.random() - 0.5) * 28,
-        size: 1.1 + (i % 5) * 0.65,
-        alpha: 0.35 + (i % 4) * 0.16,
-        isHighlight: i % 3 === 0,
-        phaseOffset: i * 0.23,
-      };
-    });
+    // Create 900 coherent liquid strand particles that form glossy water ribbons
+    const strandCount = 38;
+    const strandSpheres = Array.from(
+      { length: strandCount },
+      () => 0.18 + Math.random() * 0.86
+    );
+
+    const particles: LiquidStrandParticle[] = Array.from(
+      { length: 900 },
+      (_, i) => {
+        const strand = i % strandCount;
+        // Distribute morph targets across both the circular water ring and the "WATER CYCLE" word
+        const isWordTarget = i % 3 === 0;
+        const wordX = 28 + ((i * 17) % 605);
+        const wordY = 236 + (((i * 29) % 54) - 27);
+        const ringAngle = ((i * 13) % 360) * (Math.PI / 180);
+        const ringTargetR = ringRadius + (((i * 7) % 26) - 13);
+
+        return {
+          side: i % 2 === 0 ? 1 : -1,
+          spread: Math.pow((i % 90) / 90, 0.85),
+          omega: 1.85 + (strand % 7) * 0.14,
+          sphereFactor: strandSpheres[strand] + ((i % 5) - 2) * 0.02,
+          seed: strand * 0.71 + (i % 11) * 0.04,
+          delay: (i % 45) / 45,
+          burstAngle: (i / 900) * Math.PI * 2,
+          isSpecular: i % 4 === 0,
+          targetX: isWordTarget
+            ? wordX
+            : cx + Math.cos(ringAngle) * ringTargetR,
+          targetY: isWordTarget
+            ? wordY
+            : cy + Math.sin(ringAngle) * ringTargetR,
+          prevX: 0,
+          prevY: 0,
+          hasPrev: false,
+        };
+      }
+    );
 
     let animId: number;
     const start = performance.now();
 
-    const drawWaterVortex = (now: number) => {
-      const elapsedSec = (now - start) / 1000;
+    const renderAfterEffectsWater = (now: number) => {
+      const t = (now - start) / 1000;
+
+      // Clear with slight motion-trail persistence during the turbulent splash phase
       ctx.clearRect(0, 0, width, height);
 
-      // Rotational progress during the first 2.2s, then gentle ongoing water circulation
-      const isIntro = elapsedSec < 2.2;
-      const introProgress = Math.min(1, elapsedSec / 2.2);
-      const speedMultiplier = isIntro ? 1.85 * (1 - introProgress * 0.65) : 0.32;
+      // Phase progress values matching `Water logo animation - After effects.mp4`
+      const raysIn = easeOutCubic(clamp01(t / 0.7));
+      const raysFade = 1 - 0.65 * clamp01((t - 2.3) / 0.9);
+      const arcSpawn = easeOutCubic(clamp01((t - 0.1) / 1.05));
+      const turbulence = easeInOutCubic(clamp01((t - 0.85) / 1.15));
+      const morphToLogo = easeInOutCubic(clamp01((t - 1.65) / 1.05));
+      const splashFadeOut = 1 - easeInOutCubic(clamp01((t - 2.25) / 0.85));
 
-      // 1. Draw flowing liquid water stream ribbons along the rotating wave arc
-      const ribbonCount = 3;
-      for (let r = 0; r < ribbonCount; r++) {
-        const startAngle =
-          elapsedSec * (2.4 - r * 0.35) + r * ((Math.PI * 2) / ribbonCount);
-        const arcLength = isIntro ? Math.PI * 1.35 : Math.PI * 0.85;
-        const rad = ringRadius + (r - 1) * 11 + Math.sin(elapsedSec * 3 + r) * 5;
-
+      // 1. Draw volumetric top light rays shining down onto the water splash (frames 3–12 of sheet_01)
+      const rayAlpha = raysIn * raysFade;
+      if (rayAlpha > 0.02) {
         ctx.save();
-        ctx.beginPath();
-        ctx.arc(cx, cy, rad, startAngle, startAngle + arcLength);
-        ctx.strokeStyle =
-          r === 0
-            ? `rgba(255, 255, 255, ${isIntro ? 0.55 : 0.22})`
-            : r === 1
-            ? `rgba(98, 161, 194, ${isIntro ? 0.5 : 0.2})`
-            : `rgba(21, 109, 149, ${isIntro ? 0.45 : 0.16})`;
-        ctx.lineWidth = isIntro ? 6 - r * 1.5 : 3 - r * 0.7;
-        ctx.lineCap = 'round';
-        ctx.stroke();
-        ctx.restore();
-      }
+        const rayAngles = [-0.34, -0.16, 0, 0.17, 0.35];
+        for (let r = 0; r < rayAngles.length; r++) {
+          const angle = rayAngles[r] + Math.sin(t * 1.8 + r) * 0.02;
+          const topX = cx + (r - 2) * 14;
+          const topY = 0;
+          const beamLen = 380;
+          const bottomX = topX + Math.sin(angle) * beamLen;
+          const bottomY = topY + Math.cos(angle) * beamLen;
 
-      // 2. Draw horizontal water wave stream sweeping through "WATER CYCLE" as the wave rotates
-      if (elapsedSec > 0.2 && elapsedSec < 2.1) {
-        const wordProgress = Math.min(1, (elapsedSec - 0.2) / 1.45);
-        const waveHeadX = 20 + wordProgress * 640;
-        const waveGrad = ctx.createLinearGradient(
-          Math.max(0, waveHeadX - 240),
-          240,
-          waveHeadX + 40,
-          240
-        );
-        waveGrad.addColorStop(0, 'rgba(171, 205, 233, 0)');
-        waveGrad.addColorStop(0.5, 'rgba(21, 109, 149, 0.38)');
-        waveGrad.addColorStop(0.85, 'rgba(255, 255, 255, 0.85)');
-        waveGrad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+          const grad = ctx.createLinearGradient(topX, topY, bottomX, bottomY);
+          const centerBoost = r === 2 ? 0.34 : 0.22;
+          grad.addColorStop(
+            0,
+            `rgba(235, 250, 255, ${(centerBoost * rayAlpha).toFixed(3)})`
+          );
+          grad.addColorStop(
+            0.55,
+            `rgba(171, 205, 233, ${(centerBoost * 0.45 * rayAlpha).toFixed(3)})`
+          );
+          grad.addColorStop(1, 'rgba(171, 205, 233, 0)');
 
-        ctx.save();
-        ctx.beginPath();
-        ctx.moveTo(Math.max(10, waveHeadX - 220), 238);
-        for (let x = Math.max(10, waveHeadX - 220); x <= waveHeadX + 25; x += 12) {
-          const wy =
-            238 +
-            Math.sin(x * 0.045 - elapsedSec * 9) * 18 * (1 - wordProgress * 0.4);
-          ctx.lineTo(x, wy);
+          ctx.beginPath();
+          ctx.moveTo(topX - 12, topY);
+          ctx.lineTo(topX + 12, topY);
+          ctx.lineTo(bottomX + 68, bottomY);
+          ctx.lineTo(bottomX - 68, bottomY);
+          ctx.closePath();
+          ctx.fillStyle = grad;
+          ctx.fill();
         }
-        ctx.strokeStyle = waveGrad;
-        ctx.lineWidth = 14 * (1 - wordProgress * 0.5);
-        ctx.lineCap = 'round';
-        ctx.stroke();
         ctx.restore();
       }
 
-      // 3. Draw swirling water droplets & fine spray mist around the wave ring
-      const mistIntensity = isIntro ? 0.95 : 0.42;
-      for (const p of particles) {
-        p.angle += p.angularVelocity * speedMultiplier;
-        const dynamicRadius =
-          p.baseRadius +
-          Math.sin(elapsedSec * 2.8 + p.phaseOffset) * 9 +
-          p.radiusOffset * (isIntro ? 1.15 : 0.65);
-
-        const px = cx + Math.cos(p.angle) * dynamicRadius;
-        const py = cy + Math.sin(p.angle) * dynamicRadius;
-
+      // 2. Draw the initial crown splash highlight at 12 o'clock under the light beam
+      if (t > 0.08 && t < 2.2) {
+        const crownIntensity =
+          clamp01((t - 0.08) / 0.35) * (1 - clamp01((t - 1.55) / 0.65));
+        const crownGrad = ctx.createRadialGradient(
+          cx,
+          cy - ringRadius * (1 - turbulence * 0.25),
+          2,
+          cx,
+          cy - ringRadius * (1 - turbulence * 0.25),
+          64
+        );
+        crownGrad.addColorStop(
+          0,
+          `rgba(255, 255, 255, ${(0.85 * crownIntensity).toFixed(3)})`
+        );
+        crownGrad.addColorStop(
+          0.45,
+          `rgba(185, 230, 255, ${(0.45 * crownIntensity).toFixed(3)})`
+        );
+        crownGrad.addColorStop(1, 'rgba(171, 205, 233, 0)');
+        ctx.fillStyle = crownGrad;
         ctx.beginPath();
-        ctx.arc(px, py, p.size, 0, Math.PI * 2);
-        const a = p.alpha * mistIntensity;
-        ctx.fillStyle = p.isHighlight
-          ? `rgba(255, 255, 255, ${a})`
-          : `rgba(6, 61, 91, ${a * 0.55})`;
+        ctx.arc(
+          cx,
+          cy - ringRadius * (1 - turbulence * 0.25),
+          64,
+          0,
+          Math.PI * 2
+        );
         ctx.fill();
       }
 
-      animId = requestAnimationFrame(drawWaterVortex);
+      // 3. Draw the 3D liquid water strands:
+      //    - Starts at 12 o'clock (-PI/2) and arcs down left & right to form the ring
+      //    - Churns inward into a 3D turbulent water sphere (frames 9–16 of sheet_01)
+      //    - Morphs into the "WATER CYCLE" word & circular splash ring (sheet_02)
+      if (splashFadeOut > 0.01) {
+        ctx.save();
+        ctx.lineCap = 'round';
+
+        for (const p of particles) {
+          const born = clamp01((t - 0.08 - p.delay * 0.42) / 0.28);
+          if (born <= 0) continue;
+
+          // Angle starts at -PI/2 (top) and sweeps down both sides as arcSpawn goes 0 -> 1
+          let theta =
+            -Math.PI / 2 +
+            p.side * p.spread * Math.PI * arcSpawn +
+            p.omega * Math.max(0, t - 0.35) * (0.45 + 0.55 * turbulence);
+          theta += turbulence * 0.65 * Math.sin(t * 2.4 + p.seed * 2.1);
+
+          const n = liquidWaveNoise(theta, t * 1.35, p.seed);
+          const rOnRing = ringRadius * (1 + n * (0.05 + 0.22 * turbulence));
+          const rInSphere = ringRadius * p.sphereFactor * (1 + n * 0.32);
+
+          // Blend from outer ring into churning 3D sphere during Stage 2
+          const sphereBlend = Math.sin(turbulence * Math.PI) * 0.76;
+          const radius = rOnRing * (1 - sphereBlend) + rInSphere * sphereBlend;
+
+          let x = cx + Math.cos(theta) * radius;
+          let y =
+            cy +
+            Math.sin(theta) *
+              radius *
+              (1 - 0.14 * turbulence * Math.sin(t * 1.7 + p.seed));
+
+          // Outward splash droplets under the top light
+          const splashBurst = Math.sin(arcSpawn * Math.PI) * 18;
+          x += Math.cos(p.burstAngle) * splashBurst;
+          y += Math.sin(p.burstAngle) * splashBurst;
+
+          // Stage 3: Converge into the "WATER CYCLE" word & ring targets
+          const k = easeInOutCubic(
+            clamp01((t - 1.55 - p.delay * 0.35) / 0.85)
+          );
+          if (k > 0) {
+            x += (p.targetX - x) * k;
+            y += (p.targetY - y) * k;
+          }
+
+          if (p.hasPrev) {
+            const dx = x - p.prevX;
+            const dy = y - p.prevY;
+            if (dx * dx + dy * dy < 6500) {
+              const alpha =
+                (p.isSpecular ? 0.92 : 0.46) * born * splashFadeOut;
+              ctx.strokeStyle = p.isSpecular
+                ? `rgba(245, 252, 255, ${alpha.toFixed(3)})`
+                : `rgba(135, 208, 242, ${alpha.toFixed(3)})`;
+              ctx.lineWidth =
+                (p.isSpecular ? 2.4 : 1.3) * (1 - 0.35 * morphToLogo);
+              ctx.beginPath();
+              ctx.moveTo(p.prevX, p.prevY);
+              ctx.lineTo(x, y);
+              ctx.stroke();
+            }
+          }
+
+          p.prevX = x;
+          p.prevY = y;
+          p.hasPrev = true;
+        }
+        ctx.restore();
+      }
+
+      // 4. Ongoing gentle water droplets orbiting the settled ring after solidify
+      if (t > 2.2) {
+        const settledAlpha = clamp01((t - 2.2) / 0.8) * 0.38;
+        ctx.save();
+        for (let i = 0; i < 65; i++) {
+          const a = (i / 65) * Math.PI * 2 + t * 0.22;
+          const r =
+            ringRadius +
+            Math.sin(t * 2.1 + i * 0.7) * 9 +
+            ((i % 7) - 3) * 4.5;
+          const px = cx + Math.cos(a) * r;
+          const py = cy + Math.sin(a) * r;
+          ctx.beginPath();
+          ctx.arc(px, py, 1.2 + (i % 3) * 0.6, 0, Math.PI * 2);
+          ctx.fillStyle =
+            i % 2 === 0
+              ? `rgba(255, 255, 255, ${settledAlpha.toFixed(3)})`
+              : `rgba(171, 205, 233, ${(settledAlpha * 0.8).toFixed(3)})`;
+          ctx.fill();
+        }
+        ctx.restore();
+      }
+
+      animId = requestAnimationFrame(renderAfterEffectsWater);
     };
 
-    animId = requestAnimationFrame(drawWaterVortex);
+    animId = requestAnimationFrame(renderAfterEffectsWater);
     return () => cancelAnimationFrame(animId);
   }, [runId]);
 
@@ -232,7 +377,7 @@ export const HeroSeaWaveLogo: React.FC<HeroSeaWaveLogoProps> = ({
       onClick={handleClick}
       role="img"
       aria-label="Water Cycle animated wave logo"
-      title="Click to replay the full-screen water wave logo animation"
+      title="Click to replay the water splash logo animation"
       layout
       initial={{ scale: 1.22 }}
       animate={{
@@ -245,15 +390,15 @@ export const HeroSeaWaveLogo: React.FC<HeroSeaWaveLogoProps> = ({
       className="relative w-full max-w-3xl mx-auto flex items-center justify-center select-none overflow-visible cursor-pointer"
     >
       {/* Dual Real-Time SVG Liquid Filters:
-          1) #wavy-water-word-filter keeps "WATER CYCLE" undulating with the water around it
-          2) #wavy-water-ring-filter keeps the 3D water splash ring rippling continuously */}
+          1) #wavy-water-word-filter solidifies "WATER CYCLE" from the churning water splash
+          2) #wavy-water-ring-filter solidifies and ripples the 3D water splash ring */}
       <svg className="sr-only" aria-hidden="true">
         <defs>
-          <filter id="wavy-water-word-filter" x="-20%" y="-30%" width="140%" height="160%">
+          <filter id="wavy-water-word-filter" x="-25%" y="-35%" width="150%" height="170%">
             <feTurbulence
               ref={textTurbRef}
               type="turbulence"
-              baseFrequency="0.012 0.032"
+              baseFrequency="0.013 0.034"
               numOctaves="2"
               seed="8"
               result="wordWaveNoise"
@@ -262,7 +407,7 @@ export const HeroSeaWaveLogo: React.FC<HeroSeaWaveLogoProps> = ({
               ref={textDispRef}
               in="SourceGraphic"
               in2="wordWaveNoise"
-              scale="48"
+              scale="68"
               xChannelSelector="R"
               yChannelSelector="G"
             />
@@ -272,7 +417,7 @@ export const HeroSeaWaveLogo: React.FC<HeroSeaWaveLogoProps> = ({
             <feTurbulence
               ref={ringTurbRef}
               type="turbulence"
-              baseFrequency="0.015 0.028"
+              baseFrequency="0.016 0.029"
               numOctaves="3"
               seed="14"
               result="ringWaveNoise"
@@ -281,7 +426,7 @@ export const HeroSeaWaveLogo: React.FC<HeroSeaWaveLogoProps> = ({
               ref={ringDispRef}
               in="SourceGraphic"
               in2="ringWaveNoise"
-              scale="44"
+              scale="62"
               xChannelSelector="R"
               yChannelSelector="G"
             />
@@ -291,38 +436,37 @@ export const HeroSeaWaveLogo: React.FC<HeroSeaWaveLogoProps> = ({
 
       {/* Borderless Aspect-Locked 831x476 Stage Matching the Exact Logo Proportions */}
       <div className="relative w-full max-w-[340px] sm:max-w-[480px] md:max-w-[580px] lg:max-w-[650px] aspect-[831/476]">
-        {/* LAYER 1: "WATER CYCLE" WORD CREATED DURING THE ROTATION OF THE WAVE
-            Synchronized clip-path + wave distortion so each letter forms as the wave rotates! */}
+        {/* LAYER 1: "WATER CYCLE" WORD EMERGING & SOLIDIFYING OUT OF THE CHURNING WATER SPLASH */}
         <motion.div
           initial={{
-            clipPath: 'inset(0 100% 0 0)',
             opacity: 0,
-            x: -18,
+            scale: 0.94,
+            filter: 'blur(8px) brightness(1.8)',
           }}
           animate={{
-            clipPath: [
-              'inset(0 100% 0 0)',
-              'inset(0 62% 0 0)',
-              'inset(0 18% 0 0)',
-              'inset(0 0% 0 0)',
+            opacity: [0, 0, 0.78, 1],
+            scale: [0.94, 0.96, 1.02, 1],
+            filter: [
+              'blur(8px) brightness(1.8)',
+              'blur(6px) brightness(1.6)',
+              'blur(1.5px) brightness(1.15)',
+              'blur(0px) brightness(1)',
             ],
-            opacity: [0, 0.85, 1, 1],
-            x: [-18, -6, 2, 0],
           }}
           transition={{
-            duration: 1.85,
-            times: [0, 0.32, 0.72, 1],
+            duration: 2.85,
+            times: [0, 0.52, 0.78, 1],
             ease: [0.22, 1, 0.36, 1],
           }}
           className="absolute inset-0 w-full h-full z-10 pointer-events-none"
         >
-          {/* Continuous buoyant wave bobbing on the WATER CYCLE word */}
+          {/* Continuous buoyant wave motion on the WATER CYCLE word */}
           <motion.img
             src="/water-cycle-text.png"
             alt="Water Cycle"
             animate={{
-              y: [0, -3.5, 0, 3.5, 0],
-              rotate: [0, -0.45, 0, 0.45, 0],
+              y: [0, -3, 0, 3, 0],
+              rotate: [0, -0.35, 0, 0.35, 0],
             }}
             transition={{
               duration: 3.6,
@@ -337,61 +481,35 @@ export const HeroSeaWaveLogo: React.FC<HeroSeaWaveLogoProps> = ({
           />
         </motion.div>
 
-        {/* LAYER 2: REALISTIC 3D WATER WAVE RING ROTATING & SPLASHING AROUND "WATER CYCLE" */}
-        {/* Secondary trailing water splash wave for realistic multi-layered fluid depth */}
+        {/* LAYER 2: 3D WATER SPLASH RING CONDENSING FROM THE CHURNING WATER SPHERE */}
         <motion.img
           src="/water-cycle-ring.png"
           alt=""
           aria-hidden="true"
           initial={{
-            rotate: -260,
-            scale: 0.68,
+            rotate: -120,
+            scale: 0.82,
             opacity: 0,
           }}
           animate={{
-            rotate: [-260, -85, 12, 0],
-            scale: [0.68, 1.08, 0.97, 1],
-            opacity: [0, 0.65, 0.45, 0.28],
+            rotate: [-120, -42, 4, 0],
+            scale: [0.82, 1.05, 0.99, 1],
+            opacity: [0, 0.55, 0.95, 1],
           }}
           transition={{
-            duration: 2.1,
-            ease: [0.16, 1, 0.3, 1],
-          }}
-          style={{
-            transformOrigin: '67.6% 50%',
-            filter: 'url(#wavy-water-ring-filter) brightness(1.25)',
-          }}
-          className="absolute inset-0 w-full h-full object-contain block pointer-events-none z-15"
-        />
-
-        {/* Primary 3D Water Wave Ring rotating from -210deg -> 0deg while creating the word */}
-        <motion.img
-          src="/water-cycle-ring.png"
-          alt=""
-          aria-hidden="true"
-          initial={{
-            rotate: -210,
-            scale: 0.74,
-            opacity: 0,
-          }}
-          animate={{
-            rotate: [-210, -45, 6, 0],
-            scale: [0.74, 1.04, 0.99, 1],
-            opacity: [0, 1, 1, 1],
-          }}
-          transition={{
-            duration: 1.95,
+            duration: 2.75,
+            times: [0, 0.45, 0.78, 1],
             ease: [0.16, 1, 0.3, 1],
           }}
           style={{
             transformOrigin: '67.6% 50%',
             filter:
-              'url(#wavy-water-ring-filter) drop-shadow(0 0 12px rgba(255,255,255,0.55))',
+              'url(#wavy-water-ring-filter) drop-shadow(0 0 14px rgba(220,245,255,0.65))',
           }}
           className="absolute inset-0 w-full h-full object-contain block pointer-events-none z-20"
         />
 
-        {/* LAYER 3: HTML5 CANVAS REALISTIC WATER STREAMS & DROPLET SPRAY */}
+        {/* LAYER 3: HTML5 CANVAS AFTER-EFFECTS WATER ARCS, TURBULENT 3D SPLASH & LIGHT RAYS */}
         <canvas
           ref={canvasRef}
           aria-hidden="true"

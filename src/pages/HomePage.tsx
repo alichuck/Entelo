@@ -41,7 +41,7 @@ export const HomePage: React.FC<HomePageProps> = ({
   useEffect(() => {
     const revealTimer = window.setTimeout(() => {
       setIntroPhase('settled-with-descriptions');
-    }, 2150);
+    }, 2850);
 
     return () => clearTimeout(revealTimer);
   }, [cycleCount]);
