@@ -62,18 +62,23 @@ export const HomePage: React.FC<HomePageProps> = ({
         aria-labelledby="hero-heading"
         className="relative min-h-[calc(100vh-5rem)] py-12 sm:py-16 lg:py-20 bg-[#063D5B] border-b-4 border-[#156D95] text-white overflow-hidden flex flex-col justify-center"
       >
-        {/* Background Photo Layer: High-opacity infinity pool & mountain horizon */}
+        {/* Background Photo Layer: Balanced opacity infinity pool & mountain horizon */}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
           <img
             src="/hero-pool-bg.jpg"
             alt=""
             aria-hidden="true"
-            className="w-full h-full object-cover object-[50%_58%] opacity-100 select-none"
+            className="w-full h-full object-cover object-[50%_58%] opacity-75 select-none"
           />
-          {/* Subtle bottom-weighted gradient so the photo remains vivid while keeping lower text readable */}
+          {/* Balanced Brand-Blue Overlay so the logo and hero text stand out clearly */}
           <div
             aria-hidden="true"
-            className="absolute inset-0 bg-gradient-to-b from-transparent via-[#063D5B]/12 to-[#063D5B]/55"
+            className="absolute inset-0 bg-gradient-to-b from-[#DCEBFA]/45 via-[#62A1C2]/30 to-[#063D5B]/78"
+          />
+          {/* Soft Radial Halo Behind the Logo */}
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-[radial-gradient(ellipse_52%_38%_at_50%_36%,rgba(220,235,250,0.48)_0%,rgba(171,205,233,0.22)_55%,transparent_85%)]"
           />
         </div>
 
