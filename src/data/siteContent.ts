@@ -170,12 +170,6 @@ export const NAV_ITEMS: readonly NavItem[] = [
     path: '/our-work',
     title: 'Our Work & Water Treatment Comparison | Water Cycle',
   },
-  {
-    label: 'Contact',
-    footerLabel: 'Contact',
-    path: '/contact',
-    title: "Let's Talk About Your Water Project | Water Cycle",
-  },
 ] as const;
 
 export const SERVICE_INQUIRY_OPTIONS: readonly ServiceInquiryOption[] = [

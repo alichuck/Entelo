@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Menu, X, Phone } from 'lucide-react';
+import { Menu, X, Phone, MapPin, ExternalLink, Mail } from 'lucide-react';
 import {
   COMPANY_CONTACT,
   NAV_ITEMS,
@@ -7,43 +7,55 @@ import {
   ServiceInquiryOption,
   getPageTitle,
   resolvePageRoute,
-  resolveProblemSelection,
 } from './utils/waterCycleLogic';
 import { HomePage } from './pages/HomePage';
 import { AboutPage } from './pages/AboutPage';
 import { ServicesPage } from './pages/ServicesPage';
 import { OurWorkPage } from './pages/OurWorkPage';
-import { ContactPage } from './pages/ContactPage';
 import { NavbarWavyLogo } from './components/WaveLogoIntro';
 
 function getInitialRoute(): PageRoute {
   if (typeof window === 'undefined') {
     return '/';
   }
-  if (window.location.hash) {
-    return resolvePageRoute(window.location.hash);
-  }
-  return resolvePageRoute(window.location.pathname);
+  const resolved = window.location.hash
+    ? resolvePageRoute(window.location.hash)
+    : resolvePageRoute(window.location.pathname);
+  return resolved === '/contact' ? '/' : resolved;
 }
 
 export default function App() {
   const [currentRoute, setCurrentRoute] = useState<PageRoute>(getInitialRoute);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [selectedService, setSelectedService] =
-    useState<ServiceInquiryOption>('Swimming Pool Solutions');
-  const [suggestedProblemMessage, setSuggestedProblemMessage] = useState('');
   const [activeProblemId, setActiveProblemId] = useState<string | null>(null);
 
-  const navigate = useCallback((route: PageRoute) => {
+  const scrollToFooterContact = useCallback(() => {
     setMobileMenuOpen(false);
-    setCurrentRoute(route);
-    if (typeof window !== 'undefined') {
-      if (window.location.pathname !== route) {
-        window.history.pushState({ route }, '', route);
+    if (typeof document !== 'undefined') {
+      const footerEl = document.getElementById('footer-contact');
+      if (footerEl) {
+        footerEl.scrollIntoView({ behavior: 'smooth' });
       }
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, []);
+
+  const navigate = useCallback(
+    (route: PageRoute) => {
+      setMobileMenuOpen(false);
+      if (route === '/contact') {
+        scrollToFooterContact();
+        return;
+      }
+      setCurrentRoute(route);
+      if (typeof window !== 'undefined') {
+        if (window.location.pathname !== route) {
+          window.history.pushState({ route }, '', route);
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    },
+    [scrollToFooterContact]
+  );
 
   useEffect(() => {
     if (typeof document !== 'undefined') {
@@ -58,6 +70,10 @@ export default function App() {
       const nextRoute = window.location.hash
         ? resolvePageRoute(window.location.hash)
         : resolvePageRoute(window.location.pathname);
+      if (nextRoute === '/contact') {
+        scrollToFooterContact();
+        return;
+      }
       setCurrentRoute(nextRoute);
       setMobileMenuOpen(false);
     };
@@ -68,19 +84,15 @@ export default function App() {
       window.removeEventListener('popstate', handlePopState);
       window.removeEventListener('hashchange', handlePopState);
     };
-  }, []);
+  }, [scrollToFooterContact]);
 
   const handleProblemClick = (problemId: string) => {
     setActiveProblemId(problemId);
-    const resolved = resolveProblemSelection(problemId);
-    setSelectedService(resolved.service);
-    setSuggestedProblemMessage(resolved.suggestedMessage);
-    navigate('/contact');
+    scrollToFooterContact();
   };
 
-  const handleServiceInquire = (serviceOption: ServiceInquiryOption) => {
-    setSelectedService(serviceOption);
-    navigate('/contact');
+  const handleServiceInquire = (_serviceOption: ServiceInquiryOption) => {
+    scrollToFooterContact();
   };
 
   const renderPage = () => {
@@ -97,14 +109,6 @@ export default function App() {
         );
       case '/our-work':
         return <OurWorkPage />;
-      case '/contact':
-        return (
-          <ContactPage
-            selectedService={selectedService}
-            suggestedProblemMessage={suggestedProblemMessage}
-            onServiceChange={setSelectedService}
-          />
-        );
       case '/':
       default:
         return (
@@ -173,10 +177,10 @@ export default function App() {
             </a>
 
             <a
-              href="/contact"
+              href="#footer-contact"
               onClick={(e) => {
                 e.preventDefault();
-                navigate('/contact');
+                scrollToFooterContact();
               }}
               className="hidden md:inline-flex items-center justify-center px-5 py-2.5 text-xs font-bold text-white bg-[#063D5B] hover:bg-[#042B41] rounded-full transition-colors whitespace-nowrap shrink-0 shadow-xs"
             >
@@ -252,65 +256,131 @@ export default function App() {
         {renderPage()}
       </main>
 
-      {/* H. FOOTER — Water Cycle branding, concise navigation, and copyright (contact details kept exclusively on Contact Us page) */}
-      <footer className="bg-[#042B41] text-[#ABCDE9] py-10 border-t-2 border-[#156D95]">
+      {/* FOOTER — All Contact Info in Footer (No Navigation Links) */}
+      <footer
+        id="footer-contact"
+        aria-label="Contact Water Cycle"
+        className="bg-[#042B41] text-[#ABCDE9] py-12 border-t-4 border-[#156D95]"
+      >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 pb-8 border-b border-[#156D95]/60">
-            <div>
-              <a
-                href="/"
-                onClick={(e) => {
-                  e.preventDefault();
-                  navigate('/');
-                }}
-                className="text-lg font-bold text-white tracking-wider uppercase font-display"
-              >
-                {COMPANY_CONTACT.name}
-              </a>
-              <p className="mt-1 text-sm text-[#DCEBFA] font-medium">
-                {COMPANY_CONTACT.tagline}
-              </p>
-              <p className="mt-1 text-xs text-[#ABCDE9]/80">
-                {COMPANY_CONTACT.servicesSummary}
-              </p>
-            </div>
-
-            <nav
-              aria-label="Footer Navigation"
-              className="flex flex-wrap items-center gap-6 text-sm text-[#ABCDE9]"
-            >
-              {NAV_ITEMS.map((item) => (
-                <a
-                  key={item.path}
-                  href={item.path}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    navigate(item.path);
-                  }}
-                  className={`hover:text-white transition-colors whitespace-nowrap ${
-                    currentRoute === item.path ? 'text-white font-semibold underline underline-offset-4' : ''
-                  }`}
-                >
-                  {item.footerLabel}
-                </a>
-              ))}
-            </nav>
+          <div className="mb-8">
+            <span className="inline-block px-3.5 py-1 rounded-full bg-[#ABCDE9] text-[#063D5B] text-xs font-bold tracking-wider uppercase mb-3">
+              Contact Us
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight font-display">
+              {COMPANY_CONTACT.name} — Let&rsquo;s Talk About Your Water Project
+            </h2>
+            <p className="mt-1.5 text-sm text-[#DCEBFA] font-medium">
+              {COMPANY_CONTACT.tagline} · {COMPANY_CONTACT.servicesSummary}
+            </p>
           </div>
 
-          <div className="mt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs text-[#ABCDE9]/75">
+          {/* All Verified Contact Details Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pb-8 border-b border-[#156D95]/60">
+            {/* 1. Telephone */}
+            <a
+              href={COMPANY_CONTACT.phoneHref}
+              className="flex items-start gap-3.5 p-4 rounded-2xl bg-[#063D5B] border-2 border-[#156D95] hover:border-[#ABCDE9] transition-colors group shadow-sm"
+            >
+              <div className="w-10 h-10 rounded-xl bg-[#ABCDE9] text-[#063D5B] flex items-center justify-center shrink-0 group-hover:bg-white transition-colors">
+                <Phone className="w-5 h-5" aria-hidden="true" />
+              </div>
+              <div>
+                <span className="block text-xs font-semibold text-[#ABCDE9]">
+                  Telephone
+                </span>
+                <span className="mt-0.5 block text-base font-bold text-white tabular-nums tracking-wide">
+                  {COMPANY_CONTACT.phoneDisplay}
+                </span>
+              </div>
+            </a>
+
+            {/* 2. Location (Google Maps) */}
+            <a
+              href={COMPANY_CONTACT.locationUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-start gap-3.5 p-4 rounded-2xl bg-[#063D5B] border-2 border-[#156D95] hover:border-[#ABCDE9] transition-colors group shadow-sm"
+            >
+              <div className="w-10 h-10 rounded-xl bg-[#ABCDE9] text-[#063D5B] flex items-center justify-center shrink-0 group-hover:bg-white transition-colors">
+                <MapPin className="w-5 h-5" aria-hidden="true" />
+              </div>
+              <div>
+                <span className="block text-xs font-semibold text-[#ABCDE9]">
+                  Location (Google Maps)
+                </span>
+                <span className="mt-0.5 inline-flex items-center gap-1.5 text-base font-bold text-white group-hover:text-[#ABCDE9] transition-colors">
+                  <span>{COMPANY_CONTACT.location}</span>
+                  <ExternalLink className="w-4 h-4 shrink-0" aria-hidden="true" />
+                </span>
+              </div>
+            </a>
+
+            {/* 3. Instagram */}
+            <a
+              href={COMPANY_CONTACT.instagramUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-start gap-3.5 p-4 rounded-2xl bg-[#063D5B] border-2 border-[#156D95] hover:border-[#ABCDE9] transition-colors group shadow-sm"
+            >
+              <div className="w-10 h-10 rounded-xl bg-[#ABCDE9] text-[#063D5B] flex items-center justify-center shrink-0 group-hover:bg-white transition-colors">
+                <ExternalLink className="w-5 h-5" aria-hidden="true" />
+              </div>
+              <div>
+                <span className="block text-xs font-semibold text-[#ABCDE9]">
+                  Instagram
+                </span>
+                <span className="mt-0.5 block text-base font-bold text-white">
+                  {COMPANY_CONTACT.instagramHandle}
+                </span>
+              </div>
+            </a>
+
+            {/* 4. Facebook */}
+            <a
+              href={COMPANY_CONTACT.facebookUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-start gap-3.5 p-4 rounded-2xl bg-[#063D5B] border-2 border-[#156D95] hover:border-[#ABCDE9] transition-colors group shadow-sm"
+            >
+              <div className="w-10 h-10 rounded-xl bg-[#ABCDE9] text-[#063D5B] flex items-center justify-center shrink-0 group-hover:bg-white transition-colors">
+                <ExternalLink className="w-5 h-5" aria-hidden="true" />
+              </div>
+              <div>
+                <span className="block text-xs font-semibold text-[#ABCDE9]">
+                  Facebook
+                </span>
+                <span className="mt-0.5 block text-base font-bold text-white">
+                  facebook.com/watercycle
+                </span>
+              </div>
+            </a>
+
+            {/* Optional Verified Email (if populated in siteContent.ts) */}
+            {COMPANY_CONTACT.verifiedEmail && (
+              <a
+                href={`mailto:${COMPANY_CONTACT.verifiedEmail}`}
+                className="flex items-start gap-3.5 p-4 rounded-2xl bg-[#063D5B] border-2 border-[#156D95] hover:border-[#ABCDE9] transition-colors group shadow-sm"
+              >
+                <div className="w-10 h-10 rounded-xl bg-[#ABCDE9] text-[#063D5B] flex items-center justify-center shrink-0 group-hover:bg-white transition-colors">
+                  <Mail className="w-5 h-5" aria-hidden="true" />
+                </div>
+                <div>
+                  <span className="block text-xs font-semibold text-[#ABCDE9]">
+                    Email
+                  </span>
+                  <span className="mt-0.5 block text-base font-bold text-white break-all">
+                    {COMPANY_CONTACT.verifiedEmail}
+                  </span>
+                </div>
+              </a>
+            )}
+          </div>
+
+          <div className="mt-6 text-xs text-[#ABCDE9]/75">
             <p>
               &copy; {new Date().getFullYear()} {COMPANY_CONTACT.name}. All rights reserved.
             </p>
-            <a
-              href="/contact"
-              onClick={(e) => {
-                e.preventDefault();
-                navigate('/contact');
-              }}
-              className="text-white font-semibold hover:text-[#ABCDE9] underline underline-offset-4"
-            >
-              Get in Touch →
-            </a>
           </div>
         </div>
       </footer>

@@ -146,16 +146,15 @@ test('Reviews section hides by default when no real reviews exist and renders wh
   );
 });
 
-test('Multi-page route resolver maps clean paths, legacy hashes, and unknown paths to the 5 pages', () => {
-  assert.equal(NAV_ITEMS.length, 5);
+test('Multi-page route resolver maps clean paths, legacy hashes, and unknown paths to the 4 pages', () => {
+  assert.equal(NAV_ITEMS.length, 4);
   assert.equal(resolvePageRoute('/'), '/');
   assert.equal(resolvePageRoute('/about'), '/about');
   assert.equal(resolvePageRoute('/services/'), '/services');
   assert.equal(resolvePageRoute('/our-work'), '/our-work');
   assert.equal(resolvePageRoute('/projects'), '/our-work');
-  assert.equal(resolvePageRoute('/contact'), '/contact');
   assert.equal(resolvePageRoute('/unknown-page'), '/');
 
   assert.ok(getPageTitle('/services').includes('Services'));
-  assert.ok(getPageTitle('/contact').includes('Water Project'));
+  assert.ok(getPageTitle('/our-work').includes('Our Work'));
 });
