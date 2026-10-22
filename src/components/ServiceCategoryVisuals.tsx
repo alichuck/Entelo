@@ -280,6 +280,17 @@ export const getServiceSlides = (
     case 'wastewater':
       return [
         {
+          title: 'Dual Aeration Blowers & Treatment Tank Setup',
+          caption: 'Clean Technical Room Piping, Dual Air Blowers & Treatment Storage Tank',
+          render: () => (
+            <img
+              src="/images/wastewater-2.jpg"
+              alt="Dual aeration blowers and treatment tank installation"
+              className="w-full h-full object-cover object-[center_58%] block"
+            />
+          ),
+        },
+        {
           title: 'Sewage & Wastewater Treatment System Installation',
           caption: 'Water Cycle Control Panel, Chemical Dosing Pump, Dual Aeration Blowers & Dosing Tank',
           render: () => (
@@ -288,25 +299,6 @@ export const getServiceSlides = (
               alt="Water Cycle sewage and wastewater treatment dosing tank, control panel, and aeration blowers"
               className="w-full h-full object-cover object-center block"
             />
-          ),
-        },
-        {
-          title: 'Dual Aeration Blowers & Treatment Tank Setup',
-          caption: 'Clean Technical Room Piping, Dual Air Blowers & Treatment Storage Tank',
-          render: () => (
-            <div className="relative w-full h-full bg-[#042B41] flex items-center justify-center overflow-hidden">
-              <img
-                src="/images/wastewater-2.jpg"
-                alt=""
-                aria-hidden="true"
-                className="absolute inset-0 w-full h-full object-cover blur-md opacity-45 scale-110"
-              />
-              <img
-                src="/images/wastewater-2.jpg"
-                alt="Dual aeration blowers and treatment tank installation"
-                className="relative z-10 w-full h-full object-contain block"
-              />
-            </div>
           ),
         },
         {
