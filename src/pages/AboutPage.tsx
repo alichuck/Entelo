@@ -2,7 +2,6 @@ import React from 'react';
 import {
   ArrowRight,
   MapPin,
-  CheckCircle2,
   Calendar,
   Award,
   Hammer,
@@ -11,9 +10,6 @@ import {
 import {
   ABOUT_CONTENT,
   COMPANY_CONTACT,
-  CORE_SERVICES,
-  CONSTRUCTION_SERVICES,
-  ADDITIONAL_SERVICES,
   PageRoute,
 } from '../utils/waterCycleLogic';
 import { ReviewsSection } from '../components/ReviewsSection';
@@ -189,60 +185,6 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
                     Open in Google Maps
                   </span>
                 </a>
-              </div>
-
-              {/* Organized Breakdown of Primary, Construction & Additional Solutions */}
-              <div className="pt-5 border-t border-[#156D95] grid grid-cols-1 sm:grid-cols-3 gap-6">
-                <div>
-                  <h2 className="text-xs font-bold tracking-wider uppercase text-[#ABCDE9] mb-3">
-                    Primary Focus Areas
-                  </h2>
-                  <ul className="space-y-2.5 text-sm text-white">
-                    {CORE_SERVICES.map((s) => (
-                      <li key={s.id} className="flex items-start gap-2">
-                        <CheckCircle2
-                          className="w-4 h-4 text-[#ABCDE9] shrink-0 mt-0.5"
-                          aria-hidden="true"
-                        />
-                        <span className="font-semibold">{s.title}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div>
-                  <h2 className="text-xs font-bold tracking-wider uppercase text-[#ABCDE9] mb-3">
-                    Construction Services
-                  </h2>
-                  <ul className="space-y-2.5 text-sm text-white">
-                    {CONSTRUCTION_SERVICES.map((s) => (
-                      <li key={s.id} className="flex items-start gap-2">
-                        <CheckCircle2
-                          className="w-4 h-4 text-[#ABCDE9] shrink-0 mt-0.5"
-                          aria-hidden="true"
-                        />
-                        <span className="font-medium text-[#EFF7FD]">{s.title}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div>
-                  <h2 className="text-xs font-bold tracking-wider uppercase text-[#ABCDE9] mb-3">
-                    Additional Solutions
-                  </h2>
-                  <ul className="space-y-2.5 text-sm text-white">
-                    {ADDITIONAL_SERVICES.map((s) => (
-                      <li key={s.id} className="flex items-start gap-2">
-                        <CheckCircle2
-                          className="w-4 h-4 text-[#62A1C2] shrink-0 mt-0.5"
-                          aria-hidden="true"
-                        />
-                        <span className="font-medium text-[#DCEBFA]">{s.title}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
               </div>
 
               <div className="pt-4 flex flex-wrap items-center gap-3.5">
