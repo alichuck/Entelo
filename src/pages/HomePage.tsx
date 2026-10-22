@@ -7,10 +7,13 @@ import {
   Filter,
   Waves,
   Sparkles,
+  Hammer,
+  CheckCircle2,
 } from 'lucide-react';
 import {
   COMPANY_CONTACT,
   HERO_CONTENT,
+  CONSTRUCTION_OVERVIEW,
   CORE_SERVICES,
   ADDITIONAL_SERVICES,
   PageRoute,
@@ -264,6 +267,82 @@ export const HomePage: React.FC<HomePageProps> = ({
                   </a>
                 </div>
               ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. POOL & LEISURE CONSTRUCTION — "From Planning to Reality" */}
+      <section
+        id="home-construction"
+        aria-labelledby="home-construction-heading"
+        className="py-16 sm:py-20 bg-[#063D5B] text-white border-t-4 border-[#156D95]"
+      >
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+            {/* Left Column: Title, Subtitle, Description Paragraphs & "Explore Our Services" Button */}
+            <div className="lg:col-span-6 space-y-5">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#ABCDE9] text-[#063D5B] text-xs font-bold tracking-wider uppercase">
+                <Hammer className="w-3.5 h-3.5" aria-hidden="true" />
+                <span>{CONSTRUCTION_OVERVIEW.experienceBadge}</span>
+              </div>
+
+              <div>
+                <h2
+                  id="home-construction-heading"
+                  className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white tracking-tight text-balance"
+                >
+                  {CONSTRUCTION_OVERVIEW.sectionTitle}
+                </h2>
+                <p className="mt-2 text-lg sm:text-xl font-semibold text-[#ABCDE9]">
+                  {CONSTRUCTION_OVERVIEW.sectionSubtitle}
+                </p>
+              </div>
+
+              <div className="space-y-4 text-sm sm:text-base text-[#EFF7FD] leading-relaxed">
+                {CONSTRUCTION_OVERVIEW.paragraphs.map((paragraph, idx) => (
+                  <p key={idx}>{paragraph}</p>
+                ))}
+              </div>
+
+              <div className="pt-2">
+                <a
+                  href="/services"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onNavigate('/services');
+                  }}
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-bold text-[#063D5B] bg-[#ABCDE9] hover:bg-[#DCEBFA] rounded-full transition-colors whitespace-nowrap shadow-md"
+                >
+                  <span>{CONSTRUCTION_OVERVIEW.ctaLabel}</span>
+                  <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                </a>
+              </div>
+            </div>
+
+            {/* Right Column: Structured Construction Scope List */}
+            <div className="lg:col-span-6 bg-[#156D95]/45 border-2 border-[#62A1C2]/60 rounded-2xl p-6 sm:p-8 shadow-md">
+              <h3 className="text-sm font-bold tracking-wider uppercase text-[#ABCDE9] mb-2">
+                Construction Scope &amp; Space Planning
+              </h3>
+              <p className="text-xs sm:text-sm text-[#DCEBFA] leading-relaxed mb-5">
+                {CONSTRUCTION_OVERVIEW.scopeNote}
+              </p>
+
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {CONSTRUCTION_OVERVIEW.scopeItems.map((item) => (
+                  <li
+                    key={item}
+                    className="flex items-start gap-2.5 p-3 rounded-xl bg-[#063D5B]/80 border border-[#62A1C2]/40 text-xs sm:text-sm text-white font-medium"
+                  >
+                    <CheckCircle2
+                      className="w-4 h-4 text-[#ABCDE9] shrink-0 mt-0.5"
+                      aria-hidden="true"
+                    />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>

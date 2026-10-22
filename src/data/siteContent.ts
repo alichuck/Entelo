@@ -39,6 +39,7 @@ export type ServiceInquiryOption =
   | 'Swimming Pool Solutions'
   | 'Water Treatment & Filtration'
   | 'Solar Water Heating'
+  | 'Pool & Leisure Construction'
   | 'Sewage & Wastewater Treatment'
   | 'Jacuzzi, Sauna & Steam Systems'
   | 'Other';
@@ -53,6 +54,21 @@ export type PortfolioCategory =
 
 export interface CoreServiceItem {
   id: 'pool-treatment' | 'filtration' | 'solar';
+  number: string;
+  title: string;
+  shortCategory: string;
+  description: string;
+  highlights: string[];
+  inquiryOption: ServiceInquiryOption;
+}
+
+export interface ConstructionServiceItem {
+  id:
+    | 'pool-construction'
+    | 'jacuzzi-sauna-construction'
+    | 'site-assessment-planning'
+    | 'excavation-concrete'
+    | 'tiling-finishing';
   number: string;
   title: string;
   shortCategory: string;
@@ -112,7 +128,7 @@ export const COMPANY_CONTACT = {
   locationUrl: 'https://maps.app.goo.gl/xUvJJ1G21bk9j6t96',
   tagline: 'Clear Solutions. Practical Results.',
   servicesSummary:
-    'Swimming Pool Solutions • Water Treatment & Filtration • Solar Water Heating',
+    'Swimming Pool Solutions • Water Treatment & Filtration • Solar Water Heating • Pool & Leisure Construction',
   phoneDisplay: '+961 3 058 204',
   phoneHref: 'tel:+9613058204',
   instagramHandle: '@water__cycle',
@@ -126,7 +142,7 @@ export const COMPANY_CONTACT = {
 export const HERO_CONTENT = {
   headline: 'Better Water. Smarter Solutions.',
   subtitle:
-    'Water treatment, filtration, swimming pool solutions, and solar water heating.',
+    'Water treatment, filtration, swimming pool solutions, solar water heating, and pool & leisure construction.',
   supportingLine:
     'Practical solutions for cleaner water and more efficient systems.',
   primaryCtaLabel: 'Explore Services',
@@ -138,11 +154,37 @@ export const ABOUT_CONTENT = {
   sectionTitle: 'About Water Cycle',
   companySince: '2021',
   personalExperienceYears: '22 Years',
+  constructionExperienceYears: '3+ Years',
   paragraphs: [
     'Founded in 2021 and backed by 22 years of personal industry experience, Water Cycle is a business based in Adma, Lebanon focused on water treatment, filtration systems, swimming pool solutions, and solar water heating.',
+    'At Water Cycle, we provide pool and water-system solutions alongside construction services for swimming pools, Jacuzzis, saunas, and related spaces. We help clients evaluate their available space, plan practical project layouts, and carry out construction work, including excavation, concrete work, tiling, and finishing. Our approach focuses on understanding each customer’s requirements and delivering functional, well-planned results.',
     'The company also provides solutions related to wastewater treatment and Jacuzzi, sauna, and steam facilities. Our goal is to help customers explore practical water-related systems suited to their needs.',
   ],
   proposedTagline: 'Clear Solutions. Practical Results.',
+} as const;
+
+export const CONSTRUCTION_OVERVIEW = {
+  sectionTitle: 'Pool & Leisure Construction',
+  sectionSubtitle: 'From Planning to Reality',
+  experienceBadge: '3+ Years of Hands-On Construction Experience',
+  paragraphs: [
+    'Water Cycle offers construction services for swimming pools, Jacuzzis, saunas, and related spaces. From evaluating your property and planning the layout to excavation, concrete work, tiling, and finishing, we help bring your project to life.',
+    'With over three years of hands-on construction experience, we focus on practical solutions, efficient space planning, and quality workmanship.',
+  ],
+  ctaLabel: 'Explore Our Services',
+  scopeNote:
+    'We evaluate each customer’s available space and recommend appropriate locations for the swimming pool, Jacuzzi, sauna, technical room, water tank, and related components, followed by construction execution including excavation, concrete work, tiling, and finishing.',
+  scopeItems: [
+    'Swimming pool construction',
+    'Jacuzzi construction',
+    'Sauna construction',
+    'Site assessment and practical space planning',
+    'Pool and equipment-room positioning',
+    'Water tank positioning and infrastructure planning',
+    'Excavation and site preparation',
+    'Concrete construction',
+    'Tiling and finishing works',
+  ],
 } as const;
 
 export const NAV_ITEMS: readonly NavItem[] = [
@@ -176,9 +218,86 @@ export const SERVICE_INQUIRY_OPTIONS: readonly ServiceInquiryOption[] = [
   'Swimming Pool Solutions',
   'Water Treatment & Filtration',
   'Solar Water Heating',
+  'Pool & Leisure Construction',
   'Sewage & Wastewater Treatment',
   'Jacuzzi, Sauna & Steam Systems',
   'Other',
+] as const;
+
+/**
+ * Construction Services ("Construction Services" — 5 individual cards)
+ */
+export const CONSTRUCTION_SERVICES: readonly ConstructionServiceItem[] = [
+  {
+    id: 'pool-construction',
+    number: '01.',
+    title: 'Swimming Pool Construction',
+    shortCategory: 'Pool Construction',
+    description:
+      'Complete construction of indoor and outdoor swimming pools, from initial space evaluation through structural building and final finishing.',
+    highlights: [
+      'Swimming pool construction for indoor and outdoor spaces',
+      'Pool and technical equipment-room positioning',
+      'End-to-end execution from site preparation to finishing',
+    ],
+    inquiryOption: 'Pool & Leisure Construction',
+  },
+  {
+    id: 'jacuzzi-sauna-construction',
+    number: '02.',
+    title: 'Jacuzzi & Sauna Construction',
+    shortCategory: 'Jacuzzi & Sauna Construction',
+    description:
+      'Construction of Jacuzzis, saunas, and related leisure spaces planned around your property layout and comfort requirements.',
+    highlights: [
+      'Jacuzzi construction and sauna construction',
+      'Practical integration with indoor and outdoor pool areas',
+      'Coordinated positioning for water, heating, and equipment systems',
+    ],
+    inquiryOption: 'Pool & Leisure Construction',
+  },
+  {
+    id: 'site-assessment-planning',
+    number: '03.',
+    title: 'Site Assessment & Space Planning',
+    shortCategory: 'Site Assessment & Planning',
+    description:
+      'On-site evaluation of your available space to recommend practical locations for the pool, Jacuzzi, sauna, technical room, and water tank.',
+    highlights: [
+      'Site assessment and practical space planning',
+      'Pool, Jacuzzi, sauna, and equipment-room positioning',
+      'Water tank positioning and infrastructure planning',
+    ],
+    inquiryOption: 'Pool & Leisure Construction',
+  },
+  {
+    id: 'excavation-concrete',
+    number: '04.',
+    title: 'Excavation & Concrete Works',
+    shortCategory: 'Excavation & Concrete',
+    description:
+      'Ground preparation, excavation, and solid concrete construction carried out to build a reliable structure for your pool and leisure spaces.',
+    highlights: [
+      'Excavation and site preparation',
+      'Concrete construction for pools, Jacuzzis, and technical rooms',
+      'Infrastructure preparation for piping and water tanks',
+    ],
+    inquiryOption: 'Pool & Leisure Construction',
+  },
+  {
+    id: 'tiling-finishing',
+    number: '05.',
+    title: 'Tiling & Finishing',
+    shortCategory: 'Tiling & Finishing',
+    description:
+      'Quality tiling and finishing works that complete the appearance, durability, and usability of your swimming pool, Jacuzzi, or sauna.',
+    highlights: [
+      'Tiling and finishing works for pools and leisure spaces',
+      'Clean interior surface detailing and coping finishes',
+      'Final readiness for water filling and system operation',
+    ],
+    inquiryOption: 'Pool & Leisure Construction',
+  },
 ] as const;
 
 /**

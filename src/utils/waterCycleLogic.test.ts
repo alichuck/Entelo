@@ -10,6 +10,8 @@ import {
   getPageTitle,
   NAV_ITEMS,
   CORE_SERVICES,
+  CONSTRUCTION_SERVICES,
+  CONSTRUCTION_OVERVIEW,
   ADDITIONAL_SERVICES,
   PORTFOLIO_ITEMS,
   PROBLEM_SOLUTIONS,
@@ -27,12 +29,20 @@ test('Company contact details match verified Adma, Lebanon brief without unverif
   assert.equal(COMPANY_CONTACT.verifiedEmail, '');
 });
 
-test('Primary and Additional Services match the 3+2 structure from the brief', () => {
+test('Primary, Construction, and Additional Services match the required structure', () => {
   assert.equal(CORE_SERVICES.length, 3);
+  assert.equal(CONSTRUCTION_SERVICES.length, 5);
   assert.equal(ADDITIONAL_SERVICES.length, 2);
   assert.equal(CORE_SERVICES[0].title, 'Swimming Pool Solutions');
   assert.equal(CORE_SERVICES[1].title, 'Water Treatment & Filtration');
   assert.equal(CORE_SERVICES[2].title, 'Solar Water Heating');
+  assert.equal(CONSTRUCTION_OVERVIEW.sectionTitle, 'Pool & Leisure Construction');
+  assert.equal(CONSTRUCTION_OVERVIEW.sectionSubtitle, 'From Planning to Reality');
+  assert.equal(CONSTRUCTION_SERVICES[0].title, 'Swimming Pool Construction');
+  assert.equal(CONSTRUCTION_SERVICES[1].title, 'Jacuzzi & Sauna Construction');
+  assert.equal(CONSTRUCTION_SERVICES[2].title, 'Site Assessment & Space Planning');
+  assert.equal(CONSTRUCTION_SERVICES[3].title, 'Excavation & Concrete Works');
+  assert.equal(CONSTRUCTION_SERVICES[4].title, 'Tiling & Finishing');
   assert.equal(ADDITIONAL_SERVICES[0].title, 'Sewage & Wastewater Treatment');
   assert.equal(ADDITIONAL_SERVICES[1].title, 'Jacuzzi, Sauna & Steam Systems');
 });

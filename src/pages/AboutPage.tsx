@@ -1,9 +1,18 @@
 import React from 'react';
-import { ArrowRight, MapPin, CheckCircle2, Calendar, Award, ExternalLink } from 'lucide-react';
+import {
+  ArrowRight,
+  MapPin,
+  CheckCircle2,
+  Calendar,
+  Award,
+  Hammer,
+  ExternalLink,
+} from 'lucide-react';
 import {
   ABOUT_CONTENT,
   COMPANY_CONTACT,
   CORE_SERVICES,
+  CONSTRUCTION_SERVICES,
   ADDITIONAL_SERVICES,
   PageRoute,
 } from '../utils/waterCycleLogic';
@@ -94,6 +103,24 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
                   </div>
                 </div>
 
+                {/* 3+ Years Construction Experience */}
+                <div className="pt-4 border-t border-[#156D95] flex items-start gap-3.5">
+                  <div className="w-10 h-10 rounded-xl bg-[#ABCDE9] text-[#063D5B] flex items-center justify-center shrink-0">
+                    <Hammer className="w-5 h-5" aria-hidden="true" />
+                  </div>
+                  <div>
+                    <span className="block text-xs font-semibold text-[#ABCDE9]">
+                      Pool &amp; Leisure Construction
+                    </span>
+                    <span className="text-lg font-bold text-white">
+                      {ABOUT_CONTENT.constructionExperienceYears} of Construction Experience
+                    </span>
+                    <span className="block text-xs text-[#DCEBFA]/85 mt-0.5">
+                      Space evaluation, excavation, concrete works, tiling, and finishing
+                    </span>
+                  </div>
+                </div>
+
                 {/* Location: Adma, Lebanon (Clickable Google Maps Link) */}
                 <div className="pt-4 border-t border-[#156D95]">
                   <a
@@ -164,8 +191,8 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
                 </a>
               </div>
 
-              {/* Organized Breakdown of Primary vs Additional Solutions */}
-              <div className="pt-5 border-t border-[#156D95] grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {/* Organized Breakdown of Primary, Construction & Additional Solutions */}
+              <div className="pt-5 border-t border-[#156D95] grid grid-cols-1 sm:grid-cols-3 gap-6">
                 <div>
                   <h2 className="text-xs font-bold tracking-wider uppercase text-[#ABCDE9] mb-3">
                     Primary Focus Areas
@@ -178,6 +205,23 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
                           aria-hidden="true"
                         />
                         <span className="font-semibold">{s.title}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div>
+                  <h2 className="text-xs font-bold tracking-wider uppercase text-[#ABCDE9] mb-3">
+                    Construction Services
+                  </h2>
+                  <ul className="space-y-2.5 text-sm text-white">
+                    {CONSTRUCTION_SERVICES.map((s) => (
+                      <li key={s.id} className="flex items-start gap-2">
+                        <CheckCircle2
+                          className="w-4 h-4 text-[#ABCDE9] shrink-0 mt-0.5"
+                          aria-hidden="true"
+                        />
+                        <span className="font-medium text-[#EFF7FD]">{s.title}</span>
                       </li>
                     ))}
                   </ul>

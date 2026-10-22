@@ -1,9 +1,20 @@
 import React from 'react';
-import { ArrowRight, Check, Waves, Sparkles } from 'lucide-react';
+import {
+  ArrowRight,
+  Check,
+  Waves,
+  Sparkles,
+  Compass,
+  Hammer,
+  Layers,
+} from 'lucide-react';
 import {
   CORE_SERVICES,
+  CONSTRUCTION_SERVICES,
+  CONSTRUCTION_OVERVIEW,
   ADDITIONAL_SERVICES,
   PROBLEM_SOLUTIONS,
+  ConstructionServiceItem,
   ServiceInquiryOption,
 } from '../utils/waterCycleLogic';
 import { ServiceVisual } from '../components/PoolVisuals';
@@ -13,6 +24,21 @@ interface ServicesPageProps {
   onServiceInquire: (serviceOption: ServiceInquiryOption) => void;
   onProblemClick: (problemId: string) => void;
 }
+
+const getConstructionIcon = (id: ConstructionServiceItem['id']) => {
+  switch (id) {
+    case 'pool-construction':
+      return <Waves className="w-5 h-5" aria-hidden="true" />;
+    case 'jacuzzi-sauna-construction':
+      return <Sparkles className="w-5 h-5" aria-hidden="true" />;
+    case 'site-assessment-planning':
+      return <Compass className="w-5 h-5" aria-hidden="true" />;
+    case 'excavation-concrete':
+      return <Hammer className="w-5 h-5" aria-hidden="true" />;
+    case 'tiling-finishing':
+      return <Layers className="w-5 h-5" aria-hidden="true" />;
+  }
+};
 
 export const ServicesPage: React.FC<ServicesPageProps> = ({
   activeProblemId,
@@ -99,6 +125,80 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
                 </div>
               </article>
             ))}
+          </div>
+
+          {/* NEW CATEGORY: "Construction Services" — 5 Individual Service Cards */}
+          <div id="construction-services" className="mt-16 pt-14 border-t-2 border-[#62A1C2]">
+            <div className="max-w-3xl mb-10">
+              <span className="inline-block px-3.5 py-1 rounded-full bg-[#063D5B] text-[#ABCDE9] text-xs font-bold tracking-wider uppercase mb-3">
+                Construction Services
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-bold text-[#063D5B] tracking-tight">
+                {CONSTRUCTION_OVERVIEW.sectionTitle} — {CONSTRUCTION_OVERVIEW.sectionSubtitle}
+              </h2>
+              <p className="mt-2.5 text-sm sm:text-base text-[#063D5B]/90 leading-relaxed font-medium">
+                With over three years of hands-on construction experience, Water Cycle assists customers from initial evaluation of their available space through excavation, concrete construction, tiling, and finishing for swimming pools, Jacuzzis, saunas, and related spaces.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {CONSTRUCTION_SERVICES.map((card) => (
+                <article
+                  key={card.id}
+                  id={`service-${card.id}`}
+                  className="rounded-2xl border-2 border-[#156D95] bg-[#063D5B] text-white p-6 flex flex-col justify-between shadow-md transition-colors hover:border-[#62A1C2]"
+                >
+                  <div>
+                    <div className="flex items-center justify-between gap-3 mb-4">
+                      <div className="inline-flex items-center gap-2 text-xs font-bold text-[#ABCDE9]">
+                        <span className="px-2 py-0.5 rounded-md bg-[#156D95] text-white">
+                          {card.number}
+                        </span>
+                        <span>Construction Service</span>
+                      </div>
+                      <div className="w-10 h-10 rounded-xl bg-[#ABCDE9] text-[#063D5B] flex items-center justify-center shrink-0">
+                        {getConstructionIcon(card.id)}
+                      </div>
+                    </div>
+
+                    <h3 className="text-lg font-bold text-white tracking-tight">
+                      {card.title}
+                    </h3>
+                    <p className="mt-2.5 text-sm text-[#EFF7FD] leading-relaxed">
+                      {card.description}
+                    </p>
+
+                    <ul className="mt-4 pt-4 border-t border-[#156D95] space-y-2">
+                      {card.highlights.map((point) => (
+                        <li
+                          key={point}
+                          className="flex items-start gap-2 text-xs text-[#DCEBFA]"
+                        >
+                          <Check
+                            className="w-4 h-4 text-[#ABCDE9] shrink-0 mt-0.5"
+                            aria-hidden="true"
+                          />
+                          <span>{point}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="mt-6">
+                    <button
+                      type="button"
+                      onClick={() => onServiceInquire(card.inquiryOption)}
+                      className="w-full inline-flex items-center justify-between gap-2 px-4 py-2.5 text-xs font-bold text-[#063D5B] bg-[#ABCDE9] hover:bg-[#C6E0F5] rounded-2xl transition-colors cursor-pointer text-left leading-snug min-w-0 overflow-hidden"
+                    >
+                      <span className="min-w-0 flex-1 break-words">
+                        Inquire About {card.shortCategory}
+                      </span>
+                      <ArrowRight className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                    </button>
+                  </div>
+                </article>
+              ))}
+            </div>
           </div>
 
           {/* Visually Quieter Group: "Additional Solutions" (Cards 4 & 5 from PDF) */}
