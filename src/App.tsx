@@ -280,16 +280,16 @@ export default function App() {
             {/* 1. Telephone */}
             <a
               href={COMPANY_CONTACT.phoneHref}
-              className="flex items-start gap-3.5 p-4 rounded-2xl bg-[#063D5B] border-2 border-[#156D95] hover:border-[#ABCDE9] transition-colors group shadow-sm"
+              className="flex items-center gap-3 p-4 rounded-2xl bg-[#063D5B] border-2 border-[#156D95] hover:border-[#ABCDE9] transition-colors group shadow-sm min-w-0 overflow-hidden"
             >
               <div className="w-10 h-10 rounded-xl bg-[#ABCDE9] text-[#063D5B] flex items-center justify-center shrink-0 group-hover:bg-white transition-colors">
                 <Phone className="w-5 h-5" aria-hidden="true" />
               </div>
-              <div>
+              <div className="min-w-0 flex-1">
                 <span className="block text-xs font-semibold text-[#ABCDE9]">
                   Telephone
                 </span>
-                <span className="mt-0.5 block text-base font-bold text-white tabular-nums tracking-wide">
+                <span className="mt-0.5 block text-sm xl:text-base font-bold text-white tabular-nums tracking-wide truncate">
                   {COMPANY_CONTACT.phoneDisplay}
                 </span>
               </div>
@@ -300,18 +300,18 @@ export default function App() {
               href={COMPANY_CONTACT.locationUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-start gap-3.5 p-4 rounded-2xl bg-[#063D5B] border-2 border-[#156D95] hover:border-[#ABCDE9] transition-colors group shadow-sm"
+              className="flex items-center gap-3 p-4 rounded-2xl bg-[#063D5B] border-2 border-[#156D95] hover:border-[#ABCDE9] transition-colors group shadow-sm min-w-0 overflow-hidden"
             >
               <div className="w-10 h-10 rounded-xl bg-[#ABCDE9] text-[#063D5B] flex items-center justify-center shrink-0 group-hover:bg-white transition-colors">
                 <MapPin className="w-5 h-5" aria-hidden="true" />
               </div>
-              <div>
+              <div className="min-w-0 flex-1">
                 <span className="block text-xs font-semibold text-[#ABCDE9]">
                   Location (Google Maps)
                 </span>
-                <span className="mt-0.5 inline-flex items-center gap-1.5 text-base font-bold text-white group-hover:text-[#ABCDE9] transition-colors">
-                  <span>{COMPANY_CONTACT.location}</span>
-                  <ExternalLink className="w-4 h-4 shrink-0" aria-hidden="true" />
+                <span className="mt-0.5 inline-flex items-center gap-1.5 text-sm xl:text-base font-bold text-white group-hover:text-[#ABCDE9] transition-colors max-w-full">
+                  <span className="truncate">{COMPANY_CONTACT.location}</span>
+                  <ExternalLink className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
                 </span>
               </div>
             </a>
@@ -321,16 +321,16 @@ export default function App() {
               href={COMPANY_CONTACT.instagramUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-start gap-3.5 p-4 rounded-2xl bg-[#063D5B] border-2 border-[#156D95] hover:border-[#ABCDE9] transition-colors group shadow-sm"
+              className="flex items-center gap-3 p-4 rounded-2xl bg-[#063D5B] border-2 border-[#156D95] hover:border-[#ABCDE9] transition-colors group shadow-sm min-w-0 overflow-hidden"
             >
               <div className="w-10 h-10 rounded-xl bg-[#ABCDE9] text-[#063D5B] flex items-center justify-center shrink-0 group-hover:bg-white transition-colors">
                 <ExternalLink className="w-5 h-5" aria-hidden="true" />
               </div>
-              <div>
+              <div className="min-w-0 flex-1">
                 <span className="block text-xs font-semibold text-[#ABCDE9]">
                   Instagram
                 </span>
-                <span className="mt-0.5 block text-base font-bold text-white">
+                <span className="mt-0.5 block text-sm xl:text-base font-bold text-white truncate">
                   {COMPANY_CONTACT.instagramHandle}
                 </span>
               </div>
@@ -341,16 +341,16 @@ export default function App() {
               href={COMPANY_CONTACT.facebookUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-start gap-3.5 p-4 rounded-2xl bg-[#063D5B] border-2 border-[#156D95] hover:border-[#ABCDE9] transition-colors group shadow-sm"
+              className="flex items-center gap-3 p-4 rounded-2xl bg-[#063D5B] border-2 border-[#156D95] hover:border-[#ABCDE9] transition-colors group shadow-sm min-w-0 overflow-hidden"
             >
               <div className="w-10 h-10 rounded-xl bg-[#ABCDE9] text-[#063D5B] flex items-center justify-center shrink-0 group-hover:bg-white transition-colors">
                 <ExternalLink className="w-5 h-5" aria-hidden="true" />
               </div>
-              <div>
+              <div className="min-w-0 flex-1">
                 <span className="block text-xs font-semibold text-[#ABCDE9]">
                   Facebook
                 </span>
-                <span className="mt-0.5 block text-base font-bold text-white">
+                <span className="mt-0.5 block text-xs sm:text-sm font-bold text-white tracking-tight truncate">
                   facebook.com/watercycle
                 </span>
               </div>
