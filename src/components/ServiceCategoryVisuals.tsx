@@ -280,24 +280,52 @@ export const getServiceSlides = (
     case 'wastewater':
       return [
         {
-          title: 'Sewage & Wastewater Treatment Solutions',
-          caption: 'Multi-Stage Aeration, Clarification & Biological Treatment Systems',
-          render: () => <WastewaterTechnicalVisual variant="plant" />,
-        },
-        {
-          title: 'Residential & Commercial Wastewater Management',
-          caption: 'Practical Treatment Configurations Tailored to Site Requirements',
-          render: () => <WastewaterTechnicalVisual variant="flow" />,
-        },
-        {
-          title: 'On-Site Water & Treatment System Integration',
-          caption: 'Discreet Outdoor Treatment & Tank Infrastructure',
+          title: 'Sewage & Wastewater Treatment System Installation',
+          caption: 'Water Cycle Control Panel, Chemical Dosing Pump, Dual Aeration Blowers & Dosing Tank',
           render: () => (
             <img
-              src="/about-bg.jpg"
-              alt="Outdoor water treatment tank and equipment area"
-              className="w-full h-full object-cover object-right block"
+              src="/images/wastewater-1.jpg"
+              alt="Water Cycle sewage and wastewater treatment dosing tank, control panel, and aeration blowers"
+              className="w-full h-full object-cover object-center block"
             />
+          ),
+        },
+        {
+          title: 'Dual Aeration Blowers & Treatment Tank Setup',
+          caption: 'Clean Technical Room Piping, Dual Air Blowers & Treatment Storage Tank',
+          render: () => (
+            <div className="relative w-full h-full bg-[#042B41] flex items-center justify-center overflow-hidden">
+              <img
+                src="/images/wastewater-2.jpg"
+                alt=""
+                aria-hidden="true"
+                className="absolute inset-0 w-full h-full object-cover blur-md opacity-45 scale-110"
+              />
+              <img
+                src="/images/wastewater-2.jpg"
+                alt="Dual aeration blowers and treatment tank installation"
+                className="relative z-10 w-full h-full object-contain block"
+              />
+            </div>
+          ),
+        },
+        {
+          title: 'Regenerative Air Blower & Dosing System',
+          caption: 'Water Cycle Dosing Tank, Wall-Mounted Dosing Pump & Side-Channel Blower',
+          render: () => (
+            <div className="relative w-full h-full bg-[#042B41] flex items-center justify-center overflow-hidden">
+              <img
+                src="/images/wastewater-3.jpg"
+                alt=""
+                aria-hidden="true"
+                className="absolute inset-0 w-full h-full object-cover blur-md opacity-45 scale-110"
+              />
+              <img
+                src="/images/wastewater-3.jpg"
+                alt="Water Cycle dosing tank, dosing pump, and regenerative air blower"
+                className="relative z-10 w-full h-full object-contain block"
+              />
+            </div>
           ),
         },
       ];
@@ -814,67 +842,6 @@ const JacuzziSaunaVisual: React.FC<{
       {variant === 'construction'
         ? 'CUSTOM JACUZZI & SAUNA CONSTRUCTION · SPACE & SYSTEM INTEGRATION'
         : 'WATER, HEATING, STEAM & FILTRATION SYSTEMS FOR RELAXATION SPACES'}
-    </text>
-  </svg>
-);
-
-const WastewaterTechnicalVisual: React.FC<{ variant: 'plant' | 'flow' }> = () => (
-  <svg
-    viewBox="0 0 800 450"
-    preserveAspectRatio="xMidYMid slice"
-    className="w-full h-full block bg-[#042B41]"
-    role="img"
-    aria-label="Sewage and wastewater treatment chambers and filtration process"
-  >
-    <rect width="800" height="450" fill="#042B41" />
-    {/* 3 Multi-Stage Treatment Chambers */}
-    {[85, 310, 535].map((x, idx) => (
-      <g key={x}>
-        <rect
-          x={x}
-          y="120"
-          width="180"
-          height="230"
-          rx="10"
-          fill="#063D5B"
-          stroke="#ABCDE9"
-          strokeWidth="2.5"
-        />
-        <rect
-          x={x + 12}
-          y="175"
-          width="156"
-          height="162"
-          rx="6"
-          fill={idx === 0 ? '#156D95' : idx === 1 ? '#62A1C2' : '#ABCDE9'}
-          opacity="0.85"
-        />
-        <text
-          x={x + 90}
-          y="154"
-          textAnchor="middle"
-          fill="#DCEBFA"
-          fontSize="12"
-          fontWeight="800"
-        >
-          {idx === 0
-            ? '01. PRIMARY CHAMBER'
-            : idx === 1
-            ? '02. AERATION & BIO'
-            : '03. CLARIFICATION'}
-        </text>
-      </g>
-    ))}
-    {/* Connecting Flow Pipes */}
-    <path
-      d="M 265 235 L 310 235 M 490 235 L 535 235"
-      fill="none"
-      stroke="#EFF7FD"
-      strokeWidth="8"
-      strokeLinecap="round"
-    />
-    <text x="400" y="402" textAnchor="middle" fill="#ABCDE9" fontSize="14" fontWeight="700">
-      SEWAGE &amp; WASTEWATER TREATMENT SOLUTIONS
     </text>
   </svg>
 );
