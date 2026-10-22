@@ -81,23 +81,35 @@ export const getServiceSlides = (
     case 'filtration':
       return [
         {
-          title: 'Multi-Stage Water Treatment & Pressure Filtration Systems',
-          caption: 'Sand & Media Filtration Vessels, Manifold Piping & Circulation Control',
-          render: () => <FiltrationTechnicalVisual variant="vessels" />,
-        },
-        {
-          title: 'Sediment & Water-Quality Filtration Setup',
-          caption: 'Tailored Residential & Commercial Water Filtration Configurations',
-          render: () => <FiltrationTechnicalVisual variant="schematic" />,
-        },
-        {
-          title: 'Integrated Property Water Filtration & Technical Room',
-          caption: 'Outdoor Filtration & Equipment Positioning for Pools and Water Systems',
+          title: 'Multi-Stage Sand, Carbon & Softener Filtration System',
+          caption: 'Water Cycle 3-Vessel Filtration Setup with Anti-Corrosion & Chlorine Dosing',
           render: () => (
             <img
-              src="/about-bg.jpg"
-              alt="Property with integrated water filtration and pool equipment"
-              className="w-full h-full object-cover object-right block"
+              src="/images/filtration-1.jpg"
+              alt="Water Cycle Softener, Carbon Filter, and Sand Filter vessels with dosing tanks and booster pumps"
+              className="w-full h-full object-cover object-center block"
+            />
+          ),
+        },
+        {
+          title: 'Commercial & Residential Water Treatment & Filtration',
+          caption: 'Water Cycle Softener, Carbon Filter & Sand Filter System with Pressure & Storage Tanks',
+          render: () => (
+            <img
+              src="/images/filtration-2.jpg"
+              alt="Water Cycle Softener, Carbon Filter, and Sand Filter installation with pressure and storage tanks"
+              className="w-full h-full object-cover object-center block"
+            />
+          ),
+        },
+        {
+          title: 'Automated Filtration Vessels & Dosing Control',
+          caption: 'Triple Media Vessels, Cartridge Pre-Filter with Pressure Gauge, Dosing Pump & Brine Tank',
+          render: () => (
+            <img
+              src="/images/filtration-3.jpg"
+              alt="Water Cycle triple blue filtration vessels, pre-filter housing, dosing pump, and brine tank"
+              className="w-full h-full object-cover object-[center_45%] block"
             />
           ),
         },
@@ -361,145 +373,6 @@ export const ServiceCardThumbnail: React.FC<{
 /* ============================================================================
  * TECHNICAL & ARCHITECTURAL ILLUSTRATIONS FOR SPECIFIC SERVICE CATEGORIES
  * ============================================================================ */
-
-const FiltrationTechnicalVisual: React.FC<{
-  variant: 'vessels' | 'schematic';
-}> = ({ variant }) => (
-  <svg
-    viewBox="0 0 800 450"
-    preserveAspectRatio="xMidYMid slice"
-    className="w-full h-full block bg-[#063D5B]"
-    role="img"
-    aria-label="Water Cycle multi-vessel filtration and piping system"
-  >
-    <defs>
-      <linearGradient id="filtBg" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#042B41" />
-        <stop offset="55%" stopColor="#063D5B" />
-        <stop offset="100%" stopColor="#156D95" />
-      </linearGradient>
-      <linearGradient id="vesselTank" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" stopColor="#62A1C2" />
-        <stop offset="45%" stopColor="#ABCDE9" />
-        <stop offset="100%" stopColor="#156D95" />
-      </linearGradient>
-    </defs>
-    <rect width="800" height="450" fill="url(#filtBg)" />
-    {/* Subtle technical grid */}
-    <g stroke="rgba(171,205,233,0.12)" strokeWidth="1">
-      {Array.from({ length: 16 }).map((_, i) => (
-        <line key={`v-${i}`} x1={i * 50} y1="0" x2={i * 50} y2="450" />
-      ))}
-      {Array.from({ length: 9 }).map((_, i) => (
-        <line key={`h-${i}`} x1="0" y1={i * 50} x2="800" y2={i * 50} />
-      ))}
-    </g>
-
-    {/* Concrete Equipment Pad */}
-    <rect x="70" y="365" width="660" height="28" rx="6" fill="#156D95" stroke="#ABCDE9" strokeWidth="1.5" />
-
-    {variant === 'vessels' ? (
-      <>
-        {/* 3 Commercial/Residential Pressure Filtration Vessels */}
-        {[170, 340, 510].map((x, idx) => (
-          <g key={x}>
-            <rect
-              x={x}
-              y="125"
-              width="115"
-              height="240"
-              rx="52"
-              fill="url(#vesselTank)"
-              stroke="#DCEBFA"
-              strokeWidth="2.5"
-            />
-            {/* Multiport Valve Head */}
-            <rect
-              x={x + 32}
-              y="88"
-              width="51"
-              height="37"
-              rx="6"
-              fill="#042B41"
-              stroke="#ABCDE9"
-              strokeWidth="2"
-            />
-            {/* Pressure Gauge */}
-            <circle cx={x + 57} cy="72" r="11" fill="#DCEBFA" stroke="#063D5B" strokeWidth="2" />
-            <line x1={x + 57} y1="72" x2={x + 63} y2="66" stroke="#063D5B" strokeWidth="2" />
-            {/* Internal Filter Media Layers */}
-            <line
-              x1={x + 14}
-              y1="230"
-              x2={x + 101}
-              y2="230"
-              stroke="#063D5B"
-              strokeWidth="2"
-              strokeDasharray="6 4"
-            />
-            <line
-              x1={x + 14}
-              y1="285"
-              x2={x + 101}
-              y2="285"
-              stroke="#063D5B"
-              strokeWidth="2"
-              strokeDasharray="6 4"
-            />
-            <text
-              x={x + 57}
-              y="205"
-              textAnchor="middle"
-              fill="#042B41"
-              fontSize="12"
-              fontWeight="800"
-            >
-              STAGE 0{idx + 1}
-            </text>
-          </g>
-        ))}
-        {/* Header & Collector Manifold Pipes */}
-        <path
-          d="M 95 106 L 675 106 M 115 320 L 705 320"
-          fill="none"
-          stroke="#DCEBFA"
-          strokeWidth="12"
-          strokeLinecap="round"
-        />
-        <path
-          d="M 95 106 L 675 106 M 115 320 L 705 320"
-          fill="none"
-          stroke="#62A1C2"
-          strokeWidth="6"
-          strokeLinecap="round"
-        />
-      </>
-    ) : (
-      <>
-        {/* Raw Water -> Pump -> Media Filter -> Fine Cartridge -> Treated Water Output */}
-        <rect x="95" y="245" width="110" height="120" rx="12" fill="#156D95" stroke="#ABCDE9" strokeWidth="2.5" />
-        <text x="150" y="308" textAnchor="middle" fill="#DCEBFA" fontSize="13" fontWeight="700">
-          FEED PUMP
-        </text>
-        <rect x="275" y="135" width="130" height="230" rx="58" fill="url(#vesselTank)" stroke="#DCEBFA" strokeWidth="2.5" />
-        <text x="340" y="250" textAnchor="middle" fill="#042B41" fontSize="13" fontWeight="800">
-          MEDIA FILTER
-        </text>
-        <rect x="475" y="165" width="95" height="200" rx="36" fill="#62A1C2" stroke="#DCEBFA" strokeWidth="2.5" />
-        <text x="522" y="268" textAnchor="middle" fill="#FFFFFF" fontSize="12" fontWeight="700">
-          FINE FILTER
-        </text>
-        <path
-          d="M 205 300 L 275 300 M 340 135 L 340 105 L 522 105 L 522 165 M 570 265 L 700 265"
-          fill="none"
-          stroke="#ABCDE9"
-          strokeWidth="8"
-          strokeLinecap="round"
-        />
-      </>
-    )}
-  </svg>
-);
 
 const SolarTechnicalVisual: React.FC<{ variant: 'rooftop' | 'loop' }> = ({
   variant,
