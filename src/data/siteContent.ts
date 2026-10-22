@@ -234,11 +234,12 @@ export const CONSTRUCTION_SERVICES: readonly ConstructionServiceItem[] = [
     title: 'Swimming Pool Construction',
     shortCategory: 'Pool Construction',
     description:
-      'Complete construction of indoor and outdoor swimming pools, from initial space evaluation through structural building and final finishing.',
+      'Complete construction of indoor and outdoor swimming pools, covering site assessment and space planning, excavation and concrete works, and quality tiling and finishing.',
     highlights: [
       'Swimming pool construction for indoor and outdoor spaces',
-      'Pool and technical equipment-room positioning',
-      'End-to-end execution from site preparation to finishing',
+      'Site assessment and space planning for pool, technical room, and water tank positioning',
+      'Excavation, ground preparation, and solid concrete construction',
+      'Quality tiling and finishing works for durability and final readiness',
     ],
     inquiryOption: 'Pool & Leisure Construction',
   },
@@ -248,11 +249,12 @@ export const CONSTRUCTION_SERVICES: readonly ConstructionServiceItem[] = [
     title: 'Jacuzzi & Sauna Construction',
     shortCategory: 'Jacuzzi & Sauna Construction',
     description:
-      'Construction of Jacuzzis, saunas, and related leisure spaces planned around your property layout and comfort requirements.',
+      'Construction of Jacuzzis, saunas, and related leisure spaces, including site assessment and space planning, excavation and concrete works, and tiling and finishing.',
     highlights: [
-      'Jacuzzi construction and sauna construction',
-      'Practical integration with indoor and outdoor pool areas',
-      'Coordinated positioning for water, heating, and equipment systems',
+      'Jacuzzi construction and sauna construction for indoor and outdoor spaces',
+      'Site assessment and space planning around your property layout and equipment systems',
+      'Excavation, site preparation, and concrete construction works',
+      'Tiling and finishing works completing your Jacuzzi, sauna, and leisure space',
     ],
     inquiryOption: 'Pool & Leisure Construction',
   },

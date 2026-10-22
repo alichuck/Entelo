@@ -40,6 +40,14 @@ interface UnifiedServiceEntry {
   extendedParagraphs: string[];
 }
 
+// Keep only Swimming Pool Construction & Jacuzzi & Sauna Construction as categories on the Services page,
+// while integrating Site Assessment & Space Planning, Excavation & Concrete Works, and Tiling & Finishing
+// directly into their descriptions and highlights.
+const VISIBLE_CONSTRUCTION_SERVICES = CONSTRUCTION_SERVICES.filter(
+  (s) =>
+    s.id === 'pool-construction' || s.id === 'jacuzzi-sauna-construction'
+);
+
 const ALL_UNIFIED_SERVICES: readonly UnifiedServiceEntry[] = [
   ...CORE_SERVICES.map((s): UnifiedServiceEntry => ({
     id: s.id,
@@ -62,7 +70,7 @@ const ALL_UNIFIED_SERVICES: readonly UnifiedServiceEntry[] = [
       'At Water Cycle, our approach focuses on understanding each customer’s water system requirements in Lebanon and delivering functional, well-planned results.',
     ],
   })),
-  ...CONSTRUCTION_SERVICES.map((s): UnifiedServiceEntry => ({
+  ...VISIBLE_CONSTRUCTION_SERVICES.map((s): UnifiedServiceEntry => ({
     id: s.id,
     number: s.number,
     title: s.title,
@@ -71,11 +79,12 @@ const ALL_UNIFIED_SERVICES: readonly UnifiedServiceEntry[] = [
     description: s.description,
     highlights: s.highlights,
     inquiryOption: s.inquiryOption,
-    leadHeadline: `WE CARRY OUT ${s.title.toUpperCase()} WITH OVER THREE YEARS OF HANDS-ON CONSTRUCTION EXPERIENCE, FROM SPACE EVALUATION TO FINISHING.`,
+    leadHeadline: `WE CARRY OUT ${s.title.toUpperCase()} WITH OVER THREE YEARS OF HANDS-ON CONSTRUCTION EXPERIENCE — COVERING SITE ASSESSMENT & SPACE PLANNING, EXCAVATION & CONCRETE WORKS, AND TILING & FINISHING.`,
     extendedParagraphs: [
       s.description,
-      CONSTRUCTION_OVERVIEW.paragraphs[0],
-      CONSTRUCTION_OVERVIEW.scopeNote,
+      'Site Assessment & Space Planning: We conduct an on-site evaluation of your available space to recommend practical locations for the swimming pool, Jacuzzi, sauna, technical room, and water tank, including infrastructure planning.',
+      'Excavation & Concrete Works: Our work covers ground preparation, excavation, and solid concrete construction carried out to build a reliable structure for your pool, Jacuzzi, sauna, and equipment rooms.',
+      'Tiling & Finishing: We complete your project with quality tiling, interior surface detailing, and coping finishes for durability, appearance, and final readiness for system operation.',
     ],
   })),
   ...ADDITIONAL_SERVICES.map((s): UnifiedServiceEntry => ({
@@ -402,7 +411,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
               ))}
             </div>
 
-            {/* 2. Construction Services Grid (5 Cards in the same clean Image + Uppercase Title layout) */}
+            {/* 2. Construction Services Grid (Swimming Pool Construction & Jacuzzi & Sauna Construction) */}
             <div
               id="construction-services"
               className="mt-16 pt-14 border-t border-[#156D95]"
@@ -418,7 +427,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10">
-                {CONSTRUCTION_SERVICES.map((card) => (
+                {VISIBLE_CONSTRUCTION_SERVICES.map((card) => (
                   <article
                     key={card.id}
                     id={`service-${card.id}`}
