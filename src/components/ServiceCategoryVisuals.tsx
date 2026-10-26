@@ -31,47 +31,30 @@ export const getServiceSlides = (
           caption: 'Water Cycle — Swimming Pool Water Care & Clarity Restoration',
           render: () => (
             <img
-              src="/images/pool-after.jpg"
-              alt="Clean, clear blue swimming pool water after Water Cycle treatment"
+              src="/images/pool-treatment-clean.jpg"
+              alt="Clean, clear sparkling blue swimming pool water after Water Cycle treatment"
               className="w-full h-full object-cover object-center block"
             />
           ),
         },
         {
-          title: 'Before & After Pool Water Recovery',
-          caption: 'Untreated Algae-Green Pool Water (Left) vs. Treated Clear Pool Water (Right)',
+          title: 'Luxury Estate Pool Water Solutions & Circulation',
+          caption: 'Comprehensive Water Quality, Circulation & Clarity Maintenance for Private Pools',
           render: () => (
-            <div className="relative w-full h-full grid grid-cols-2 overflow-hidden bg-[#063D5B]">
-              <div className="relative h-full overflow-hidden border-r-2 border-white">
-                <img
-                  src="/images/pool-before.jpg"
-                  alt="Before treatment: green pool water"
-                  className="w-full h-full object-cover object-center block"
-                />
-                <span className="absolute top-3 left-3 px-2.5 py-1 rounded bg-[#042B41]/90 text-[#ABCDE9] text-[11px] font-bold uppercase tracking-wider">
-                  Before Treatment
-                </span>
-              </div>
-              <div className="relative h-full overflow-hidden">
-                <img
-                  src="/images/pool-after.jpg"
-                  alt="After treatment: clear blue pool water"
-                  className="w-full h-full object-cover object-center block"
-                />
-                <span className="absolute top-3 right-3 px-2.5 py-1 rounded bg-[#063D5B]/90 text-white text-[11px] font-bold uppercase tracking-wider">
-                  After Treatment
-                </span>
-              </div>
-            </div>
+            <img
+              src="/images/pool-treatment-villa.jpg"
+              alt="Luxury stone villa estate swimming pool with crystal-clear balanced water"
+              className="w-full h-full object-cover object-center block"
+            />
           ),
         },
         {
-          title: 'Outdoor & Infinity Pool Water Circulation Solutions',
-          caption: 'Balanced Water Chemistry, Circulation & Ongoing Pool Care',
+          title: 'Untreated Green Algae Pool Water Before Recovery',
+          caption: 'Algae Overgrowth, Cloudy Visibility & Chemical Imbalance Prior to Treatment',
           render: () => (
             <img
-              src="/hero-pool-bg.jpg"
-              alt="Infinity swimming pool with clean balanced water"
+              src="/images/pool-treatment-dirty.jpg"
+              alt="Untreated algae-green swimming pool water prior to Water Cycle recovery"
               className="w-full h-full object-cover object-center block"
             />
           ),
@@ -119,58 +102,81 @@ export const getServiceSlides = (
       return [
         {
           title: 'Solar Thermal Water-Heating Collector Systems',
-          caption: 'Rooftop Solar Collectors & Insulated Hot-Water Storage Cylinders',
-          render: () => <SolarTechnicalVisual variant="rooftop" />,
+          caption: 'Dual Flat-Plate Rooftop Solar Thermal Collectors & Expansion Vessel Installation',
+          render: () => (
+            <img
+              src="/images/solar-1.jpg"
+              alt="Rooftop flat-plate solar water heating collectors and expansion vessel installation"
+              className="w-full h-full object-cover object-center block"
+            />
+          ),
         },
         {
           title: 'Property Solar Water Heating Integration',
-          caption: 'Energy-Conscious Solar Thermal Collectors Installed on Villa Rooftops',
+          caption: 'Dual Flat-Plate Solar Thermal Collectors with Rooftop Hot-Water Storage Cylinder',
           render: () => (
             <img
-              src="/about-bg.jpg"
-              alt="Rooftop solar panels and water heating system on villa"
-              className="w-full h-full object-cover object-top block"
+              src="/images/solar-2.jpg"
+              alt="Dual flat-plate rooftop solar water heating collectors and horizontal storage tank"
+              className="w-full h-full object-cover object-center block"
             />
           ),
         },
         {
           title: 'Solar Thermal Circulation & Storage Configuration',
-          caption: 'Closed-Loop Solar Collector Array & Thermal Storage Tank Layout',
-          render: () => <SolarTechnicalVisual variant="loop" />,
+          caption: 'Solflex Solar Energy System with Insulated Hot-Water Tank & Flat-Plate Collector',
+          render: () => (
+            <img
+              src="/images/solar-3.jpg"
+              alt="Solflex solar water heating system with rooftop storage cylinder and flat-plate collector"
+              className="w-full h-full object-cover object-center block"
+            />
+          ),
         },
       ];
 
     case 'pool-construction':
       return [
         {
-          title: 'Outdoor & Infinity Swimming Pool Construction',
-          caption: 'End-to-End Pool Construction from Space Evaluation to Final Finishing',
+          title: 'Site Excavation, Rebar Grid & Drainage Plumbing',
+          caption: 'Ground Excavation, Timber Shoring, Double-Mesh Steel Rebar & Floor Piping Installation',
           render: () => (
             <img
-              src="/hero-pool-bg.jpg"
-              alt="Completed outdoor infinity swimming pool construction"
+              src="/images/pool-construction-1.jpg"
+              alt="Workers tying steel rebar grid mesh across pool floor and walls during excavation"
               className="w-full h-full object-cover object-center block"
             />
           ),
         },
         {
-          title: 'Complete Pool, Deck & Equipment-Room Execution',
-          caption: 'Practical Layout Planning, Concrete Basin Construction & Tiling',
+          title: 'Reinforced Concrete Pool Basin & Step Construction',
+          caption: 'Solid Cast Concrete Pool Walls, Built-In Steps & Pipe Penetrations with Scenic Mountain Backdrop',
           render: () => (
             <img
-              src="/about-bg.jpg"
-              alt="Swimming pool and leisure deck construction"
+              src="/images/pool-construction-2.jpg"
+              alt="Cast reinforced concrete swimming pool basin with built-in steps and plumbing conduits"
               className="w-full h-full object-cover object-center block"
             />
           ),
         },
         {
-          title: 'Finished Tiled Swimming Pool Ready for Operation',
-          caption: 'High-Durability Pool Basin, Coping & Circulation Readiness',
+          title: 'Cantilevered Steel Deck Framing & Chalet Integration',
+          caption: 'Structural Steel Deck Subframe, Under-Deck Technical Space & Mountain Chalet Architecture',
           render: () => (
             <img
-              src="/images/pool-after.jpg"
-              alt="Finished tiled swimming pool filled with clear water"
+              src="/images/pool-construction-3.jpg"
+              alt="Wooden chalet construction with integrated swimming pool and cantilevered steel deck subframe"
+              className="w-full h-full object-cover object-center block"
+            />
+          ),
+        },
+        {
+          title: 'Finished Mosaic-Tiled Pool & Finished Terrace Deck',
+          caption: 'Blue Mosaic Tiling, Non-Slip Coping Stones, Stainless Steel Ladder & Complete Terrace Decking',
+          render: () => (
+            <img
+              src="/images/pool-construction-4.jpg"
+              alt="Finished mosaic-tiled swimming pool with wooden chalet facade, coping stone, and deck railing"
               className="w-full h-full object-cover object-center block"
             />
           ),
@@ -180,28 +186,56 @@ export const getServiceSlides = (
     case 'jacuzzi-sauna-construction':
       return [
         {
-          title: 'Custom Jacuzzi & Cedar Sauna Construction',
-          caption: 'Indoor & Outdoor Sauna and Poolside Jacuzzi Construction',
+          title: 'Jacuzzi Basin Plastering & Waterproof Contouring',
+          caption: 'Precision Contouring for Ergonomic Seating, Steps & Hydrotherapy Jet Sleeves',
           render: () => (
             <img
-              src="/about-bg.jpg"
-              alt="Custom glass-front timber sauna and built-in poolside Jacuzzi"
-              className="w-full h-full object-cover object-left block"
+              src="/images/jacuzzi-construction-2.jpg"
+              alt="Worker plastering and contouring the concrete basin and seating of a rooftop Jacuzzi"
+              className="w-full h-full object-cover object-center block"
             />
           ),
         },
         {
-          title: 'Jacuzzi Hydrotherapy & Sauna Layout Engineering',
-          caption: 'Coordinated Positioning for Water, Heating, Jets & Equipment Rooms',
-          render: () => <JacuzziSaunaVisual variant="construction" />,
-        },
-        {
-          title: 'Integrated Poolside Spa & Wellness Spaces',
-          caption: 'Seamless Integration with Swimming Pools and Outdoor Terraces',
+          title: 'Solid Concrete & Masonry Jacuzzi Basin Construction',
+          caption: 'Reinforced Blockwork, Concrete Core & Hydrotherapy Jet Conduits',
           render: () => (
             <img
-              src="/hero-pool-bg.jpg"
-              alt="Outdoor pool and leisure space"
+              src="/images/jacuzzi-construction-1.jpg"
+              alt="Masonry and concrete block construction of a Jacuzzi basin with wall jet fittings and rebar"
+              className="w-full h-full object-cover object-center block"
+            />
+          ),
+        },
+        {
+          title: 'Jacuzzi Jet & Air Line Plumbing Infrastructure',
+          caption: 'High-Pressure PVC Jet Lines, Air Manifolds & Skimmer Assembly Before Concrete Pouring',
+          render: () => (
+            <img
+              src="/images/jacuzzi-construction-3.jpg"
+              alt="Jacuzzi plumbing showing jet lines, air lines, and skimmer inside wooden formwork"
+              className="w-full h-full object-cover object-center block"
+            />
+          ),
+        },
+        {
+          title: 'Custom Timber Sauna Cabin Construction',
+          caption: 'Precision Wood Framing, Tongue-and-Groove Assembly & Structural Fitting',
+          render: () => (
+            <img
+              src="/images/sauna-construction-1.jpg"
+              alt="Worker assembling the structural timber frame and tongue-and-groove walls of a custom indoor sauna cabin"
+              className="w-full h-full object-cover object-center block"
+            />
+          ),
+        },
+        {
+          title: 'Sauna Interior Cladding & Bench Craftsmanship',
+          caption: 'Handcrafted Timber Bench Levels, Wall Panelling & Sauna Heater Installation',
+          render: () => (
+            <img
+              src="/images/sauna-construction-2.jpg"
+              alt="Worker installing cedar wood wall cladding, multi-level benches and heater in a custom sauna room"
               className="w-full h-full object-cover object-center block"
             />
           ),
@@ -330,28 +364,45 @@ export const getServiceSlides = (
     default:
       return [
         {
-          title: 'Jacuzzi, Sauna & Steam Room Systems',
-          caption: 'Relaxation & Wellness Facilities with Coordinated Water & Heat Systems',
+          title: 'Rooftop Tiled Jacuzzi with Hydrotherapy Jets',
+          caption: 'Built-In Jacuzzi System with Marble-Effect Tiling, Jets & Glass Balustrade',
           render: () => (
             <img
-              src="/about-bg.jpg"
-              alt="Glass sauna and Jacuzzi wellness space"
-              className="w-full h-full object-cover object-left block"
+              src="/images/jacuzzi-sauna-1.jpg"
+              alt="Rooftop tiled Jacuzzi with active hydrotherapy jets and glass balustrade overlooking the sea"
+              className="w-full h-full object-cover object-center block"
             />
           ),
         },
         {
-          title: 'Hydrotherapy Jets, Steam Generators & Sauna Heating',
-          caption: 'Complete Water Circulation, Heating & Control Systems for Spas',
-          render: () => <JacuzziSaunaVisual variant="systems" />,
-        },
-        {
-          title: 'Crystal-Clear Spa & Pool Water Quality',
-          caption: 'Hygienic Filtration & Water Care for Relaxation Facilities',
+          title: 'Curved Timber Sauna with Electric Heater',
+          caption: 'Curved Wooden Bench Seating, Slatted Flooring & Electric Sauna Heater',
           render: () => (
             <img
-              src="/images/pool-after.jpg"
-              alt="Clear treated water for pool and wellness systems"
+              src="/images/jacuzzi-sauna-2.jpg"
+              alt="Curved timber sauna interior with slatted bench and electric sauna heater"
+              className="w-full h-full object-cover object-center block"
+            />
+          ),
+        },
+        {
+          title: 'Sauna Heating System & Interior Finishing',
+          caption: 'Solid Wood Wall Cladding, Bench Detailing & Stone Sauna Heater',
+          render: () => (
+            <img
+              src="/images/jacuzzi-sauna-3.jpg"
+              alt="Sauna interior with wood cladding, slatted benches and stone heater"
+              className="w-full h-full object-cover object-center block"
+            />
+          ),
+        },
+        {
+          title: 'Indoor Sauna Room with Digital Controls',
+          caption: 'Timber Sauna Cabin with Digital Control Panel Integrated into Marble Interior',
+          render: () => (
+            <img
+              src="/images/jacuzzi-sauna-4.jpg"
+              alt="Indoor timber sauna room entrance with digital control panel and marble walls"
               className="w-full h-full object-cover object-center block"
             />
           ),

@@ -118,7 +118,7 @@ export const BeforeAfterSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Horizontal Comparison Viewport Sized to Native 1024x654 Resolution Without Scaling In */}
+        {/* Horizontal Comparison Viewport Sized to Native 1024x572 Resolution Without Scaling In */}
         <div
           ref={containerRef}
           tabIndex={0}
@@ -136,7 +136,7 @@ export const BeforeAfterSection: React.FC = () => {
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
           onKeyDown={handleKeyDown}
-          className="relative w-full max-w-[920px] mx-auto aspect-[1024/654] rounded-2xl overflow-hidden border-4 border-[#156D95] shadow-xl cursor-ew-resize touch-none select-none bg-[#063D5B] focus:outline-none focus:ring-2 focus:ring-[#ABCDE9]"
+          className="relative w-full max-w-[920px] mx-auto aspect-[1024/572] rounded-2xl overflow-hidden border-4 border-[#156D95] shadow-xl cursor-ew-resize touch-none select-none bg-[#063D5B] focus:outline-none focus:ring-2 focus:ring-[#ABCDE9]"
         >
           {/* BASE LAYER (RIGHT SIDE): AFTER — Clean, Clear Blue Pool */}
           <div
@@ -148,7 +148,7 @@ export const BeforeAfterSection: React.FC = () => {
                 src={BEFORE_AFTER_CONFIG.afterImagePath}
                 alt="After water treatment: clear blue swimming pool"
                 draggable={false}
-                className="w-full h-full object-contain block select-none pointer-events-none"
+                className="w-full h-full object-cover block select-none pointer-events-none"
               />
             ) : (
               <AfterCleanPoolScene />
@@ -166,7 +166,7 @@ export const BeforeAfterSection: React.FC = () => {
                 src={BEFORE_AFTER_CONFIG.beforeImagePath}
                 alt="Before water treatment: dirty algae-green swimming pool"
                 draggable={false}
-                className="w-full h-full object-contain block select-none pointer-events-none"
+                className="w-full h-full object-cover block select-none pointer-events-none"
               />
             ) : (
               <BeforeDirtyPoolScene />
