@@ -1,13 +1,197 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   ExternalLink,
   CheckCircle2,
   FolderGit2,
+  MapPin,
+  ChevronLeft,
+  ChevronRight,
+  Layers,
 } from 'lucide-react';
 import {
   PORTFOLIO_ITEMS,
   COMPANY_CONTACT,
+  PortfolioItem,
 } from '../utils/waterCycleLogic';
+
+const ProjectCard: React.FC<{ item: PortfolioItem; index: number }> = ({
+  item,
+  index,
+}) => {
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+
+  const images = item.images && item.images.length > 0
+    ? item.images
+    : [item.imageUrl];
+
+  const currentStage = item.imageStages?.[activeImageIndex];
+  const hasMultipleImages = images.length > 1;
+
+  const nextImage = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setActiveImageIndex((prev) => (prev + 1) % images.length);
+  };
+
+  const prevImage = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setActiveImageIndex((prev) => (prev - 1 + images.length) % images.length);
+  };
+
+  return (
+    <article
+      data-testid={`portfolio-card-${item.id}`}
+      className="group rounded-2xl border-2 border-[#156D95] bg-[#62A1C2] text-white overflow-hidden flex flex-col justify-between transition-all duration-300 hover:border-[#063D5B] hover:shadow-xl hover:-translate-y-1"
+    >
+      <div>
+        {/* Project Image Container */}
+        <div className="relative w-full aspect-16/10 bg-[#063D5B] border-b-2 border-[#156D95] overflow-hidden select-none">
+          <img
+            src={images[activeImageIndex]}
+            alt={currentStage?.stageLabel || item.title}
+            loading="lazy"
+            className="w-full h-full object-cover block transition-transform duration-500 ease-out group-hover:scale-102"
+          />
+
+          {/* Project Number Badge */}
+          <div className="absolute top-3 left-3 bg-[#063D5B]/90 backdrop-blur-xs text-[#ABCDE9] border border-[#156D95] text-[11px] font-bold px-2.5 py-1 rounded-full shadow-xs">
+            Project {String(index + 1).padStart(2, '0')}
+          </div>
+
+          {/* Location Badge Overlay if present */}
+          {item.location && (
+            <div className="absolute top-3 right-3 bg-[#063D5B]/90 backdrop-blur-xs text-white border border-[#156D95] text-[11px] font-bold px-2.5 py-1 rounded-full shadow-xs flex items-center gap-1">
+              <MapPin className="w-3 h-3 text-[#ABCDE9]" aria-hidden="true" />
+              <span>{item.location}</span>
+            </div>
+          )}
+
+          {/* Multi-Image Navigation Controls */}
+          {hasMultipleImages && (
+            <>
+              <button
+                type="button"
+                onClick={prevImage}
+                aria-label="Previous project image"
+                className="absolute left-2.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#063D5B]/85 hover:bg-[#063D5B] text-white border border-[#156D95] flex items-center justify-center transition-all cursor-pointer shadow-md hover:scale-110"
+              >
+                <ChevronLeft className="w-4 h-4 text-[#ABCDE9]" />
+              </button>
+
+              <button
+                type="button"
+                onClick={nextImage}
+                aria-label="Next project image"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#063D5B]/85 hover:bg-[#063D5B] text-white border border-[#156D95] flex items-center justify-center transition-all cursor-pointer shadow-md hover:scale-110"
+              >
+                <ChevronRight className="w-4 h-4 text-[#ABCDE9]" />
+              </button>
+
+              {/* Stage Caption Strip at Bottom of Image */}
+              <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-[#063D5B]/95 via-[#063D5B]/75 to-transparent px-3 py-2 pt-6 text-left">
+                <div className="flex items-center justify-between text-[11px] font-bold text-[#ABCDE9]">
+                  <span className="flex items-center gap-1">
+                    <Layers className="w-3 h-3 text-[#ABCDE9]" />
+                    {currentStage?.stageLabel || `Photo ${activeImageIndex + 1} of ${images.length}`}
+                  </span>
+                  <span className="text-[10px] text-[#DCEBFA]/80">
+                    {activeImageIndex + 1} / {images.length}
+                  </span>
+                </div>
+                {currentStage?.caption && (
+                  <p className="text-[11px] text-[#EFF7FD] line-clamp-1 mt-0.5 font-normal">
+                    {currentStage.caption}
+                  </p>
+                )}
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* Thumbnail Selector Strip for multi-image projects */}
+        {hasMultipleImages && item.imageStages && (
+          <div className="bg-[#063D5B] px-3 py-2 border-b-2 border-[#156D95] grid grid-cols-3 gap-2">
+            {item.imageStages.map((stage, sIdx) => {
+              const isActive = sIdx === activeImageIndex;
+              return (
+                <button
+                  key={sIdx}
+                  type="button"
+                  onClick={() => setActiveImageIndex(sIdx)}
+                  className={`text-left p-1 rounded-lg border transition-all cursor-pointer ${
+                    isActive
+                      ? 'border-[#ABCDE9] bg-[#156D95]/60 shadow-xs ring-1 ring-[#ABCDE9]'
+                      : 'border-[#156D95]/50 bg-[#063D5B]/40 hover:border-[#ABCDE9]/60'
+                  }`}
+                >
+                  <div className="relative aspect-16/10 rounded overflow-hidden mb-1">
+                    <img
+                      src={stage.url}
+                      alt={stage.stageLabel}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="text-[10px] font-bold text-[#DCEBFA] truncate">
+                    {stage.stageLabel.replace(/Stage \d+: /, '')}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Content Under Image */}
+        <div className="p-6">
+          {/* Metadata Row: Category & Location */}
+          <div className="flex flex-wrap items-center gap-2 mb-2.5">
+            <span className="inline-block font-bold text-xs text-[#063D5B] bg-[#ABCDE9] px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+              {item.category}
+            </span>
+            {item.location && (
+              <span className="inline-flex items-center gap-1 font-bold text-xs text-white bg-[#063D5B] border border-[#156D95] px-2.5 py-0.5 rounded-full">
+                <MapPin className="w-3 h-3 text-[#ABCDE9]" />
+                <span>Location: {item.location}</span>
+              </span>
+            )}
+          </div>
+
+          {/* Title */}
+          <h3 className="text-xl font-bold text-white tracking-tight leading-snug">
+            {item.title}
+          </h3>
+
+          {/* Project Description */}
+          <p className="mt-2.5 text-sm text-[#EFF7FD]/95 leading-relaxed font-normal">
+            {item.description}
+          </p>
+
+          {/* Divider */}
+          <div className="border-t border-[#156D95]/70 my-5" />
+
+          {/* What Was Done Section */}
+          <div>
+            <h4 className="text-xs font-bold uppercase tracking-wider text-[#DCEBFA] flex items-center gap-1.5 mb-3">
+              <span>What was done in this project:</span>
+            </h4>
+            <ul className="space-y-2">
+              {item.whatWasDone.map((step, stepIndex) => (
+                <li
+                  key={stepIndex}
+                  className="flex items-start gap-2.5 text-xs text-[#EFF7FD] leading-relaxed"
+                >
+                  <CheckCircle2
+                    className="w-4 h-4 text-[#ABCDE9] shrink-0 mt-0.5"
+                    aria-hidden="true"
+                  />
+                  <span>{step}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+};
 
 export const PortfolioSection: React.FC = () => {
   return (
@@ -40,70 +224,7 @@ export const PortfolioSection: React.FC = () => {
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
           {PORTFOLIO_ITEMS.map((item, index) => (
-            <article
-              key={item.id}
-              data-testid={`portfolio-card-${item.id}`}
-              className="group rounded-2xl border-2 border-[#156D95] bg-[#62A1C2] text-white overflow-hidden flex flex-col justify-between transition-all duration-300 hover:border-[#063D5B] hover:shadow-xl hover:-translate-y-1"
-            >
-              <div>
-                {/* Project Image */}
-                <div className="relative w-full aspect-16/10 bg-[#063D5B] border-b-2 border-[#156D95] overflow-hidden">
-                  <img
-                    src={item.imageUrl}
-                    alt={item.title}
-                    loading="lazy"
-                    className="w-full h-full object-cover block transition-transform duration-500 ease-out group-hover:scale-105"
-                  />
-                  <div className="absolute top-3 left-3 bg-[#063D5B]/90 backdrop-blur-xs text-[#ABCDE9] border border-[#156D95] text-[11px] font-bold px-2.5 py-1 rounded-full shadow-xs">
-                    Project {String(index + 1).padStart(2, '0')}
-                  </div>
-                </div>
-
-                {/* Content Under Image */}
-                <div className="p-6">
-                  {/* Category Pill */}
-                  <div className="mb-2.5">
-                    <span className="inline-block font-bold text-xs text-[#063D5B] bg-[#ABCDE9] px-2.5 py-0.5 rounded-full uppercase tracking-wider">
-                      {item.category}
-                    </span>
-                  </div>
-
-                  {/* Title */}
-                  <h3 className="text-xl font-bold text-white tracking-tight leading-snug">
-                    {item.title}
-                  </h3>
-
-                  {/* Project Description */}
-                  <p className="mt-2.5 text-sm text-[#EFF7FD]/95 leading-relaxed font-normal">
-                    {item.description}
-                  </p>
-
-                  {/* Divider */}
-                  <div className="border-t border-[#156D95]/70 my-5" />
-
-                  {/* What Was Done Section */}
-                  <div>
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-[#DCEBFA] flex items-center gap-1.5 mb-3">
-                      <span>What was done in this project:</span>
-                    </h4>
-                    <ul className="space-y-2">
-                      {item.whatWasDone.map((step, stepIndex) => (
-                        <li
-                          key={stepIndex}
-                          className="flex items-start gap-2.5 text-xs text-[#EFF7FD] leading-relaxed"
-                        >
-                          <CheckCircle2
-                            className="w-4 h-4 text-[#ABCDE9] shrink-0 mt-0.5"
-                            aria-hidden="true"
-                          />
-                          <span>{step}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </article>
+            <ProjectCard key={item.id} item={item} index={index} />
           ))}
         </div>
 

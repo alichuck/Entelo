@@ -98,14 +98,23 @@ export interface ProblemSolutionItem {
   linkedServiceCardId?: 'solar' | 'pool-treatment' | 'filtration';
 }
 
+export interface PortfolioImageStage {
+  url: string;
+  stageLabel: string;
+  caption: string;
+}
+
 export interface PortfolioItem {
   id: string;
   category: PortfolioCategory;
   title: string;
   categoryLabel: string;
+  location?: string;
   description: string;
   whatWasDone: readonly string[];
   imageUrl: string;
+  images?: readonly string[];
+  imageStages?: readonly PortfolioImageStage[];
   visualType?:
     | 'pool-transformation'
     | 'pool-maintenance'
@@ -468,18 +477,43 @@ export const BEFORE_AFTER_CONFIG = {
  */
 export const PORTFOLIO_ITEMS: readonly PortfolioItem[] = [
   {
-    id: 'project-chalet-pool-complete',
+    id: 'project-hiyata-pool-construction',
     category: 'Projects',
-    title: 'Chalet Swimming Pool Construction & Timber Decking',
+    title: 'Hillside Swimming Pool Construction',
     categoryLabel: 'Projects',
+    location: 'Hiyata',
     description:
-      'Turn-key swimming pool construction integrated into a hillside mountain chalet with custom blue mosaic tiling and panoramic timber decking.',
-    imageUrl: '/images/pool-construction-4.jpg',
+      'Complete turn-key swimming pool construction on a hillside site in Hiyata, Lebanon. From deep bedrock excavation and dual-layer rebar cage reinforcement to monolithic concrete shell pouring, hydraulic plumbing, and final landscaping with natural stone retaining walls and lawn terrace.',
+    imageUrl: '/images/hiyata-pool-3.jpg',
+    images: [
+      '/images/hiyata-pool-1.jpg',
+      '/images/hiyata-pool-2.jpg',
+      '/images/hiyata-pool-3.jpg',
+    ],
+    imageStages: [
+      {
+        url: '/images/hiyata-pool-1.jpg',
+        stageLabel: 'Stage 1: Excavation & Rebar',
+        caption: 'Hillside site excavation down to solid rock, Bobcat site grading, and structural dual-layer steel rebar grid in Hiyata.',
+      },
+      {
+        url: '/images/hiyata-pool-2.jpg',
+        stageLabel: 'Stage 2: Concrete Shell & Plastering',
+        caption: 'Monolithic reinforced concrete basin with smooth cementitious waterproofing plaster, formwork, and rough-in plumbing.',
+      },
+      {
+        url: '/images/hiyata-pool-3.jpg',
+        stageLabel: 'Stage 3: Completed Pool & Landscaping',
+        caption: 'Finished swimming pool in Hiyata with crystal-clear water, stone terrace deck, lawn, loungers, and safety railings.',
+      },
+    ],
     whatWasDone: [
-      'Excavation and monolithic reinforced concrete basin construction.',
-      'Installed dual-skimmer circulation system, wall return jets, and underwater lighting.',
-      'Complete interior finish with premium blue ceramic mosaic tiles and bullnose stone coping.',
-      'Constructed cantilevered structural steel subframe with natural timber deck terrace and stainless steel pool ladder.',
+      'Site assessment, grade planning, and mechanical excavation on steep rocky terrain in Hiyata.',
+      'Constructed dense dual-layer high-tensile steel rebar reinforcement grid across the basin floor and walls.',
+      'Poured monolithic reinforced waterproof concrete shell with built-in ergonomic entry steps and skimmer housing.',
+      'Applied multi-coat hydraulic waterproofing and protective cementitious plastering for maximum shell durability.',
+      'Installed complete circulation piping, wall returns, main drains, and filtration room hydraulic lines.',
+      'Finished exterior terrace with custom stone coping, natural boulder retaining integration, safety railings, and landscaped grass lawn.',
     ],
     visualType: 'pool-construction',
     isPlaceholder: false,

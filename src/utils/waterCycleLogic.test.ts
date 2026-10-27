@@ -140,6 +140,13 @@ test('Portfolio items are organized under unified Projects category with images 
   assert.ok(projects.every((i) => i.category === 'Projects'));
   assert.ok(projects.every((i) => i.imageUrl.length > 0));
   assert.ok(projects.every((i) => i.whatWasDone.length > 0));
+
+  // Verify Project 1 is the Hiyata construction project with 3 stage images
+  const hiyataProject = PORTFOLIO_ITEMS[0];
+  assert.equal(hiyataProject.location, 'Hiyata');
+  assert.equal(hiyataProject.images?.length, 3);
+  assert.equal(hiyataProject.imageStages?.length, 3);
+  assert.ok(hiyataProject.description.includes('Hiyata'));
 });
 
 test('Reviews section hides by default when no real reviews exist and renders when populated', () => {
