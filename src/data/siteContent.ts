@@ -46,6 +46,7 @@ export type ServiceInquiryOption =
 
 export type PortfolioCategory =
   | 'All'
+  | 'Projects'
   | 'Swimming Pool Solutions'
   | 'Water Treatment & Filtration'
   | 'Solar Water Heating'
@@ -99,19 +100,21 @@ export interface ProblemSolutionItem {
 
 export interface PortfolioItem {
   id: string;
-  category: Exclude<PortfolioCategory, 'All'>;
+  category: PortfolioCategory;
   title: string;
   categoryLabel: string;
   description: string;
-  imageUrl?: string;
-  visualType:
+  whatWasDone: readonly string[];
+  imageUrl: string;
+  visualType?:
     | 'pool-transformation'
     | 'pool-maintenance'
     | 'filtration-setup'
     | 'solar-collectors'
     | 'water-clarity'
-    | 'system-piping';
-  isPlaceholder: boolean;
+    | 'system-piping'
+    | 'pool-construction';
+  isPlaceholder?: boolean;
 }
 
 export interface CustomerReview {
@@ -465,64 +468,157 @@ export const BEFORE_AFTER_CONFIG = {
  */
 export const PORTFOLIO_ITEMS: readonly PortfolioItem[] = [
   {
-    id: 'work-1',
-    category: 'Swimming Pool Solutions',
-    title: 'Swimming Pool Water Treatment Slot',
-    categoryLabel: 'Swimming Pool Solutions',
+    id: 'project-chalet-pool-complete',
+    category: 'Projects',
+    title: 'Chalet Swimming Pool Construction & Timber Decking',
+    categoryLabel: 'Projects',
     description:
-      'Placeholder slot reserved for an approved Water Cycle swimming pool water treatment photograph.',
-    visualType: 'pool-transformation',
-    isPlaceholder: true,
+      'Turn-key swimming pool construction integrated into a hillside mountain chalet with custom blue mosaic tiling and panoramic timber decking.',
+    imageUrl: '/images/pool-construction-4.jpg',
+    whatWasDone: [
+      'Excavation and monolithic reinforced concrete basin construction.',
+      'Installed dual-skimmer circulation system, wall return jets, and underwater lighting.',
+      'Complete interior finish with premium blue ceramic mosaic tiles and bullnose stone coping.',
+      'Constructed cantilevered structural steel subframe with natural timber deck terrace and stainless steel pool ladder.',
+    ],
+    visualType: 'pool-construction',
+    isPlaceholder: false,
   },
   {
-    id: 'work-2',
-    category: 'Swimming Pool Solutions',
-    title: 'Pool System Solutions Slot',
-    categoryLabel: 'Swimming Pool Solutions',
+    id: 'project-chalet-deck-framing',
+    category: 'Projects',
+    title: 'Chalet Pool Structural Deck & Cantilever Framing',
+    categoryLabel: 'Projects',
     description:
-      'Placeholder slot reserved for an approved Water Cycle swimming pool system photograph.',
-    visualType: 'pool-maintenance',
-    isPlaceholder: true,
+      'Engineering and structural fabrication of an elevated cantilevered deck and pool surround for a hillside chalet retreat.',
+    imageUrl: '/images/pool-construction-3.jpg',
+    whatWasDone: [
+      'Engineered heavy-duty steel subframe anchored directly to the reinforced stone terrace foundation.',
+      'Erected perimeter steel safety railing and subfloor joists to support high-load wooden decking.',
+      'Coordinated pool basin waterproofing, skimmer alignment, and hydraulic pressure testing.',
+      'Prepared surrounding elevation for seamless transition between chalet living area and pool deck.',
+    ],
+    visualType: 'pool-construction',
+    isPlaceholder: false,
   },
   {
-    id: 'work-3',
-    category: 'Water Treatment & Filtration',
-    title: 'Water Filtration System Slot',
-    categoryLabel: 'Water Treatment & Filtration',
+    id: 'project-pool-basin-concrete',
+    category: 'Projects',
+    title: 'Reinforced Concrete Pool Basin & Integrated Entry Steps',
+    categoryLabel: 'Projects',
     description:
-      'Placeholder slot reserved for an approved Water Cycle water treatment and filtration photograph.',
-    visualType: 'filtration-setup',
-    isPlaceholder: true,
+      'Monolithic reinforced concrete swimming pool basin featuring cast-in-place entry stairs, sun-shelf, and integrated hydraulic channels.',
+    imageUrl: '/images/pool-construction-2.jpg',
+    whatWasDone: [
+      'Built precision wooden formwork for the rectangular pool shell and integrated multi-tier steps.',
+      'Tied dual-layer high-tensile steel rebar cage across basin base and structural perimeter walls.',
+      'Poured and vibrated monolithic waterproof concrete shell engineered for seismic and soil pressure.',
+      'Embedded primary suction drains, skimmer boxes, and wall return fittings with waterstops.',
+    ],
+    visualType: 'pool-construction',
+    isPlaceholder: false,
   },
   {
-    id: 'work-4',
-    category: 'Solar Water Heating',
-    title: 'Solar Water Heating Slot',
-    categoryLabel: 'Solar Water Heating',
+    id: 'project-pool-excavation-rebar',
+    category: 'Projects',
+    title: 'Pool Basin Excavation, Rebar Cage & Circulation Rough-In',
+    categoryLabel: 'Projects',
     description:
-      'Placeholder slot reserved for an approved Water Cycle solar water heating system photograph.',
-    visualType: 'solar-collectors',
-    isPlaceholder: true,
+      'Initial earthworks, bedrock excavation, and full structural reinforcement grid installation for a residential pool basin.',
+    imageUrl: '/images/pool-construction-1.jpg',
+    whatWasDone: [
+      'Excavated hillside terrain down to bedrock foundation and leveled pool basin floor.',
+      'Installed heavy rebar grid reinforcement along basin base and retaining wall boundaries.',
+      'Laid pressure-rated Schedule 40 PVC circulation piping for floor drains, inlets, and surface skimmers.',
+      'Conducted comprehensive pre-pour hydrostatic pressure testing on all rough-in lines.',
+    ],
+    visualType: 'pool-construction',
+    isPlaceholder: false,
   },
   {
-    id: 'work-5',
-    category: 'Sewage & Wastewater Treatment',
-    title: 'Wastewater Treatment Solutions Slot',
-    categoryLabel: 'Sewage & Wastewater Treatment',
+    id: 'project-villa-pool-treatment',
+    category: 'Projects',
+    title: 'Luxury Villa Swimming Pool Water Clarity & System Setup',
+    categoryLabel: 'Projects',
     description:
-      'Placeholder slot reserved for an approved Water Cycle sewage and wastewater treatment photograph.',
-    visualType: 'system-piping',
-    isPlaceholder: true,
-  },
-  {
-    id: 'work-6',
-    category: 'Jacuzzi, Sauna & Steam Systems',
-    title: 'Jacuzzi, Sauna & Steam Systems Slot',
-    categoryLabel: 'Jacuzzi, Sauna & Steam Systems',
-    description:
-      'Placeholder slot reserved for an approved Water Cycle wellness and relaxation system photograph.',
+      'Comprehensive water treatment, chemical balancing, and advanced filtration commissioning for an expansive private villa pool.',
+    imageUrl: '/images/pool-treatment-villa.jpg',
+    whatWasDone: [
+      'Multi-stage chemical treatment, alkalinity correction, and water clarification for mirror-like finish.',
+      'Installed and calibrated commercial-grade sand filtration media and variable-speed circulation pumps.',
+      'Balanced chlorine, pH, and calcium hardness to protect limestone coping and pool finishes.',
+      'Tested and commissioned evening architectural lighting and automated filtration timer cycles.',
+    ],
     visualType: 'water-clarity',
-    isPlaceholder: true,
+    isPlaceholder: false,
+  },
+  {
+    id: 'project-pool-algae-recovery',
+    category: 'Projects',
+    title: 'Residential Pool Water Recovery & Algae Remediation',
+    categoryLabel: 'Projects',
+    description:
+      'Complete rehabilitation of a stagnant, algae-heavy swimming pool, restoring crystal-clear water clarity and chemical balance.',
+    imageUrl: '/images/pool-treatment-clean.jpg',
+    whatWasDone: [
+      'Aggressive shock chlorination and specialty algaecide dosing to neutralize heavy green algae bloom.',
+      'Flocculation process applied to bind suspended microscopic particulates and settle sediment.',
+      'Full manual vacuuming of pool floor debris directly to waste without loading filter media.',
+      'Filter backwash, sand regeneration, and fine-tuning to deliver crystal-clear, swimming-ready water.',
+    ],
+    visualType: 'pool-transformation',
+    isPlaceholder: false,
+  },
+  {
+    id: 'project-jacuzzi-plumbing',
+    category: 'Projects',
+    title: 'Custom Concrete Jacuzzi Jet & Air Manifold Plumbing',
+    categoryLabel: 'Projects',
+    description:
+      'High-performance hydraulic and pneumatic rough-in installation for a custom-built hillside concrete Jacuzzi.',
+    imageUrl: '/images/jacuzzi-construction-3.jpg',
+    whatWasDone: [
+      'Engineered closed-loop hydrotherapy manifold with targeted lumbar and leg jet nozzles.',
+      'Integrated dedicated air induction venturi line for balanced bubble and pressure distribution.',
+      'Installed surface skimmer, bottom suction fittings, and heavy-gauge steel reinforcement formwork.',
+      'Hydrostatically pressure-tested all PVC plumbing joints prior to structural concrete pouring.',
+    ],
+    visualType: 'system-piping',
+    isPlaceholder: false,
+  },
+  {
+    id: 'project-sauna-interior-finishing',
+    category: 'Projects',
+    title: 'Custom Indoor Sauna — Cedar Panelling & Heater Installation',
+    categoryLabel: 'Projects',
+    description:
+      'Interior timber carpentry, multi-tiered floating bench construction, and rock heater installation for a bespoke indoor sauna.',
+    imageUrl: '/images/sauna-construction-2.jpg',
+    whatWasDone: [
+      'Hand-fitted horizontal Nordic cedar tongue-and-groove thermal wall and ceiling panelling.',
+      'Fabricated dual-level ergonomic floating wooden benches and removable slatted floor duckboards.',
+      'Installed heavy-duty electric rock sauna heater with protective wooden safety guardrail.',
+      'Integrated recessed warm ambient lighting, sauna stones, and digital thermostatic wall controls.',
+    ],
+    visualType: 'system-piping',
+    isPlaceholder: false,
+  },
+  {
+    id: 'project-sauna-framing-assembly',
+    category: 'Projects',
+    title: 'Custom Indoor Sauna — Structural Framing & Cabin Assembly',
+    categoryLabel: 'Projects',
+    description:
+      'Structural timber framing, moisture barrier, and cabin construction for an indoor wellness sauna room.',
+    imageUrl: '/images/sauna-construction-1.jpg',
+    whatWasDone: [
+      'Erected precision timber stud framing tailored to the dedicated indoor room dimensions.',
+      'Installed high-density rockwool thermal insulation and reflective aluminium foil vapor barrier.',
+      'Fitted tempered safety glass front door frame, ventilation air vents, and heat-resistant wiring conduits.',
+      'Levelled subfloor base to ensure structural integrity and long-term timber stability.',
+    ],
+    visualType: 'system-piping',
+    isPlaceholder: false,
   },
 ] as const;
 

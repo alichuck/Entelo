@@ -1,172 +1,113 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
-  Camera,
   ExternalLink,
-  Sun,
-  Droplets,
-  Filter,
-  Waves,
-  Sparkles,
+  CheckCircle2,
+  FolderGit2,
 } from 'lucide-react';
 import {
   PORTFOLIO_ITEMS,
-  PortfolioCategory,
-  PortfolioItem,
-  filterPortfolioItems,
   COMPANY_CONTACT,
 } from '../utils/waterCycleLogic';
 
-const CATEGORIES: readonly PortfolioCategory[] = [
-  'All',
-  'Swimming Pool Solutions',
-  'Water Treatment & Filtration',
-  'Solar Water Heating',
-  'Sewage & Wastewater Treatment',
-  'Jacuzzi, Sauna & Steam Systems',
-] as const;
-
-const PlaceholderGraphic: React.FC<{ item: PortfolioItem }> = ({ item }) => {
-  const getCategoryIcon = () => {
-    if (item.category === 'Solar Water Heating') {
-      return <Sun className="w-6 h-6 text-[#063D5B]" aria-hidden="true" />;
-    }
-    if (item.category === 'Water Treatment & Filtration') {
-      return <Filter className="w-6 h-6 text-[#063D5B]" aria-hidden="true" />;
-    }
-    if (item.category === 'Sewage & Wastewater Treatment') {
-      return <Waves className="w-6 h-6 text-[#063D5B]" aria-hidden="true" />;
-    }
-    if (item.category === 'Jacuzzi, Sauna & Steam Systems') {
-      return <Sparkles className="w-6 h-6 text-[#063D5B]" aria-hidden="true" />;
-    }
-    return <Droplets className="w-6 h-6 text-[#063D5B]" aria-hidden="true" />;
-  };
-
-  if (item.imageUrl && !item.isPlaceholder) {
-    return (
-      <div className="relative w-full aspect-4/3 bg-[#063D5B] border-b-2 border-[#156D95] overflow-hidden">
-        <img
-          src={item.imageUrl}
-          alt={item.title}
-          loading="lazy"
-          className="w-full h-full object-cover block"
-        />
-      </div>
-    );
-  }
-
-  return (
-    <div className="relative w-full aspect-4/3 bg-gradient-to-br from-[#063D5B] via-[#156D95] to-[#4B89AA] border-b-2 border-[#156D95] flex flex-col items-center justify-center p-6 text-center">
-      {/* Subtle Architectural Grid Lines */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 opacity-25 bg-[linear-gradient(to_right,#ABCDE9_1px,transparent_1px),linear-gradient(to_bottom,#ABCDE9_1px,transparent_1px)] bg-[size:32px_32px]"
-      />
-      <div className="relative z-10 flex flex-col items-center">
-        <div className="w-12 h-12 rounded-2xl bg-[#ABCDE9] border-2 border-[#62A1C2] shadow-sm flex items-center justify-center mb-3">
-          {getCategoryIcon()}
-        </div>
-        <div className="flex items-center gap-1.5 text-xs font-semibold text-[#DCEBFA]">
-          <Camera className="w-3.5 h-3.5 text-[#ABCDE9]" aria-hidden="true" />
-          <span>Project Photo Placeholder</span>
-        </div>
-      </div>
-    </div>
-  );
-};
-
 export const PortfolioSection: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState<PortfolioCategory>('All');
-  const visibleItems = filterPortfolioItems(PORTFOLIO_ITEMS, activeCategory);
-
   return (
     <section
       id="our-work"
       aria-labelledby="our-work-heading"
       className="py-20 bg-[#ABCDE9]"
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header & Category Filter */}
-        <div className="flex flex-col gap-6 mb-12">
-          <div className="max-w-2xl">
-            <span className="inline-block px-3.5 py-1 rounded-full bg-[#063D5B] text-[#ABCDE9] text-xs font-bold tracking-wider uppercase mb-3">
-              Project Portfolio
-            </span>
-            <h2
-              id="our-work-heading"
-              className="text-2xl sm:text-3xl font-bold text-[#063D5B] tracking-tight text-balance"
-            >
-              Our Work
-            </h2>
-            <p className="mt-3 text-base text-[#063D5B]/90 leading-relaxed font-medium">
-              Structured gallery ready for approved Water Cycle project photographs across swimming pools, water filtration, solar water heating, wastewater treatment, and wellness systems.
-            </p>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header - Unified under one category: Projects */}
+        <div className="flex flex-col gap-4 mb-14 max-w-3xl">
+          <div className="inline-flex items-center gap-2 self-start px-3.5 py-1 rounded-full bg-[#063D5B] text-[#ABCDE9] text-xs font-bold tracking-wider uppercase">
+            <FolderGit2 className="w-3.5 h-3.5" aria-hidden="true" />
+            <span>Projects</span>
           </div>
-
-          {/* Interactive Filter Controls */}
-          <div
-            role="group"
-            aria-label="Filter project gallery by service category"
-            className="flex flex-wrap items-center gap-1.5 p-1.5 bg-[#063D5B] rounded-2xl self-start border border-[#156D95]"
+          <h2
+            id="our-work-heading"
+            className="text-3xl sm:text-4xl font-extrabold text-[#063D5B] tracking-tight text-balance"
           >
-            {CATEGORIES.map((category) => {
-              const isActive = activeCategory === category;
-              return (
-                <button
-                  key={category}
-                  type="button"
-                  onClick={() => setActiveCategory(category)}
-                  className={`px-3.5 py-1.5 text-xs font-bold rounded-xl transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
-                    isActive
-                      ? 'bg-[#ABCDE9] text-[#063D5B] shadow-xs'
-                      : 'text-[#ABCDE9] hover:text-white'
-                  }`}
-                >
-                  {category}
-                </button>
-              );
-            })}
-          </div>
+            Featured Projects & Execution
+          </h2>
+          <p className="text-base sm:text-lg text-[#063D5B]/90 leading-relaxed font-medium">
+            Explore Water Cycle’s hands-on project work across Lebanon. Every project below details the exact scope, structural milestones, and technical execution completed on site.
+          </p>
         </div>
 
-        {/* 6-Item Portfolio Grid */}
+        {/* Unified Projects Grid */}
         <div
           data-testid="portfolio-grid"
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
-          {visibleItems.map((item) => (
+          {PORTFOLIO_ITEMS.map((item, index) => (
             <article
               key={item.id}
               data-testid={`portfolio-card-${item.id}`}
-              className="rounded-2xl border-2 border-[#156D95] bg-[#62A1C2] text-white overflow-hidden flex flex-col justify-between transition-colors hover:border-[#063D5B] shadow-sm"
+              className="group rounded-2xl border-2 border-[#156D95] bg-[#62A1C2] text-white overflow-hidden flex flex-col justify-between transition-all duration-300 hover:border-[#063D5B] hover:shadow-xl hover:-translate-y-1"
             >
               <div>
-                <PlaceholderGraphic item={item} />
-                <div className="p-5">
-                  <div className="flex items-center gap-2 text-xs text-[#DCEBFA] mb-2">
-                    <span className="font-bold text-[#063D5B] bg-[#ABCDE9] px-2.5 py-0.5 rounded-full">
-                      {item.categoryLabel}
-                    </span>
-                    {item.isPlaceholder && (
-                      <>
-                        <span aria-hidden="true">·</span>
-                        <span>Replace in siteContent.ts</span>
-                      </>
-                    )}
+                {/* Project Image */}
+                <div className="relative w-full aspect-16/10 bg-[#063D5B] border-b-2 border-[#156D95] overflow-hidden">
+                  <img
+                    src={item.imageUrl}
+                    alt={item.title}
+                    loading="lazy"
+                    className="w-full h-full object-cover block transition-transform duration-500 ease-out group-hover:scale-105"
+                  />
+                  <div className="absolute top-3 left-3 bg-[#063D5B]/90 backdrop-blur-xs text-[#ABCDE9] border border-[#156D95] text-[11px] font-bold px-2.5 py-1 rounded-full shadow-xs">
+                    Project {String(index + 1).padStart(2, '0')}
                   </div>
-                  <h3 className="text-lg font-bold text-white tracking-tight">
+                </div>
+
+                {/* Content Under Image */}
+                <div className="p-6">
+                  {/* Category Pill */}
+                  <div className="mb-2.5">
+                    <span className="inline-block font-bold text-xs text-[#063D5B] bg-[#ABCDE9] px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                      {item.category}
+                    </span>
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="text-xl font-bold text-white tracking-tight leading-snug">
                     {item.title}
                   </h3>
-                  <p className="mt-2 text-sm text-[#EFF7FD] leading-relaxed">
+
+                  {/* Project Description */}
+                  <p className="mt-2.5 text-sm text-[#EFF7FD]/95 leading-relaxed font-normal">
                     {item.description}
                   </p>
+
+                  {/* Divider */}
+                  <div className="border-t border-[#156D95]/70 my-5" />
+
+                  {/* What Was Done Section */}
+                  <div>
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-[#DCEBFA] flex items-center gap-1.5 mb-3">
+                      <span>What was done in this project:</span>
+                    </h4>
+                    <ul className="space-y-2">
+                      {item.whatWasDone.map((step, stepIndex) => (
+                        <li
+                          key={stepIndex}
+                          className="flex items-start gap-2.5 text-xs text-[#EFF7FD] leading-relaxed"
+                        >
+                          <CheckCircle2
+                            className="w-4 h-4 text-[#ABCDE9] shrink-0 mt-0.5"
+                            aria-hidden="true"
+                          />
+                          <span>{step}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
               </div>
             </article>
           ))}
         </div>
 
-        {/* Social Presence Links (Instagram & Facebook from PDF) */}
+        {/* Social Presence Links (Instagram & Facebook) */}
         <div className="mt-16 pt-12 border-t-2 border-[#62A1C2]">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#063D5B] text-white p-6 sm:p-8 rounded-2xl border-2 border-[#156D95]">
             <div>

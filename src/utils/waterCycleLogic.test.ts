@@ -131,13 +131,15 @@ test('Contact form validation rejects empty/malformed inputs, blocks honeypot sp
   assert.equal(validEmailResult.isValid, true);
 });
 
-test('Portfolio filter returns all 6 items for All and filters accurately by category', () => {
+test('Portfolio items are organized under unified Projects category with images and descriptions', () => {
   const all = filterPortfolioItems(PORTFOLIO_ITEMS, 'All');
-  assert.equal(all.length, 6);
+  assert.equal(all.length, 9);
 
-  const poolItems = filterPortfolioItems(PORTFOLIO_ITEMS, 'Swimming Pool Solutions');
-  assert.equal(poolItems.length, 2);
-  assert.ok(poolItems.every((i) => i.category === 'Swimming Pool Solutions'));
+  const projects = filterPortfolioItems(PORTFOLIO_ITEMS, 'Projects');
+  assert.equal(projects.length, 9);
+  assert.ok(projects.every((i) => i.category === 'Projects'));
+  assert.ok(projects.every((i) => i.imageUrl.length > 0));
+  assert.ok(projects.every((i) => i.whatWasDone.length > 0));
 });
 
 test('Reviews section hides by default when no real reviews exist and renders when populated', () => {

@@ -138,7 +138,7 @@ export function filterPortfolioItems(
   items: readonly PortfolioItem[],
   category: PortfolioCategory
 ): PortfolioItem[] {
-  if (category === 'All') {
+  if (category === 'All' || category === 'Projects') {
     return [...items];
   }
   return items.filter((item) => item.category === category);
