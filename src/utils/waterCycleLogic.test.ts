@@ -147,6 +147,52 @@ test('Portfolio items are organized under unified Projects category with images 
   assert.equal(hiyataProject.images?.length, 3);
   assert.equal(hiyataProject.imageStages?.length, 3);
   assert.ok(hiyataProject.description.includes('Hiyata'));
+
+  // Verify Project 2 is the Baouchriye rooftop pool project with 3 stage images
+  const baouchriyeProject = PORTFOLIO_ITEMS[1];
+  assert.equal(baouchriyeProject.location, 'Baouchriye');
+  assert.equal(baouchriyeProject.images?.length, 3);
+  assert.equal(baouchriyeProject.imageStages?.length, 3);
+  assert.ok(baouchriyeProject.description.includes('Baouchriye'));
+
+  // Verify Project 3 is the Yahchouch mountain pool project with 3 stage images
+  const yahchouchProject = PORTFOLIO_ITEMS[2];
+  assert.equal(yahchouchProject.location, 'Yahchouch');
+  assert.equal(yahchouchProject.images?.length, 3);
+  assert.equal(yahchouchProject.imageStages?.length, 3);
+  assert.ok(yahchouchProject.description.includes('Yahchouch'));
+
+  // Verify Project 4 is the freeform lagoon pool and jacuzzi project with 2 stage images
+  const freeformProject = PORTFOLIO_ITEMS[3];
+  assert.equal(freeformProject.images?.length, 2);
+  assert.equal(freeformProject.imageStages?.length, 2);
+  assert.ok(freeformProject.description.includes('freeform'));
+
+  // Verify Project 5 is the Maaysrah water treatment project
+  const maaysrahProject = PORTFOLIO_ITEMS[4];
+  assert.equal(maaysrahProject.location, 'Maaysrah');
+  assert.ok((maaysrahProject.images?.length ?? 0) >= 2);
+  assert.ok(maaysrahProject.description.includes('Maaysrah'));
+
+  // Verify Project 6 is the filtration & UV water treatment project
+  const filtrationProject = PORTFOLIO_ITEMS[5];
+  assert.ok((filtrationProject.images?.length ?? 0) >= 2);
+  assert.ok(filtrationProject.description.includes('filtration'));
+
+  // Verify Project 7 is the commercial RO & solar filtration project
+  const roProject = PORTFOLIO_ITEMS[6];
+  assert.ok((roProject.images?.length ?? 0) >= 2);
+  assert.ok(roProject.description.includes('filtration'));
+
+  // Verify Project 8 is the solar water heating panel project
+  const solarProject = PORTFOLIO_ITEMS[7];
+  assert.equal(solarProject.images?.length, 2);
+  assert.ok(solarProject.description.includes('solar'));
+
+  // Verify Project 9 is the rooftop infinity Jacuzzi project
+  const jacuzziProject = PORTFOLIO_ITEMS[8];
+  assert.equal(jacuzziProject.images?.length, 2);
+  assert.ok(jacuzziProject.description.includes('Jacuzzi'));
 });
 
 test('Reviews section hides by default when no real reviews exist and renders when populated', () => {

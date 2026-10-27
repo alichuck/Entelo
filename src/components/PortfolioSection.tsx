@@ -109,7 +109,7 @@ const ProjectCard: React.FC<{ item: PortfolioItem; index: number }> = ({
 
         {/* Thumbnail Selector Strip for multi-image projects */}
         {hasMultipleImages && item.imageStages && (
-          <div className="bg-[#063D5B] px-3 py-2 border-b-2 border-[#156D95] grid grid-cols-3 gap-2">
+          <div className="bg-[#063D5B] px-3 py-2 border-b-2 border-[#156D95] grid grid-flow-col auto-cols-fr gap-2">
             {item.imageStages.map((stage, sIdx) => {
               const isActive = sIdx === activeImageIndex;
               return (
@@ -214,7 +214,7 @@ export const PortfolioSection: React.FC = () => {
             Featured Projects & Execution
           </h2>
           <p className="text-base sm:text-lg text-[#063D5B]/90 leading-relaxed font-medium">
-            Explore Water Cycle’s hands-on project work across Lebanon. Every project below details the exact scope, structural milestones, and technical execution completed on site.
+            Hands-on pool construction, water treatment, and wellness installations completed across Lebanon.
           </p>
         </div>
 
