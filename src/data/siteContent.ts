@@ -840,6 +840,7 @@ export const PORTFOLIO_ITEMS: readonly PortfolioItem[] = [
       '/images/pool-water-treatment-3.jpg',
       '/images/pool-water-treatment-4.jpg',
       '/images/pool-water-treatment-5.jpg',
+      '/images/pool-water-treatment-6.jpg',
     ],
     imageStages: [
       {
@@ -854,8 +855,8 @@ export const PORTFOLIO_ITEMS: readonly PortfolioItem[] = [
       },
       {
         url: '/images/pool-water-treatment-3.jpg',
-        caption: 'On-site Water Cycle pool water treatment and chemical balancing for a residential pool with dark stone coping.',
         stageLabel: 'Stage 3: Residential Pool Treatment',
+        caption: 'On-site Water Cycle pool water treatment and chemical balancing for a residential pool with dark stone coping.',
       },
       {
         url: '/images/pool-water-treatment-4.jpg',
@@ -866,6 +867,11 @@ export const PORTFOLIO_ITEMS: readonly PortfolioItem[] = [
         url: '/images/pool-water-treatment-5.jpg',
         stageLabel: 'Stage 5: Garden Villa Swimming Pool',
         caption: 'Landscaped garden swimming pool with balanced pH, active chlorine conditioning, and spotless water clarity.',
+      },
+      {
+        url: '/images/pool-water-treatment-6.jpg',
+        stageLabel: 'Stage 6: Mountain Terrace & Pergola Pool',
+        caption: 'Hillside villa swimming pool with stone balustrade, pergola lounge, and crystal-clear treated water.',
       },
     ],
     whatWasDone: [

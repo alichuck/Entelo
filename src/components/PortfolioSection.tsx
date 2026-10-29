@@ -132,7 +132,13 @@ const ProjectCard: React.FC<{ item: PortfolioItem; index: number }> = ({
 
         {/* Thumbnail Selector Strip for multi-image projects */}
         {hasMultipleImages && item.imageStages && (
-          <div className="bg-[#063D5B] px-2.5 sm:px-3 py-2 border-b-2 border-[#156D95] grid grid-flow-col auto-cols-fr gap-1.5 sm:gap-2">
+          <div
+            className={`bg-[#063D5B] px-2.5 sm:px-3 py-2 border-b-2 border-[#156D95] grid gap-1.5 sm:gap-2 ${
+              item.imageStages.length > 4
+                ? 'grid-cols-3'
+                : 'grid-flow-col auto-cols-fr'
+            }`}
+          >
             {item.imageStages.map((stage, sIdx) => {
               const isActive = sIdx === activeImageIndex;
               return (

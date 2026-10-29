@@ -198,11 +198,11 @@ test('Portfolio items are organized under unified Projects category with images 
   assert.equal(jacuzziProject.images?.length, 2);
   assert.ok(jacuzziProject.description.includes('Jacuzzi'));
 
-  // Verify Project 10 is the Water Treatment for Pools project with 5 images
+  // Verify Project 10 is the Water Treatment for Pools project with 6 images
   const poolWaterTreatmentProject = PORTFOLIO_ITEMS[9];
   assert.equal(poolWaterTreatmentProject.title, 'Water Treatment for Pools');
-  assert.equal(poolWaterTreatmentProject.images?.length, 5);
-  assert.equal(poolWaterTreatmentProject.imageStages?.length, 5);
+  assert.equal(poolWaterTreatmentProject.images?.length, 6);
+  assert.equal(poolWaterTreatmentProject.imageStages?.length, 6);
   assert.ok(poolWaterTreatmentProject.description.toLowerCase().includes('water treatment for pools'));
 });
 
