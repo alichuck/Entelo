@@ -99,7 +99,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
                   </div>
                 </div>
 
-                {/* 3+ Years Construction Experience */}
+                {/* Since 2018 in Construction */}
                 <div className="pt-4 border-t border-[#156D95] flex items-start gap-3.5">
                   <div className="w-10 h-10 rounded-xl bg-[#ABCDE9] text-[#063D5B] flex items-center justify-center shrink-0">
                     <Hammer className="w-5 h-5" aria-hidden="true" />
@@ -109,7 +109,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
                       Pool &amp; Leisure Construction
                     </span>
                     <span className="text-lg font-bold text-white">
-                      {ABOUT_CONTENT.constructionExperienceYears} of Construction Experience
+                      {ABOUT_CONTENT.constructionExperienceYears} in Construction
                     </span>
                     <span className="block text-xs text-[#DCEBFA]/85 mt-0.5">
                       Space evaluation, excavation, concrete works, tiling, and finishing

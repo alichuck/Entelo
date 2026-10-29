@@ -169,7 +169,7 @@ export const ABOUT_CONTENT = {
   sectionTitle: 'About Water Cycle',
   companySince: '2021',
   personalExperienceYears: '22 Years',
-  constructionExperienceYears: '3+ Years',
+  constructionExperienceYears: 'Since 2018',
   paragraphs: [
     'Founded in 2021 and backed by 22 years of personal industry experience, Water Cycle is a business based in Adma, Lebanon focused on water treatment, filtration systems, swimming pool solutions, and solar water heating.',
     'At Water Cycle, we provide pool and water-system solutions alongside construction services for swimming pools, Jacuzzis, saunas, and related spaces. We help clients evaluate their available space, plan practical project layouts, and carry out construction work, including excavation, concrete work, tiling, and finishing. Our approach focuses on understanding each customer’s requirements and delivering functional, well-planned results.',
@@ -181,10 +181,10 @@ export const ABOUT_CONTENT = {
 export const CONSTRUCTION_OVERVIEW = {
   sectionTitle: 'Pool & Leisure Construction',
   sectionSubtitle: 'From Planning to Reality',
-  experienceBadge: '3+ Years of Hands-On Construction Experience',
+  experienceBadge: 'Since 2018 in Construction',
   paragraphs: [
     'Water Cycle offers construction services for swimming pools, Jacuzzis, saunas, and related spaces. From evaluating your property and planning the layout to excavation, concrete work, tiling, and finishing, we help bring your project to life.',
-    'With over three years of hands-on construction experience, we focus on practical solutions, efficient space planning, and quality workmanship.',
+    'With hands-on construction experience since 2018, we focus on practical solutions, efficient space planning, and quality workmanship.',
   ],
   ctaLabel: 'Explore Our Services',
   scopeNote:
