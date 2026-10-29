@@ -826,6 +826,58 @@ export const PORTFOLIO_ITEMS: readonly PortfolioItem[] = [
     visualType: 'system-piping',
     isPlaceholder: false,
   },
+  {
+    id: 'project-pool-water-treatment',
+    category: 'Projects',
+    title: 'Water Treatment for Pools',
+    categoryLabel: 'Projects',
+    description:
+      'Water treatment for pools across residential villas and mountain resorts: chemical balancing, circulation optimization, algae prevention, and crystal-clear water maintenance.',
+    imageUrl: '/images/pool-water-treatment-1.jpg',
+    images: [
+      '/images/pool-water-treatment-1.jpg',
+      '/images/pool-water-treatment-2.jpg',
+      '/images/pool-water-treatment-3.jpg',
+      '/images/pool-water-treatment-4.jpg',
+      '/images/pool-water-treatment-5.jpg',
+    ],
+    imageStages: [
+      {
+        url: '/images/pool-water-treatment-1.jpg',
+        stageLabel: 'Stage 1: Valley View Infinity Pool',
+        caption: 'Hillside L-shaped infinity swimming pool treated for crystal-clear blue water overlooking a lush mountain valley.',
+      },
+      {
+        url: '/images/pool-water-treatment-2.jpg',
+        stageLabel: 'Stage 2: Commercial Resort Pool',
+        caption: 'High-capacity commercial resort swimming pool maintained with balanced sanitization and continuous filtration.',
+      },
+      {
+        url: '/images/pool-water-treatment-3.jpg',
+        caption: 'On-site Water Cycle pool water treatment and chemical balancing for a residential pool with dark stone coping.',
+        stageLabel: 'Stage 3: Residential Pool Treatment',
+      },
+      {
+        url: '/images/pool-water-treatment-4.jpg',
+        stageLabel: 'Stage 4: Overflow Pool & Sun Deck',
+        caption: 'Perimeter overflow mosaic swimming pool serviced by the Water Cycle field team for sparkling water clarity.',
+      },
+      {
+        url: '/images/pool-water-treatment-5.jpg',
+        stageLabel: 'Stage 5: Garden Villa Swimming Pool',
+        caption: 'Landscaped garden swimming pool with balanced pH, active chlorine conditioning, and spotless water clarity.',
+      },
+    ],
+    whatWasDone: [
+      'Comprehensive pool water testing and pH/chlorine chemical balancing.',
+      'Deep sand and media filter backwashing and circulation check.',
+      'Algae prevention treatment and water clarifier conditioning.',
+      'Skimmer, overflow channel, and basin vacuuming and brushing.',
+      'Ongoing scheduled water quality monitoring for residential and resort pools.',
+    ],
+    visualType: 'water-clarity',
+    isPlaceholder: false,
+  },
 ] as const;
 
 /**

@@ -136,10 +136,10 @@ test('Contact form validation rejects empty/malformed inputs, blocks honeypot sp
 
 test('Portfolio items are organized under unified Projects category with images and descriptions', () => {
   const all = filterPortfolioItems(PORTFOLIO_ITEMS, 'All');
-  assert.equal(all.length, 9);
+  assert.equal(all.length, 10);
 
   const projects = filterPortfolioItems(PORTFOLIO_ITEMS, 'Projects');
-  assert.equal(projects.length, 9);
+  assert.equal(projects.length, 10);
   assert.ok(projects.every((i) => i.category === 'Projects'));
   assert.ok(projects.every((i) => i.imageUrl.length > 0));
   assert.ok(projects.every((i) => i.whatWasDone.length > 0));
@@ -197,6 +197,13 @@ test('Portfolio items are organized under unified Projects category with images 
   const jacuzziProject = PORTFOLIO_ITEMS[8];
   assert.equal(jacuzziProject.images?.length, 2);
   assert.ok(jacuzziProject.description.includes('Jacuzzi'));
+
+  // Verify Project 10 is the Water Treatment for Pools project with 5 images
+  const poolWaterTreatmentProject = PORTFOLIO_ITEMS[9];
+  assert.equal(poolWaterTreatmentProject.title, 'Water Treatment for Pools');
+  assert.equal(poolWaterTreatmentProject.images?.length, 5);
+  assert.equal(poolWaterTreatmentProject.imageStages?.length, 5);
+  assert.ok(poolWaterTreatmentProject.description.toLowerCase().includes('water treatment for pools'));
 });
 
 test('Reviews section hides by default when no real reviews exist and renders when populated', () => {
