@@ -165,8 +165,9 @@ test('Portfolio items are organized under unified Projects category with images 
   assert.equal(yahchouchProject.imageStages?.length, 3);
   assert.ok(yahchouchProject.description.includes('Yahchouch'));
 
-  // Verify Project 4 is the freeform lagoon pool and jacuzzi project with 2 stage images
+  // Verify Project 4 is the freeform lagoon pool and jacuzzi project in Ghazir with 2 stage images
   const freeformProject = PORTFOLIO_ITEMS[3];
+  assert.equal(freeformProject.location, 'Ghazir');
   assert.equal(freeformProject.images?.length, 2);
   assert.equal(freeformProject.imageStages?.length, 2);
   assert.ok(freeformProject.description.includes('freeform'));

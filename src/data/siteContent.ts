@@ -607,8 +607,9 @@ export const PORTFOLIO_ITEMS: readonly PortfolioItem[] = [
     category: 'Projects',
     title: 'Freeform Lagoon Pool & Raised Jacuzzi Construction',
     categoryLabel: 'Projects',
+    location: 'Ghazir',
     description:
-      'Curved freeform pool and elevated round Jacuzzi with timber cladding, perimeter overflow, and sand-toned deck.',
+      'Curved freeform pool and elevated round Jacuzzi in Ghazir with timber cladding, perimeter overflow, and sand-toned deck.',
     imageUrl: '/images/freeform-pool-jacuzzi-2.jpg',
     images: [
       '/images/freeform-pool-jacuzzi-1.jpg',
@@ -618,12 +619,12 @@ export const PORTFOLIO_ITEMS: readonly PortfolioItem[] = [
       {
         url: '/images/freeform-pool-jacuzzi-1.jpg',
         stageLabel: 'Stage 1: Basin Tiling & Jacuzzi Cladding',
-        caption: 'Curved concrete shell plastering, blue mosaic wall tiling, radial entry stairs, and elevated circular Jacuzzi timber cladding.',
+        caption: 'Curved concrete shell plastering, blue mosaic wall tiling, radial entry stairs, and elevated circular Jacuzzi timber cladding in Ghazir.',
       },
       {
         url: '/images/freeform-pool-jacuzzi-2.jpg',
         stageLabel: 'Stage 2: Completed Pool, Spa & Garden Deck',
-        caption: 'Finished freeform lagoon pool with overflow grating channel, operational circular spa, polished sand-toned deck, and olive grove landscaping.',
+        caption: 'Finished freeform lagoon pool in Ghazir with overflow grating channel, operational circular spa, polished sand-toned deck, and olive grove landscaping.',
       },
     ],
     whatWasDone: [
