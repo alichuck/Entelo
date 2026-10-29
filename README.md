@@ -2,6 +2,9 @@
 
 Business website for **Water Cycle** (Adma, Lebanon), built with **React + Vite + TypeScript + Tailwind CSS**.
 
+- **Live Website:** [https://water1cycle.vercel.app](https://water1cycle.vercel.app)
+- **GitHub Repository:** [https://github.com/alichuck/water-cycle](https://github.com/alichuck/water-cycle)
+
 ---
 
 ## 1. Quick Start in Visual Studio Code
