@@ -208,11 +208,38 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
               </span>
             </div>
 
+            {/* Mobile / Tablet Horizontal Scrollable Category Bar (< lg) */}
+            <nav
+              aria-label="Select service category"
+              className="lg:hidden w-full mb-6"
+            >
+              <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2 -mx-4 px-4 sm:mx-0 sm:px-0">
+                {ALL_UNIFIED_SERVICES.map((item) => {
+                  const isCurrent = item.id === activeService.id;
+                  return (
+                    <button
+                      key={item.id}
+                      type="button"
+                      onClick={() => handleSelectService(item.id)}
+                      aria-current={isCurrent ? 'page' : undefined}
+                      className={`whitespace-nowrap px-4 py-2 rounded-full text-xs font-bold transition-all shrink-0 cursor-pointer ${
+                        isCurrent
+                          ? 'bg-[#ABCDE9] text-[#042B41] shadow-md ring-2 ring-white/60'
+                          : 'bg-[#063D5B] text-[#ABCDE9] hover:bg-[#156D95] hover:text-white border border-[#156D95]'
+                      }`}
+                    >
+                      {item.title}
+                    </button>
+                  );
+                })}
+              </div>
+            </nav>
+
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
-              {/* LEFT SIDEBAR MENU — All Water Cycle Services (Matches Left Blue Box in Image 2) */}
+              {/* LEFT SIDEBAR MENU (DESKTOP) — All Water Cycle Services (Matches Left Blue Box in Image 2) */}
               <aside
                 aria-label="Service Categories"
-                className="lg:col-span-3 w-full rounded-sm overflow-hidden border border-[#ABCDE9]/50 bg-[#62A1C2] shadow-lg"
+                className="hidden lg:block lg:col-span-3 w-full rounded-sm overflow-hidden border border-[#ABCDE9]/50 bg-[#62A1C2] shadow-lg"
               >
                 <ul className="divide-y divide-[#ABCDE9]/45">
                   {ALL_UNIFIED_SERVICES.map((item) => {
@@ -240,7 +267,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
               {/* RIGHT MAIN COLUMN — Large Framed Work Image Slider + 2-Column Description Below */}
               <div className="lg:col-span-9 space-y-10">
                 {/* Large White-Bordered Image Carousel Frame (Matches Image 2) */}
-                <div className="relative bg-[#063D5B] border-[6px] sm:border-[8px] border-white shadow-2xl overflow-hidden aspect-[16/9] select-none">
+                <div className="relative bg-[#063D5B] border-4 sm:border-[8px] border-white shadow-2xl overflow-hidden aspect-[16/9] select-none">
                   <AnimatePresence initial={false} custom={slideDirection}>
                     <motion.div
                       key={`${activeService.id}-${slideIndex}`}
@@ -318,7 +345,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
                     type="button"
                     onClick={handlePrevSlide}
                     aria-label="Previous service image"
-                    className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/3 z-30 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white text-[#62A1C2] hover:text-[#042B41] shadow-md flex items-center justify-end pr-2.5 transition-colors cursor-pointer"
+                    className="absolute left-2 sm:left-0 top-1/2 -translate-y-1/2 sm:-translate-x-1/3 z-30 w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-white/95 sm:bg-white text-[#62A1C2] hover:text-[#042B41] shadow-md flex items-center justify-center sm:justify-end sm:pr-2.5 transition-colors cursor-pointer"
                   >
                     <ChevronLeft className="w-5 h-5" aria-hidden="true" />
                   </button>
@@ -328,7 +355,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
                     type="button"
                     onClick={handleNextSlide}
                     aria-label="Next service image"
-                    className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/3 z-30 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white text-[#62A1C2] hover:text-[#042B41] shadow-md flex items-center justify-start pl-2.5 transition-colors cursor-pointer"
+                    className="absolute right-2 sm:right-0 top-1/2 -translate-y-1/2 sm:translate-x-1/3 z-30 w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-white/95 sm:bg-white text-[#62A1C2] hover:text-[#042B41] shadow-md flex items-center justify-center sm:justify-start sm:pl-2.5 transition-colors cursor-pointer"
                   >
                     <ChevronRight className="w-5 h-5" aria-hidden="true" />
                   </button>

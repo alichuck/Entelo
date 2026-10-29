@@ -62,7 +62,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
               </div>
 
               {/* Experience & Location Highlight Card */}
-              <div className="p-6 rounded-2xl bg-[#063D5B]/82 backdrop-blur-xs border-2 border-[#156D95] shadow-lg space-y-5">
+              <div className="p-5 sm:p-6 rounded-2xl bg-[#063D5B]/82 backdrop-blur-xs border-2 border-[#156D95] shadow-lg space-y-5">
                 {/* 22 Years Personal Experience */}
                 <div className="flex items-start gap-3.5">
                   <div className="w-10 h-10 rounded-xl bg-[#ABCDE9] text-[#063D5B] flex items-center justify-center shrink-0">
@@ -146,16 +146,16 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
             </div>
 
             {/* Right Column: Main Copy & Structured Scope Summary */}
-            <div className="lg:col-span-7 space-y-6 text-base text-[#EFF7FD] leading-relaxed bg-[#063D5B]/82 backdrop-blur-xs p-7 sm:p-9 rounded-2xl border-2 border-[#156D95] shadow-lg">
+            <div className="lg:col-span-7 space-y-6 text-sm sm:text-base text-[#EFF7FD] leading-relaxed bg-[#063D5B]/82 backdrop-blur-xs p-5 sm:p-9 rounded-2xl border-2 border-[#156D95] shadow-lg">
               {ABOUT_CONTENT.paragraphs.map((paragraph, idx) => (
-                <p key={idx} className="text-base text-[#EFF7FD] leading-relaxed">
+                <p key={idx} className="text-sm sm:text-base text-[#EFF7FD] leading-relaxed">
                   {paragraph}
                 </p>
               ))}
 
               {/* Key Milestones Banner Inside Copy Card */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
-                <div className="p-4 rounded-xl bg-[#156D95]/60 border border-[#62A1C2]/60 text-center">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 pt-2">
+                <div className="p-3.5 sm:p-4 rounded-xl bg-[#156D95]/60 border border-[#62A1C2]/60 text-center">
                   <span className="block text-2xl font-bold text-white font-display">
                     {ABOUT_CONTENT.personalExperienceYears}
                   </span>
@@ -163,7 +163,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
                     Personal Experience
                   </span>
                 </div>
-                <div className="p-4 rounded-xl bg-[#156D95]/60 border border-[#62A1C2]/60 text-center">
+                <div className="p-3.5 sm:p-4 rounded-xl bg-[#156D95]/60 border border-[#62A1C2]/60 text-center">
                   <span className="block text-2xl font-bold text-white font-display">
                     Since {ABOUT_CONTENT.companySince}
                   </span>
@@ -175,7 +175,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
                   href={COMPANY_CONTACT.locationUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-4 rounded-xl bg-[#156D95]/60 hover:bg-[#156D95] border border-[#62A1C2]/60 hover:border-[#ABCDE9] text-center transition-colors block group"
+                  className="p-3.5 sm:p-4 rounded-xl bg-[#156D95]/60 hover:bg-[#156D95] border border-[#62A1C2]/60 hover:border-[#ABCDE9] text-center transition-colors block group"
                 >
                   <span className="inline-flex items-center justify-center gap-1 text-xl font-bold text-white group-hover:text-[#ABCDE9] underline underline-offset-4 font-display">
                     <span>{COMPANY_CONTACT.location}</span>
@@ -187,7 +187,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
                 </a>
               </div>
 
-              <div className="pt-4 flex flex-wrap items-center gap-3.5">
+              <div className="pt-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-3.5">
                 <a
                   href="/services"
                   onClick={(e) => {

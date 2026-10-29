@@ -8,96 +8,32 @@ interface WaterPageTransitionProps {
 }
 
 /**
- * Wraps page content in a smooth watery flow transition when navigating between pages:
- * 1) A translucent multi-layered water wave crest sweeps across the screen.
- * 2) The incoming page flows in with a gentle liquid wave ripple that decays to 0
- *    and detaches completely so the settled page is 100% crisp and stable.
+ * Wraps page content in a smooth, hardware-accelerated watery flow transition
+ * when navigating between pages on mobile and desktop.
  */
 export const WaterPageTransition: React.FC<WaterPageTransitionProps> = ({
   routeKey,
   children,
 }) => {
-  const dispRef = useRef<SVGFEDisplacementMapElement | null>(null);
-  const turbRef = useRef<SVGFETurbulenceElement | null>(null);
   const [isFlowing, setIsFlowing] = useState(false);
   const isFirstMount = useRef(true);
 
   useEffect(() => {
-    // Skip full page wave overlay on initial site load so the Hero logo intro takes center stage
     if (isFirstMount.current) {
       isFirstMount.current = false;
       return;
     }
 
     setIsFlowing(true);
-    let rafId: number;
-    const start = performance.now();
-    const durationMs = 680;
+    const timer = window.setTimeout(() => {
+      setIsFlowing(false);
+    }, 680);
 
-    const animateWaterFlow = (now: number) => {
-      const progress = Math.min(1, Math.max(0, (now - start) / durationMs));
-      // Smooth sine bell curve that peaks early and settles cleanly to 0
-      const waveEnvelope = Math.sin(progress * Math.PI) * (1 - progress * 0.45);
-      const scale = 24 * waveEnvelope;
-
-      if (dispRef.current) {
-        dispRef.current.setAttribute('scale', scale.toFixed(2));
-      }
-      if (turbRef.current) {
-        const freqX = 0.012 + Math.sin(progress * Math.PI * 2) * 0.004;
-        const freqY = 0.028 + Math.cos(progress * Math.PI * 2) * 0.008;
-        turbRef.current.setAttribute(
-          'baseFrequency',
-          `${freqX.toFixed(4)} ${freqY.toFixed(4)}`
-        );
-      }
-
-      if (progress < 1) {
-        rafId = requestAnimationFrame(animateWaterFlow);
-      } else {
-        if (dispRef.current) {
-          dispRef.current.setAttribute('scale', '0');
-        }
-        setIsFlowing(false);
-      }
-    };
-
-    rafId = requestAnimationFrame(animateWaterFlow);
-    return () => cancelAnimationFrame(rafId);
+    return () => clearTimeout(timer);
   }, [routeKey]);
 
   return (
     <div className="relative flex-1 flex flex-col overflow-x-clip">
-      {/* Real-time SVG Liquid Ripple Filter applied only during the watery page transition */}
-      <svg className="sr-only" aria-hidden="true">
-        <defs>
-          <filter
-            id="page-water-flow-filter"
-            x="-10%"
-            y="-10%"
-            width="120%"
-            height="120%"
-          >
-            <feTurbulence
-              ref={turbRef}
-              type="turbulence"
-              baseFrequency="0.012 0.028"
-              numOctaves="2"
-              seed="11"
-              result="pageFlowNoise"
-            />
-            <feDisplacementMap
-              ref={dispRef}
-              in="SourceGraphic"
-              in2="pageFlowNoise"
-              scale="0"
-              xChannelSelector="R"
-              yChannelSelector="G"
-            />
-          </filter>
-        </defs>
-      </svg>
-
       {/* Translucent Multi-Layered Water Wave Sweep Overlay during Page Navigation */}
       <AnimatePresence>
         {isFlowing && (
@@ -105,9 +41,9 @@ export const WaterPageTransition: React.FC<WaterPageTransitionProps> = ({
             key={`wave-crest-${routeKey}`}
             aria-hidden="true"
             initial={{ opacity: 0 }}
-            animate={{ opacity: [0, 0.92, 0] }}
+            animate={{ opacity: [0, 0.9, 0] }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.72, times: [0, 0.38, 1], ease: 'easeInOut' }}
+            transition={{ duration: 0.68, times: [0, 0.38, 1], ease: 'easeInOut' }}
             className="fixed inset-0 z-30 pointer-events-none overflow-hidden"
           >
             {/* Flowing Water Current Curtain */}
@@ -115,7 +51,7 @@ export const WaterPageTransition: React.FC<WaterPageTransitionProps> = ({
               initial={{ y: '100%' }}
               animate={{ y: ['100%', '-8%', '-115%'] }}
               transition={{
-                duration: 0.72,
+                duration: 0.68,
                 times: [0, 0.44, 1],
                 ease: [0.22, 1, 0.36, 1],
               }}
@@ -174,19 +110,16 @@ export const WaterPageTransition: React.FC<WaterPageTransitionProps> = ({
         )}
       </AnimatePresence>
 
-      {/* Incoming Page with Watery Current Motion & Decaying Liquid Ripple */}
+      {/* Incoming Page with Smooth GPU-Accelerated Glide */}
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={routeKey}
-          initial={{ opacity: 0, y: 22, scale: 0.992 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: -16, scale: 0.995 }}
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -12 }}
           transition={{
-            duration: 0.46,
+            duration: 0.38,
             ease: [0.22, 1, 0.36, 1],
-          }}
-          style={{
-            filter: isFlowing ? 'url(#page-water-flow-filter)' : 'none',
           }}
           className="flex-1 flex flex-col"
         >

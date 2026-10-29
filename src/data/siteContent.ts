@@ -143,10 +143,13 @@ export const COMPANY_CONTACT = {
     'Swimming Pool Solutions • Water Treatment & Filtration • Solar Water Heating • Pool & Leisure Construction',
   phoneDisplay: '+961 3 058 204',
   phoneHref: 'tel:+9613058204',
+  whatsappUrl: 'https://wa.me/9613058204',
   instagramHandle: '@water__cycle',
   instagramUrl: 'https://www.instagram.com/water__cycle/',
   facebookHandle: 'Water Cycle',
   facebookUrl: 'https://www.facebook.com/watercycle/',
+  tiktokHandle: '@water1cycle',
+  tiktokUrl: 'https://www.tiktok.com/@water1cycle?_r=1&_t=ZS-9AxbcekK4aD',
   // [OWNER TO CONFIRM]: Leave empty until official public inbox is verified.
   verifiedEmail: '' as string,
 } as const;

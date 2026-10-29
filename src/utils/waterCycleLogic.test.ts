@@ -24,8 +24,11 @@ test('Company contact details match verified Adma, Lebanon brief without unverif
   assert.equal(COMPANY_CONTACT.locationUrl, 'https://maps.app.goo.gl/xUvJJ1G21bk9j6t96');
   assert.equal(COMPANY_CONTACT.phoneDisplay, '+961 3 058 204');
   assert.equal(COMPANY_CONTACT.phoneHref, 'tel:+9613058204');
+  assert.equal(COMPANY_CONTACT.whatsappUrl, 'https://wa.me/9613058204');
   assert.equal(COMPANY_CONTACT.instagramUrl, 'https://www.instagram.com/water__cycle/');
   assert.equal(COMPANY_CONTACT.facebookUrl, 'https://www.facebook.com/watercycle/');
+  assert.equal(COMPANY_CONTACT.tiktokHandle, '@water1cycle');
+  assert.equal(COMPANY_CONTACT.tiktokUrl, 'https://www.tiktok.com/@water1cycle?_r=1&_t=ZS-9AxbcekK4aD');
   assert.equal(COMPANY_CONTACT.verifiedEmail, '');
 });
 

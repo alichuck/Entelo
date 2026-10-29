@@ -31,20 +31,18 @@ export const HomePage: React.FC<HomePageProps> = ({
   onServiceInquire,
 }) => {
   const [introPhase, setIntroPhase] = useState<LogoIntroPhase>('fullscreen-wave');
-  const [cycleCount, setCycleCount] = useState(0);
 
   const handleReplay = useCallback(() => {
-    setIntroPhase('fullscreen-wave');
-    setCycleCount((prev) => prev + 1);
+    setIntroPhase('settled-with-descriptions');
   }, []);
 
   useEffect(() => {
     const revealTimer = window.setTimeout(() => {
       setIntroPhase('settled-with-descriptions');
-    }, 2850);
+    }, 550);
 
     return () => clearTimeout(revealTimer);
-  }, [cycleCount]);
+  }, []);
 
   const showDescriptions = introPhase === 'settled-with-descriptions';
 
@@ -94,40 +92,41 @@ export const HomePage: React.FC<HomePageProps> = ({
             initial={{ opacity: 0, y: 28 }}
             animate={
               showDescriptions
-                ? { opacity: 1, y: 0 }
-                : { opacity: 0, y: 28, pointerEvents: 'none' }
+                ? { opacity: 1, y: 0, pointerEvents: 'auto' }
+                : { opacity: 0, y: 28, pointerEvents: 'auto' }
             }
             transition={{
               duration: 0.75,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="flex flex-col items-center"
+            style={{ pointerEvents: 'auto' }}
+            className="relative z-20 flex flex-col items-center pointer-events-auto w-full"
           >
             <h1
               id="hero-heading"
-              className="mt-2 text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-[1.12] text-balance drop-shadow-[0_3px_16px_rgba(4,43,65,0.9)]"
+              className="mt-2 text-2xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-[1.15] sm:leading-[1.12] text-balance drop-shadow-[0_3px_16px_rgba(4,43,65,0.9)]"
             >
               {HERO_CONTENT.headline}
             </h1>
-            <p className="mt-4 text-lg sm:text-xl font-semibold text-[#EAF4FC] leading-snug max-w-2xl drop-shadow-[0_2px_12px_rgba(4,43,65,0.9)]">
+            <p className="mt-3 sm:mt-4 text-base sm:text-xl font-semibold text-[#EAF4FC] leading-snug max-w-2xl drop-shadow-[0_2px_12px_rgba(4,43,65,0.9)]">
               {HERO_CONTENT.subtitle}
             </p>
-            <p className="mt-3 text-base text-white leading-relaxed max-w-xl font-medium drop-shadow-[0_2px_10px_rgba(4,43,65,0.88)]">
+            <p className="mt-2.5 sm:mt-3 text-sm sm:text-base text-white leading-relaxed max-w-xl font-medium drop-shadow-[0_2px_10px_rgba(4,43,65,0.88)]">
               {HERO_CONTENT.supportingLine}
             </p>
 
             {/* Primary & Secondary Action Buttons ("Explore Services" & "Contact Us") */}
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-3.5">
+            <div className="relative z-30 mt-6 sm:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-3.5 w-full sm:w-auto max-w-xs sm:max-w-none pointer-events-auto">
               <a
                 href="/services"
                 onClick={(e) => {
                   e.preventDefault();
                   onNavigate('/services');
                 }}
-                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 text-sm font-bold text-[#063D5B] bg-[#ABCDE9] hover:bg-[#DCEBFA] border-2 border-white/40 rounded-full transition-colors whitespace-nowrap shrink-0 shadow-lg"
+                className="relative z-30 pointer-events-auto touch-manipulation cursor-pointer min-h-[48px] inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 text-xs sm:text-sm font-bold text-[#063D5B] bg-[#ABCDE9] hover:bg-[#DCEBFA] active:bg-[#DCEBFA] border-2 border-white/40 rounded-full transition-colors whitespace-nowrap shadow-lg"
               >
                 <span>{HERO_CONTENT.primaryCtaLabel}</span>
-                <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                <ArrowRight className="w-4 h-4 shrink-0" aria-hidden="true" />
               </a>
               <a
                 href="/contact"
@@ -135,10 +134,10 @@ export const HomePage: React.FC<HomePageProps> = ({
                   e.preventDefault();
                   onNavigate('/contact');
                 }}
-                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 text-sm font-bold text-white bg-[#063D5B]/95 hover:bg-[#042B41] border-2 border-[#ABCDE9]/60 rounded-full transition-colors whitespace-nowrap shrink-0 shadow-lg"
+                className="relative z-30 pointer-events-auto touch-manipulation cursor-pointer min-h-[48px] inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 text-xs sm:text-sm font-bold text-white bg-[#063D5B]/95 hover:bg-[#042B41] active:bg-[#042B41] border-2 border-[#ABCDE9]/60 rounded-full transition-colors whitespace-nowrap shadow-lg"
               >
                 <span>{HERO_CONTENT.secondaryCtaLabel}</span>
-                <ArrowRight className="w-4 h-4 text-[#ABCDE9]" aria-hidden="true" />
+                <ArrowRight className="w-4 h-4 text-[#ABCDE9] shrink-0" aria-hidden="true" />
               </a>
             </div>
           </motion.div>

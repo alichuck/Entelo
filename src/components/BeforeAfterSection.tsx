@@ -43,6 +43,18 @@ export const BeforeAfterSection: React.FC = () => {
     }
   };
 
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (e.touches.length > 0) {
+      updateFromClientX(e.touches[0].clientX);
+    }
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (e.touches.length > 0) {
+      updateFromClientX(e.touches[0].clientX);
+    }
+  };
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'ArrowLeft') {
       e.preventDefault();
@@ -80,12 +92,12 @@ export const BeforeAfterSection: React.FC = () => {
           <div
             role="group"
             aria-label="Comparison slider position presets"
-            className="flex items-center gap-1 p-1.5 bg-[#063D5B] rounded-full self-start md:self-auto shrink-0 border border-[#156D95]"
+            className="flex flex-wrap items-center gap-1 p-1 sm:p-1.5 bg-[#063D5B] rounded-2xl sm:rounded-full self-start md:self-auto shrink-0 border border-[#156D95]"
           >
             <button
               type="button"
               onClick={() => setSliderPercent(85)}
-              className={`px-3.5 py-1.5 text-xs font-bold rounded-full transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+              className={`px-3 sm:px-3.5 py-1.5 text-xs font-bold rounded-full transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
                 sliderState.clampedPercentage >= 75
                   ? 'bg-[#ABCDE9] text-[#063D5B] shadow-xs'
                   : 'text-[#ABCDE9] hover:text-white'
@@ -96,7 +108,7 @@ export const BeforeAfterSection: React.FC = () => {
             <button
               type="button"
               onClick={() => setSliderPercent(50)}
-              className={`px-3.5 py-1.5 text-xs font-bold rounded-full transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+              className={`px-3 sm:px-3.5 py-1.5 text-xs font-bold rounded-full transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
                 sliderState.clampedPercentage > 25 && sliderState.clampedPercentage < 75
                   ? 'bg-[#ABCDE9] text-[#063D5B] shadow-xs'
                   : 'text-[#ABCDE9] hover:text-white'
@@ -107,7 +119,7 @@ export const BeforeAfterSection: React.FC = () => {
             <button
               type="button"
               onClick={() => setSliderPercent(15)}
-              className={`px-3.5 py-1.5 text-xs font-bold rounded-full transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+              className={`px-3 sm:px-3.5 py-1.5 text-xs font-bold rounded-full transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
                 sliderState.clampedPercentage <= 25
                   ? 'bg-[#ABCDE9] text-[#063D5B] shadow-xs'
                   : 'text-[#ABCDE9] hover:text-white'
@@ -135,8 +147,10 @@ export const BeforeAfterSection: React.FC = () => {
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
           onKeyDown={handleKeyDown}
-          className="relative w-full max-w-[920px] mx-auto aspect-[1024/572] rounded-2xl overflow-hidden border-4 border-[#156D95] shadow-xl cursor-ew-resize touch-none select-none bg-[#063D5B] focus:outline-none focus:ring-2 focus:ring-[#ABCDE9]"
+          className="relative w-full max-w-[920px] mx-auto aspect-[1024/572] rounded-2xl overflow-hidden border-2 sm:border-4 border-[#156D95] shadow-xl cursor-ew-resize touch-pan-y select-none bg-[#063D5B] focus:outline-none focus:ring-2 focus:ring-[#ABCDE9]"
         >
           {/* BASE LAYER (RIGHT SIDE): AFTER — Clean, Clear Blue Pool */}
           <div
@@ -174,30 +188,30 @@ export const BeforeAfterSection: React.FC = () => {
           </div>
 
           {/* Persistent Left Side Label: BEFORE (Dirty / Green Pool) */}
-          <div className="absolute top-4 left-4 z-10 pointer-events-none">
+          <div className="absolute top-2.5 sm:top-4 left-2.5 sm:left-4 z-10 pointer-events-none">
             <div
               data-testid="label-before-side"
-              className="bg-[#063D5B]/90 backdrop-blur-xs text-white px-3.5 py-2 rounded-xl border border-[#ABCDE9]/30 shadow-xs"
+              className="bg-[#063D5B]/90 backdrop-blur-xs text-white px-2 sm:px-3.5 py-1 sm:py-2 rounded-lg sm:rounded-xl border border-[#ABCDE9]/30 shadow-xs"
             >
-              <span className="block text-xs font-bold tracking-wider text-lime-300">
+              <span className="block text-[11px] sm:text-xs font-bold tracking-wider text-lime-300">
                 {sliderState.leftSideLabel}
               </span>
-              <span className="block text-xs text-[#DCEBFA] mt-0.5">
+              <span className="hidden sm:block text-xs text-[#DCEBFA] mt-0.5">
                 Dirty / Algae-Green Pool
               </span>
             </div>
           </div>
 
           {/* Persistent Right Side Label: AFTER (Clean / Blue Pool) */}
-          <div className="absolute top-4 right-4 z-10 pointer-events-none text-right">
+          <div className="absolute top-2.5 sm:top-4 right-2.5 sm:right-4 z-10 pointer-events-none text-right">
             <div
               data-testid="label-after-side"
-              className="bg-[#063D5B]/90 backdrop-blur-xs text-white px-3.5 py-2 rounded-xl border border-[#ABCDE9]/30 shadow-xs"
+              className="bg-[#063D5B]/90 backdrop-blur-xs text-white px-2 sm:px-3.5 py-1 sm:py-2 rounded-lg sm:rounded-xl border border-[#ABCDE9]/30 shadow-xs"
             >
-              <span className="block text-xs font-bold tracking-wider text-[#ABCDE9]">
+              <span className="block text-[11px] sm:text-xs font-bold tracking-wider text-[#ABCDE9]">
                 {sliderState.rightSideLabel}
               </span>
-              <span className="block text-xs text-[#DCEBFA] mt-0.5">
+              <span className="hidden sm:block text-xs text-[#DCEBFA] mt-0.5">
                 Clear Blue Pool
               </span>
             </div>
@@ -222,14 +236,14 @@ export const BeforeAfterSection: React.FC = () => {
             style={{ left: `${sliderState.clampedPercentage}%` }}
             className="absolute top-0 bottom-0 w-1 bg-[#ABCDE9] shadow-[0_0_12px_rgba(6,61,91,0.65)] z-20 pointer-events-none"
           >
-            <div className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-[#ABCDE9] text-[#063D5B] shadow-md border-2 border-[#063D5B] flex items-center justify-center">
-              <MoveHorizontal className="w-5 h-5 text-[#063D5B]" aria-hidden="true" />
+            <div className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-[#ABCDE9] text-[#063D5B] shadow-md border-2 border-[#063D5B] flex items-center justify-center">
+              <MoveHorizontal className="w-4 h-4 sm:w-5 sm:h-5 text-[#063D5B]" aria-hidden="true" />
             </div>
           </div>
         </div>
 
         {/* Accessible Range Input Control Below Viewport */}
-        <div className="mt-5 max-w-[920px] mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#063D5B] text-[#ABCDE9] px-5 py-3.5 rounded-2xl border-2 border-[#156D95]">
+        <div className="mt-5 max-w-[920px] mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 bg-[#063D5B] text-[#ABCDE9] px-4 sm:px-5 py-3 sm:py-3.5 rounded-2xl border-2 border-[#156D95]">
           <div className="flex items-center gap-2 text-xs">
             <span className="font-bold text-white">BEFORE (Left):</span>
             <span>Dirty / green pool</span>
